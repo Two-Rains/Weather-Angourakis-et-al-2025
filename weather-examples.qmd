@@ -1,0 +1,648 @@
+# Daily weather variables (summary statistics per day of year) in example locations around the planet between 01/01/1984 and 31/12/2018.
+
+Load source file containing the R implementation of the Weather model:
+
+```{r}
+source("source/weatherModel.R")
+```
+
+We use the data downloaded at NASA´s POWER access viewer (power.larc.nasa.gov/data-access-viewer/) selecting the user community 'Agroclimatology' and pin pointing the different locations between 01/01/1984 and 31/12/2007. The exact locations are:
+
+-   Rakhigarhi, Haryana, India (Latitude: 29.1687, Longitude: 76.0687)\
+-   Irkutsk, Irkutsk Óblast, Russia (Latitude: 52.2891, Longitude: 104.2493)
+-   Hobart, Tasmania, Australia (Latitude: -42.8649, Longitude: 147.3441)
+-   Pearl Harbor, Hawaii, United States of America (Latitude: 21.376, Longitude: -157.9708)
+-   São Paulo, Brazil (Latitude: -23.5513, Longitude: -46.6344)
+-   Cambridge, United Kingdom (Latitude: 52.2027, Longitude: 0.122)
+-   Windhoek, Namibia (Latitude: -22.5718, Longitude: 17.0953)
+
+We selected the ICASA Format's parameters:
+
+-   Precipitation (PRECTOT)\
+-   Wind speed at 2m (WS2M)\
+-   Relative Humidity at 2m (RH2M)\
+-   Dew/frost point at 2m (T2MDEW)\
+-   Maximum temperature at 2m (T2M_MAX)\
+-   Minimum temperature at 2m (T2M_MIN)\
+-   All sky insolation incident on a horizontal surface (ALLSKY_SFC_SW_DWN)\
+-   Temperature at 2m (T2M)
+
+and from Solar Related Parameters:
+
+-   Top-of-atmosphere Insolation (ALLSKY_TOA_SW_DWN)
+
+```{r}
+inputFiles <- paste0("input/", list.files(path = "input"))
+
+weather <- data.frame()
+
+for (i in 1:length(inputFiles))
+{
+  tempData <- read.csv(inputFiles[i], skip = 18)
+  tempData <- tempData[tempData$YEAR %in% 1984:2007,]
+  
+  weather <- rbind(weather, tempData)
+}
+
+rm(tempData)
+
+# use Latitude to distinguish sites and create a new variable using site names:
+weather$Site <- rep(NA, nrow(weather))
+for (i in 1:nrow(weather))
+{
+  if (floor(weather$LAT[i]) == 29) { weather$Site[i] <- "Rakhigarhi" }
+  if (floor(weather$LON[i]) == 104) { weather$Site[i] <- "Irkutsk" }
+  if (floor(weather$LAT[i]) == -43) { weather$Site[i] <- "Hobart" }
+  if (floor(weather$LAT[i]) == 21) { weather$Site[i] <- "Pearl Harbor" }
+  if (floor(weather$LAT[i]) == -24) { weather$Site[i] <- "Sao Paulo" }
+  if (floor(weather$LON[i]) == 0) { weather$Site[i] <- "Cambridge" }
+  if (floor(weather$LAT[i]) == -23) { weather$Site[i] <- "Windhoek" }
+}
+```
+
+Compute statistics for each site and day of year:
+
+```{r}
+weatherSummaryNames <- c("Site", "dayOfYear",
+                         "solarRadiation.mean", 
+                         "solarRadiation.sd", 
+                         "solarRadiation.max", 
+                         "solarRadiation.min", 
+                         "solarRadiation.error",
+                         "solarRadiationTop.mean", 
+                         "temperature.mean", 
+                         "temperature.sd", 
+                         "temperature.max", 
+                         "temperature.min",
+                         "temperature.error",
+                         "maxTemperature.mean", 
+                         "maxTemperature.max", 
+                         "maxTemperature.min",
+                         "maxTemperature.error",
+                         "minTemperature.mean", 
+                         "minTemperature.max", 
+                         "minTemperature.min",
+                         "minTemperature.error",
+                         "temperature.lowerDeviation", 
+                         "temperature.lowerDeviation.error", 
+                         "temperature.upperDeviation",
+                         "temperature.upperDeviation.error",
+                         "precipitation.mean", 
+                         "precipitation.max", 
+                         "precipitation.min",
+                         "precipitation.error")
+weatherSummary <- vector("list", length(weatherSummaryNames))
+names(weatherSummary) <- weatherSummaryNames
+# OBS: the lines above produce an ERROR related to names that is inconsequential
+
+for (site in levels(factor(weather$Site)))
+{
+  for (day in 1:366)
+  {
+    weatherSummary$Site <- c(weatherSummary$Site, site)
+    weatherSummary$dayOfYear <- c(weatherSummary$dayOfYear, day)
+
+    tempData <- weather[weather$Site == site & weather$DOY == day,]
+
+    # solar radiation
+    
+    weatherSummary$solarRadiation.mean <- c(
+      weatherSummary$solarRadiation.mean, 
+      mean(tempData$ALLSKY_SFC_SW_DWN, na.rm = TRUE))
+    weatherSummary$solarRadiation.sd <- c(
+      weatherSummary$solarRadiation.sd, 
+      sd(tempData$ALLSKY_SFC_SW_DWN, na.rm = TRUE))
+    weatherSummary$solarRadiation.max <- c(
+      weatherSummary$solarRadiation.max, 
+      max(tempData$ALLSKY_SFC_SW_DWN, na.rm = TRUE))
+    weatherSummary$solarRadiation.min <- c(
+      weatherSummary$solarRadiation.min, 
+      min(tempData$ALLSKY_SFC_SW_DWN, na.rm = TRUE))
+    weatherSummary$solarRadiation.error <- c(
+      weatherSummary$solarRadiation.error,
+      qt(0.975, length(tempData$ALLSKY_SFC_SW_DWN) - 1) * 
+        sd(tempData$ALLSKY_SFC_SW_DWN, na.rm = TRUE) / 
+        sqrt(length(tempData$ALLSKY_SFC_SW_DWN)))
+    
+    weatherSummary$solarRadiationTop.mean <- c(
+      weatherSummary$solarRadiationTop.mean, 
+      mean(tempData$ALLSKY_TOA_SW_DWN, na.rm = TRUE))
+
+    # temperature
+    
+    ## daily mean
+    weatherSummary$temperature.mean <- c(
+      weatherSummary$temperature.mean, 
+      mean(tempData$T2M, na.rm = TRUE))
+    weatherSummary$temperature.sd <- c(
+      weatherSummary$temperature.sd, 
+      sd(tempData$T2M, na.rm = TRUE))
+    weatherSummary$temperature.max <- c(
+      weatherSummary$temperature.max, 
+      max(tempData$T2M, na.rm = TRUE))
+    weatherSummary$temperature.min <- c(
+      weatherSummary$temperature.min, 
+      min(tempData$T2M, na.rm = TRUE))
+    weatherSummary$temperature.error <- c(
+      weatherSummary$temperature.error,
+      qt(0.975, length(tempData$T2M) - 1) * 
+        sd(tempData$T2M, na.rm = TRUE) / 
+        sqrt(length(tempData$T2M)))
+      
+    ## daily max
+    weatherSummary$maxTemperature.mean <- c(
+      weatherSummary$maxTemperature.mean, 
+      mean(tempData$T2M_MAX, na.rm = TRUE))
+    weatherSummary$maxTemperature.max <- c(
+      weatherSummary$maxTemperature.max, 
+      max(tempData$T2M_MAX, na.rm = TRUE))
+    weatherSummary$maxTemperature.min <- c(
+      weatherSummary$maxTemperature.min, 
+      min(tempData$T2M_MAX, na.rm = TRUE))
+    weatherSummary$maxTemperature.error <- c(
+      weatherSummary$maxTemperature.error,
+      qt(0.975, length(tempData$T2M_MAX) - 1) * 
+        sd(tempData$T2M_MAX, na.rm = TRUE) / 
+        sqrt(length(tempData$T2M_MAX)))
+      
+    ## daily min
+    weatherSummary$minTemperature.mean <- c(
+      weatherSummary$minTemperature.mean, 
+      mean(tempData$T2M_MIN, na.rm = TRUE))
+    weatherSummary$minTemperature.max <- c(
+      weatherSummary$minTemperature.max, 
+      max(tempData$T2M_MIN, na.rm = TRUE))
+    weatherSummary$minTemperature.min <- c(
+      weatherSummary$minTemperature.min, 
+      min(tempData$T2M_MIN, na.rm = TRUE))
+    weatherSummary$minTemperature.error <- c(
+      weatherSummary$minTemperature.error,
+      qt(0.975, length(tempData$T2M_MIN) - 1) * 
+        sd(tempData$T2M_MIN, na.rm = TRUE) / 
+        sqrt(length(tempData$T2M_MIN)))
+      
+    ## daily lower and upper deviation
+    weatherSummary$temperature.lowerDeviation <- c(
+      weatherSummary$temperature.lowerDeviation, 
+      mean(tempData$T2M - tempData$T2M_MIN)) 
+    weatherSummary$temperature.lowerDeviation.error <- c(
+      weatherSummary$temperature.lowerDeviation.error,
+      qt(0.975, length(tempData$T2M_MIN) - 1) * 
+        sd(tempData$T2M - tempData$T2M_MIN, na.rm = TRUE) / 
+        sqrt(length(tempData$T2M_MIN)))
+    weatherSummary$temperature.upperDeviation <- c(
+      weatherSummary$temperature.upperDeviation, 
+      mean(tempData$T2M_MAX - tempData$T2M))
+    weatherSummary$temperature.upperDeviation.error <- c(
+      weatherSummary$temperature.upperDeviation.error,
+      qt(0.975, length(tempData$T2M_MAX) - 1) * 
+        sd(tempData$T2M_MAX - tempData$T2M, na.rm = TRUE) / 
+        sqrt(length(tempData$T2M_MAX)))
+      
+    # precipitation
+    weatherSummary$precipitation.mean <- c(
+      weatherSummary$precipitation.mean, 
+      mean(tempData$PRECTOT, na.rm = TRUE))
+    weatherSummary$precipitation.max <- c(
+      weatherSummary$precipitation.max, 
+      max(tempData$PRECTOT, na.rm = TRUE))
+    weatherSummary$precipitation.min <- c(
+      weatherSummary$precipitation.min, 
+      min(tempData$PRECTOT, na.rm = TRUE))
+    weatherSummary$precipitation.error <- c(
+      weatherSummary$precipitation.error,
+      qt(0.975, length(tempData$PRECTOT) - 1) * 
+        sd(tempData$PRECTOT, na.rm = TRUE) / 
+        sqrt(length(tempData$PRECTOT)))
+  }
+}
+
+weatherSummary <- data.frame(weatherSummary)
+```
+
+Prepare display order according to latitude:
+
+```{r}
+
+sitesLatitude <- data.frame(cbind(Site = unique(weather$Site),
+                                  Latitude = unique(weather$LAT)))
+sitesLatitude$Latitude <- as.numeric(as.character(sitesLatitude$Latitude))
+sitesLatitude <- sitesLatitude[order(-sitesLatitude$Latitude),]
+
+sitesLatitude$Latitude <- paste(abs(round(sitesLatitude$Latitude, 2)), 
+                                ifelse(sitesLatitude$Latitude < 0,
+                                       "S", "N"))
+
+weatherSummary$Site <- factor(weatherSummary$Site, 
+                       levels = sitesLatitude$Site)
+
+```
+
+Set colours for maximum and minimum temperature:
+
+```{r}
+maxTemperatureColour = hsv(7.3/360, 74.6/100, 70/100)
+
+minTemperatureColour = hsv(232/360, 64.6/100, 73/100)
+```
+
+Create figure:
+
+```{r}
+numberOfSites = nlevels(weatherSummary$Site)
+lengthOfYear_real = 366
+
+yearLengthInDays_real = nlevels(factor(weatherSummary$dayOfYear))
+
+#---------
+plotName = "output/FigX-annualWeatherVariablesExamples.png"
+
+grScale = 2
+fontRescale = 0
+axisTextRescale = 0
+marginTextRescale = 0
+
+png(plotName,
+    width = numberOfSites * grScale * 150, height = grScale * 800)
+#---------
+# alternatively, to create eps file:
+#---------
+# plotName = "Fig1-annualWeatherVariablesExamples.eps"
+# 
+# grScale = 1.2
+# fontRescale = 0.1
+# axisTextRescale = -0.1
+# marginTextRescale = -0.5
+# 
+# extrafont::loadfonts(device = "postscript")
+# grDevices::cairo_ps(filename = plotName,
+#                     pointsize = 12,
+#                     width = numberOfSites * grScale * 1.5,
+#                     height = grScale * 8,
+#                     onefile = FALSE,
+#                     family = "sans"
+#                     )
+#---------
+
+nColumns = numberOfSites + 1
+nRowsExceptBottom = 4
+
+layout(rbind(matrix(1:(nColumns * nRowsExceptBottom), 
+                    nrow = nRowsExceptBottom,
+                    ncol = nColumns, 
+                    byrow = FALSE),
+             c((nColumns * nRowsExceptBottom) + 1,
+               rep((nColumns * nRowsExceptBottom) + 2, 
+                   numberOfSites))),
+       widths = c(3, 12, rep(10, numberOfSites - 2), 14),
+       heights = c(3, 10, 10, 12, 2)
+       )
+
+yLabs <- c(expression(paste("solar radiation (", MJ/m^-2, ")")),
+           "temperature (C)", "precipitation (mm)")
+
+roundToMultiple <- function(i, baseOfMultiple, roundFunction = round)
+{
+  return(match.fun(roundFunction)(i/baseOfMultiple) * baseOfMultiple)
+}
+
+rangeSolar = c(
+  roundToMultiple(min(weatherSummary$solarRadiation.min), 5, floor),
+  roundToMultiple(max(weatherSummary$solarRadiationTop.mean), 5, ceiling))
+
+rangeTemp = c(
+  roundToMultiple(min(weatherSummary$minTemperature.min), 5, floor),
+  roundToMultiple(max(weatherSummary$maxTemperature.max), 5, ceiling))
+
+rangePrecip = c(
+  roundToMultiple(min(weatherSummary$precipitation.min), 5, floor),
+  roundToMultiple(max(weatherSummary$precipitation.max), 5, ceiling))
+
+par(cex = grScale,
+    cex.axis = grScale * (0.8 + axisTextRescale))
+
+# First column: y axis titles
+
+par(mar = c(0, 0, 0, 0.4))
+  
+plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
+
+plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
+text(x = 0.5, y = 0.5, font = 4, 
+     cex = grScale * (0.78 + fontRescale), 
+     srt = 90,
+     labels = yLabs[1])
+
+plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
+text(x = 0.5, y = 0.5, font = 4, 
+     cex = grScale * (0.78 + fontRescale), 
+     srt = 90,
+     labels = yLabs[2])
+
+plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
+text(x = 0.5, y = 0.6, font = 4, 
+     cex = grScale * (0.78 + fontRescale), 
+     srt = 90,
+     labels = yLabs[3])
+
+# Second to N columns
+  
+for (site in levels(factor(weatherSummary$Site)))
+{
+  tempData <- weatherSummary[weatherSummary$Site == site,]
+  
+  leftPlotMargin = ifelse(site == levels(weatherSummary$Site)[1],
+                          2, 0.1)
+  rightPlotMargin = ifelse(site == levels(weatherSummary$Site)[nlevels(weatherSummary$Site)],
+                           4, 0.1)
+  
+  # 1. Site name + latitude
+  
+  par(mar = c(0.2, leftPlotMargin, 0.1, rightPlotMargin))
+  
+  plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
+  text(x = 0.5, y = 0.5, font = 4, 
+       cex = grScale * (0.7 + fontRescale),
+      labels = paste(site, 
+                     sitesLatitude$Latitude[sitesLatitude$Site == site], sep = "\n"))
+  
+  # 2. solar radiation
+  
+  par(mar = c(0.1, leftPlotMargin, 0.1, rightPlotMargin))
+
+  plot(1:yearLengthInDays_real, 
+       tempData$solarRadiation.mean, 
+       axes = FALSE,
+       ylim = rangeSolar,
+       type = "l", lwd = grScale)
+  
+  ## 95% confidence interval
+  polygon(x = c(1:yearLengthInDays_real, 
+                rev(1:yearLengthInDays_real)),
+          y = c((tempData$solarRadiation.mean + tempData$solarRadiation.error),
+              rev(tempData$solarRadiation.mean)),
+          col = rgb(0,0,0, alpha = 0.5),
+          border = NA)
+  polygon(x = c(1:yearLengthInDays_real, 
+                rev(1:yearLengthInDays_real)),
+          y = c((tempData$solarRadiation.mean - tempData$solarRadiation.error),
+                rev(tempData$solarRadiation.mean)),
+          col = rgb(0,0,0, alpha = 0.5),
+          border = NA)
+  
+  ## min-max interval
+  polygon(x = c(1:yearLengthInDays_real, 
+                rev(1:yearLengthInDays_real)),
+          y = c(tempData$solarRadiation.max,
+              rev(tempData$solarRadiation.mean)),
+          col = rgb(0,0,0, alpha = 0.3),
+          border=NA)
+  polygon(x = c(1:yearLengthInDays_real, 
+                rev(1:yearLengthInDays_real)),
+          y = c(tempData$solarRadiation.min,
+                rev(tempData$solarRadiation.mean)),
+          col = rgb(0,0,0, alpha = 0.3),
+          border = NA)
+  
+  ## top-of-atmosphere solar radiation
+  
+  lines(1:yearLengthInDays_real, 
+       tempData$solarRadiationTop.mean, 
+       lty = 2,
+       lwd = grScale)
+  
+  # solstices
+  abline(v = 31+28+31+30+31+21, # 21 June (approx.)
+         lty = 3, lwd = grScale)
+  abline(v = 31+28+31+30+31+30+31+31+30+31+30+21, # 21 December (approx.)
+         lty = 3, lwd = grScale)
+  
+  if (site == levels(weatherSummary$Site)[1])
+  {
+    axis(2, at = seq(rangeSolar[1], rangeSolar[2], 5))
+  }
+  
+  # 3. temperature (daily mean, max, min)
+  
+  ## daily mean
+  plot(1:yearLengthInDays_real, 
+       tempData$temperature.mean, 
+       axes = FALSE,
+       ylim = rangeTemp,
+       type = "l", lwd = grScale)
+  
+  ## 95% confidence interval
+  polygon(x = c(1:yearLengthInDays_real, 
+                rev(1:yearLengthInDays_real)),
+          y = c((tempData$temperature.mean + tempData$temperature.error),
+              rev(tempData$temperature.mean)),
+          col = rgb(0,0,0, alpha = 0.5),
+          border = NA)
+  polygon(x = c(1:yearLengthInDays_real, 
+                rev(1:yearLengthInDays_real)),
+          y = c((tempData$temperature.mean - tempData$temperature.error),
+                rev(tempData$temperature.mean)),
+          col = rgb(0,0,0, alpha = 0.5),
+          border = NA)
+  
+  ## min-max interval
+  polygon(x = c(1:yearLengthInDays_real, 
+                rev(1:yearLengthInDays_real)),
+          y = c(tempData$temperature.max,
+              rev(tempData$temperature.mean)),
+          col = rgb(0,0,0, alpha = 0.3),
+          border = NA)
+  polygon(x = c(1:yearLengthInDays_real, 
+                rev(1:yearLengthInDays_real)),
+          y = c(tempData$temperature.min,
+                rev(tempData$temperature.mean)),
+          col = rgb(0,0,0, alpha = 0.3),
+          border = NA)
+  
+  ## daily max
+  lines(1:yearLengthInDays_real, 
+        tempData$maxTemperature.mean, 
+        lwd = grScale, col = maxTemperatureColour)
+  
+  ## 95% confidence interval
+  polygon(x = c(1:yearLengthInDays_real, 
+                rev(1:yearLengthInDays_real)),
+          y = c((tempData$maxTemperature.mean + tempData$maxTemperature.error),
+              rev(tempData$maxTemperature.mean)),
+          col = adjustcolor(maxTemperatureColour, alpha.f = 0.5),
+          border = NA)
+  polygon(x = c(1:yearLengthInDays_real, 
+                rev(1:yearLengthInDays_real)),
+          y = c((tempData$maxTemperature.mean - tempData$maxTemperature.error),
+                rev(tempData$maxTemperature.mean)),
+          col = adjustcolor(maxTemperatureColour, alpha.f = 0.5),
+          border = NA)
+  
+  ## min-max interval
+  polygon(x = c(1:yearLengthInDays_real, 
+                rev(1:yearLengthInDays_real)),
+          y = c(tempData$maxTemperature.max,
+              rev(tempData$maxTemperature.mean)),
+          col = adjustcolor(maxTemperatureColour, alpha.f = 0.3),
+          border = NA)
+  polygon(x = c(1:yearLengthInDays_real, 
+                rev(1:yearLengthInDays_real)),
+          y = c(tempData$maxTemperature.min,
+                rev(tempData$maxTemperature.mean)),
+          col = adjustcolor(maxTemperatureColour, alpha.f = 0.3),
+          border = NA)
+
+  ## daily min
+  lines(1:yearLengthInDays_real, 
+        tempData$minTemperature.mean, 
+        lwd = grScale, col = minTemperatureColour)
+  
+  ## 95% confidence interval
+  polygon(x = c(1:yearLengthInDays_real, 
+                rev(1:yearLengthInDays_real)),
+          y = c((tempData$minTemperature.mean + tempData$minTemperature.error),
+              rev(tempData$minTemperature.mean)),
+          col = adjustcolor(minTemperatureColour, alpha.f = 0.5),
+          border = NA)
+  polygon(x = c(1:yearLengthInDays_real, 
+                rev(1:yearLengthInDays_real)),
+          y = c((tempData$minTemperature.mean - tempData$minTemperature.error),
+                rev(tempData$minTemperature.mean)),
+          col = adjustcolor(minTemperatureColour, alpha.f = 0.5),
+          border = NA)
+  
+  ## min-max interval
+  polygon(x = c(1:yearLengthInDays_real, 
+                rev(1:yearLengthInDays_real)),
+          y = c(tempData$minTemperature.max,
+              rev(tempData$minTemperature.mean)),
+          col = adjustcolor(minTemperatureColour, alpha.f = 0.3),
+          border = NA)
+  polygon(x = c(1:yearLengthInDays_real, 
+                rev(1:yearLengthInDays_real)),
+          y = c(tempData$minTemperature.min,
+                rev(tempData$minTemperature.mean)),
+          col = adjustcolor(minTemperatureColour, alpha.f = 0.3),
+          border = NA)
+  
+  # solstices
+  abline(v = 31+28+31+30+31+21, # 21 June (approx.)
+         lty = 3, lwd = grScale)
+  abline(v = 31+28+31+30+31+30+31+31+30+31+30+21, # 21 December (approx.)
+         lty = 3, lwd = grScale)
+  
+  if (site == levels(weatherSummary$Site)[1])
+  {
+    axis(2, at = seq(rangeTemp[1], rangeTemp[2], 5))
+  }
+  
+  # 4. precipitation
+  
+  # cumulative curve
+  par(mar = c(8, leftPlotMargin, 0.1, rightPlotMargin))
+  
+  plot(c(1, lengthOfYear_real), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
+  
+  for (year in unique(weather$YEAR))
+  {
+    lines(1:nrow(weather[weather$Site == site & weather$YEAR == year,]), 
+          getCumulativePrecipitationOfYear(weather[weather$Site == site & 
+                                                     weather$YEAR == year, 
+                                                   "PRECTOT"]), 
+          lwd = grScale, 
+          col = rgb(0, 0, 0, alpha = 0.2))
+  }
+  
+  if (site == levels(weatherSummary$Site)[nlevels(weatherSummary$Site)])
+  {
+    axis(4, at = seq(0, 1, 0.25))
+    mtext("cumulative annual sum", 4, line = 2.5,
+          cex = grScale * (1.5 + marginTextRescale))
+  }
+  
+  # daily values
+  par(new = T,
+      mar = c(3, leftPlotMargin, 0.1, rightPlotMargin))
+
+  plot(1:yearLengthInDays_real, 
+       tempData$precipitation.mean, 
+       axes = FALSE,
+       ylim = rangePrecip, 
+       type = "l", lwd = grScale)
+  
+  ## 95% confidence interval
+  polygon(x = c(1:yearLengthInDays_real, 
+                rev(1:yearLengthInDays_real)),
+          y = c((tempData$precipitation.mean + tempData$precipitation.error),
+              rev(tempData$precipitation.mean)),
+          col = rgb(0,0,0, alpha = 0.5),
+          border = NA)
+  polygon(x = c(1:yearLengthInDays_real, 
+                rev(1:yearLengthInDays_real)),
+          y = c((tempData$precipitation.mean - tempData$precipitation.error),
+                rev(tempData$precipitation.mean)),
+          col = rgb(0,0,0, alpha = 0.5),
+          border = NA)
+  
+  ## min-max interval
+  polygon(x = c(1:yearLengthInDays_real, 
+                rev(1:yearLengthInDays_real)),
+          y = c(tempData$precipitation.max,
+               rev(tempData$precipitation.mean)),
+          col = rgb(0,0,0, alpha = 0.3),
+          border=NA)
+  polygon(x = c(1:yearLengthInDays_real, 
+                rev(1:yearLengthInDays_real)),
+          y = c(tempData$precipitation.min,
+                rev(tempData$precipitation.mean)),
+          col = rgb(0,0,0, alpha = 0.3),
+          border = NA)
+  
+  # solstices
+  abline(v = 31+28+31+30+31+21, # 21 June (approx.)
+         lty = 3, lwd = grScale)
+  abline(v = 31+28+31+30+31+30+31+31+30+31+30+21, # 21 December (approx.)
+         lty = 3, lwd = grScale)
+  
+  if (site == levels(weatherSummary$Site)[1])
+  {
+    axis(2, at = seq(rangePrecip[1], rangePrecip[2], 10))
+  }
+  
+  axis(1, at = c(31, 
+                 31+28, 
+                 31+28+31, 
+                 31+28+31+30, 
+                 31+28+31+30+31, 
+                 31+28+31+30+31+30,
+                 31+28+31+30+31+30+31, 
+                 31+28+31+30+31+30+31+31, 
+                 31+28+31+30+31+30+31+31+30, 
+                 31+28+31+30+31+30+31+31+30+31, 
+                 31+28+31+30+31+30+31+31+30+31+30, 
+                 31+28+31+30+31+30+31+31+30+31+30+31),
+       las = 2
+  )
+}
+
+# bottom row: empty and "day of year" or x axis title
+
+par(mar = c(0, 0, 0, 0))
+
+plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
+
+plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
+text(x = 0.5, y = 0.7, font = 4, 
+     cex = grScale * (0.8 + fontRescale),
+     labels = "day of year")
+
+# cleaning and closing
+
+rm(tempData)
+
+dev.off()
+```
+
+```{r, out.width = "\\textwidth"}
+knitr::include_graphics(plotName)
+```

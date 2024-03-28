@@ -1,0 +1,8 @@
+
+This file and all other referenced in the code can be found at the repository: [https://github.com/Two-Rains/Weather-Angourakis-et-al-2024](https://github.com/Two-Rains/Weather-Angourakis-et-al-2024)
+
+# Foreword
+
+(TO DO)
+
+![Place of the Weather model in the Indus Village](Fig1_diagram/RoadMapSoFar_2022-06.png)

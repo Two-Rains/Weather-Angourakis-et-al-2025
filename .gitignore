@@ -1,0 +1,8 @@
+# ignore generated website
+docs/
+
+/.quarto/
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata

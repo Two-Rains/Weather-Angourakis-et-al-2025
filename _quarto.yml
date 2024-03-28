@@ -1,0 +1,41 @@
+project:
+  title: "Weather-Angourakis-et-al-2024"
+  type: book
+  output-dir: docs
+
+editor: visual
+
+execute: 
+  echo: false
+  warning: false
+  fig.path: "output/"
+
+book:
+  title: "Supplementary materials to Angourakis et al. (2024)"
+  author: "Andreas Angourakis"
+  date: today
+  date-format: DD MMMM, YYYY
+  page-navigation: true
+  site-url: https://andros-spica.github.io/Weather-Angourakis-et-al-2024/
+  chapters:
+    - index.qmd
+    - weather-examples.qmd
+    - part: "Demonstration of parameter effects"
+      chapters:
+      - annual-sinusoid-curve-parameters.qmd
+      - precipitation-parameters.qmd
+    - full-model-example.qmd
+    - part: "Calibration"
+      chapters:
+      - walkthrough-attempts.qmd
+      - best-shot.qmd
+    #- references.qmd
+
+#bibliography: references.bib
+
+format:
+  html:
+    theme: lumen
+    fig-format: svg
+  pdf:
+    documentclass: scrreprt
