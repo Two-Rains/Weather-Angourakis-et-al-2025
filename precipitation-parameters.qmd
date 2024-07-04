@@ -1,4 +1,4 @@
-# Demostration of effects of parameter variation in the annual double logistic curve, annual cumulative precipitation curve and year daily precipitation.
+# Demonstration of effects of parameter variation in the annual double logistic curve, annual cumulative precipitation curve and year daily precipitation.
 
 Load source file containing the R implementation of the Weather model:
 
@@ -6,7 +6,7 @@ Load source file containing the R implementation of the Weather model:
 source("source/weatherModel.R")
 ```
 
-Set up six variations of parameter settings of the annual double logistic curve (i.e. plateauValue, inflection1, rate1, inflection2, rate2), the escalonation producing the annual cumulative precipitation curve (i.e. nSamples, maxSampleSize) and annualPrecipitation, assuming length of year of 365 days. Random generator seed used in escalonation is fixed:
+Set up six variations of parameter settings of the annual double logistic curve (i.e. plateauValue, inflection1, rate1, inflection2, rate2), the discretisation producing the annual cumulative precipitation curve (i.e. nSamples, maxSampleSize) and annualPrecipitation, assuming length of year of 365 days. Random generator seed used in discretisation is fixed:
 
 ```{r}
 seed = 0
@@ -23,7 +23,7 @@ parValuesDoubleLogistic <- rbind(
   c(0.85,         97,          0.24,  219,         0.17)
 )
 
-parValuesEscalonation <- rbind(
+parValuesDiscretisation <- rbind(
   # nSamples, maxSampleSize
   c(152, 22),
   c(220, 10),
@@ -82,7 +82,7 @@ doubleLogisticCurves <- data.frame(
          ncol = nrow(parValuesDoubleLogistic))
 )
 
-escalonatedDoubleLogisticCurves <- data.frame(
+discretisedDoubleLogisticCurves <- data.frame(
   matrix(1:(yearLengthInDays_sim * nrow(parValuesDoubleLogistic)),
          nrow = yearLengthInDays_sim, 
          ncol = nrow(parValuesDoubleLogistic))
@@ -150,7 +150,7 @@ text(x = 0.5, y = 0.5, font = 4,
      srt = 90,
      labels = "daily cumulative value")
 
-# 2: y-axis title - escalonated curves
+# 2: y-axis title - discretised curves
 
 plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
 text(x = 0.5, y = 0.5, font = 4, 
@@ -207,7 +207,7 @@ for (i in 1:nrow(parValuesDoubleLogistic))
   doubleLogisticCurves[,i] <- curve
 }
 
-# 6: escalonated double logistic or annual cumulative precipitation
+# 6: discretised double logistic or annual cumulative precipitation
 
 plot(c(1, yearLengthInDays_sim),
      c(0, 1),
@@ -218,10 +218,10 @@ plot(c(1, yearLengthInDays_sim),
 
 for (i in 1:nrow(parValuesDoubleLogistic))
 {
-  curve <- escalonateCurve(
+  curve <- discretiseCurve(
     curve = doubleLogisticCurves[,i],
-    nSamples = parValuesEscalonation[i, 1],
-    maxSampleSize = parValuesEscalonation[i, 2],
+    nSamples = parValuesDiscretisation[i, 1],
+    maxSampleSize = parValuesDiscretisation[i, 2],
     seed = seed)
   
   lines((1:length(curve)), curve, 
@@ -247,7 +247,7 @@ for (i in 1:nrow(parValuesDoubleLogistic))
          col = colorPalette[i], 
          pch = 19)
   
-  escalonatedDoubleLogisticCurves[,i] <- curve
+  discretisedDoubleLogisticCurves[,i] <- curve
 }
 
 # 7-12: daily precipitation plots
@@ -258,7 +258,7 @@ par(mar = c(2, 1, 0.1, 1),
 for (i in 1:nrow(parValuesDoubleLogistic))
 {
   dailyPrecipitation[,i] <- getIncrementsFromCumulativeCurve(
-    cumulativeCurve = escalonatedDoubleLogisticCurves[,i]
+    cumulativeCurve = discretisedDoubleLogisticCurves[,i]
   ) * annualSumValues[i]
 }
 
@@ -321,7 +321,7 @@ polygon(x = arrowPosX[1] + (arrowPosX[2] - arrowPosX[1]) * arrowPointsX,
         border = NA)
 text(x = textPos[1], y = textPos[2], 
      font = 4, cex = grScale * (0.65 + fontRescale), adj = c(1, 0.5),
-     labels = "escalonateCurve(curve, nSamples, maxSampleSize)\nrescaleCurve(curve)")
+     labels = "discretiseCurve(curve, nSamples, maxSampleSize)\nrescaleCurve(curve)")
 
 plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
 polygon(x = arrowPosX[1] + (arrowPosX[2] - arrowPosX[1]) * arrowPointsX,
@@ -372,8 +372,8 @@ for (i in 1:nrow(parValuesDoubleLogistic))
        labels = substitute(
          paste("nSamples = ", nSamples, ", ",
                "maxSampleSize = ", maxSampleSize), 
-         list(nSamples = parValuesEscalonation[i, 1],
-              maxSampleSize = parValuesEscalonation[i, 2])),
+         list(nSamples = parValuesDiscretisation[i, 1],
+              maxSampleSize = parValuesDiscretisation[i, 2])),
        cex = grScale * (0.5 + fontRescale))
   text(x = xPos, 
        y = (yPos[4] + jump * i),

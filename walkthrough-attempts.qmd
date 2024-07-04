@@ -14,7 +14,7 @@ However, the case of precipitation is far from trivial, given the complexity of 
 
 ## Parameter estimation using `optim()`
 
-Set up six variations of parameter settings of the annual double logistic curve (i.e. plateauValue, inflection1, rate1, inflection2, rate2), the escalonation producing the annual cumulative precipitation curve (i.e. nSamples, maxSampleSize) and annualPrecipitation, assuming length of year of 365 days. Random generator seed used in escalonation is fixed:
+Set up six variations of parameter settings of the annual double logistic curve (i.e. plateauValue, inflection1, rate1, inflection2, rate2), the discretisation producing the annual cumulative precipitation curve (i.e. nSamples, maxSampleSize) and annualPrecipitation, assuming length of year of 365 days. Random generator seed used in discretisation is fixed:
 
 ```{r}
 seed = 0
@@ -31,7 +31,7 @@ parValuesDoubleLogistic <- rbind(
   c(0.85,         97,          0.24,  219,         0.17)
 )
 
-parValuesEscalonation <- rbind(
+parValuesDiscretisation <- rbind(
   # nSamples, maxSampleSize
   c(152, 22),
   c(220, 10),
@@ -120,12 +120,12 @@ knitr::kable(parameterComparisonData,
              align = c("l", "c", "c", "c"))
 ```
 
-We can see that reverse engineering the parameter values of the double logistic curve is relatively straightforward. However, precipitation in the Weather model presents an additional challenge: the continuous cumulative curve is broken down into "steps" through `escalonateCurve()`, which introduces **stochasticity**. We will also add `rescaleCurve()` to the end of the process, in order to approach the curve that would be created by `getPrecipitationOfYear()`.
+We can see that reverse engineering the parameter values of the double logistic curve is relatively straightforward. However, precipitation in the Weather model presents an additional challenge: the continuous cumulative curve is broken down into "steps" through `discretiseCurve()`, which introduces **stochasticity**. We will also add `rescaleCurve()` to the end of the process, in order to approach the curve that would be created by `getPrecipitationOfYear()`.
 
-Let us extend the workflow used above with `getAnnualDoubleLogisticCurve()` to also cover the two additional parameters of `escalonateCurve()` (for now, fix `seed = 0`):
+Let us extend the workflow used above with `getAnnualDoubleLogisticCurve()` to also cover the two additional parameters of `discretiseCurve()` (for now, fix `seed = 0`):
 
 ```{r}
-originalParams <- c(parValuesDoubleLogistic[1, 1:5], parValuesEscalonation[1, 1:2])
+originalParams <- c(parValuesDoubleLogistic[1, 1:5], parValuesDiscretisation[1, 1:2])
 
 curve <- getAnnualDoubleLogisticCurve(
     plateauValue = originalParams[1], 
@@ -135,7 +135,7 @@ curve <- getAnnualDoubleLogisticCurve(
     rate2 = originalParams[5],
     yearLengthInDays = yearLengthInDays_sim)
 
-curve <- escalonateCurve(
+curve <- discretiseCurve(
   curve,
   nSamples = originalParams[6],
   maxSampleSize = originalParams[7],
@@ -157,7 +157,7 @@ firstGuessCurve <- getAnnualDoubleLogisticCurve(
     rate2 = initialGuess[5],
     yearLengthInDays = yearLengthInDays_sim)
 
-firstGuessCurve <- escalonateCurve(
+firstGuessCurve <- discretiseCurve(
   firstGuessCurve,
   nSamples = initialGuess[6],
   maxSampleSize = initialGuess[7],
@@ -176,7 +176,7 @@ observedData <- curve
 # Objective function to minimize (difference between observed and predicted values)
 objectiveFunc <- function(params) {
   predictedData <- getAnnualDoubleLogisticCurve(params[1], params[2], params[3], params[4], params[5], yearLengthInDays_sim)
-  predictedData <- escalonateCurve(predictedData, nSamples = params[6], maxSampleSize = params[7], seed = 0)
+  predictedData <- discretiseCurve(predictedData, nSamples = params[6], maxSampleSize = params[7], seed = 0)
   predictedData <- rescaleCurve(predictedData)
   sum((observedData - predictedData)^2)
 }
@@ -189,7 +189,7 @@ fit <- optim(initialGuess, objectiveFunc,
              upper = c(1, 365, 0.9, 365, 0.9, 365, 30))
 
 bestEstimationCurve <- getAnnualDoubleLogisticCurve(fit$par[1], fit$par[2], fit$par[3], fit$par[4], fit$par[5], yearLengthInDays_sim)
-bestEstimationCurve <- escalonateCurve(bestEstimationCurve, nSamples = fit$par[6], maxSampleSize = fit$par[7], seed = 0)
+bestEstimationCurve <- discretiseCurve(bestEstimationCurve, nSamples = fit$par[6], maxSampleSize = fit$par[7], seed = 0)
 bestEstimationCurve <- rescaleCurve(bestEstimationCurve)
 ```
 
@@ -216,7 +216,7 @@ Close, but a much worse fit than obtained with `getAnnualDoubleLogisticCurve()` 
 
 Let us now apply the same workflow for estimating the hyperparameters able to generate an approximation of a sequence of year daily series.
 
-First, generate the original dataset based on the different configurations present in `parValuesDoubleLogistic` and `parValuesEscalonation`:
+First, generate the original dataset based on the different configurations present in `parValuesDoubleLogistic` and `parValuesDiscretisation`:
 
 ```{r}
 curves <- list()
@@ -224,7 +224,7 @@ originalParams_list <- list()
 
 for (i in 1:nrow(parValuesDoubleLogistic))
 {
-  originalParams <- c(parValuesDoubleLogistic[i, 1:5], parValuesEscalonation[i, 1:2])
+  originalParams <- c(parValuesDoubleLogistic[i, 1:5], parValuesDiscretisation[i, 1:2])
 
   curve <- getAnnualDoubleLogisticCurve(
     plateauValue = originalParams[1], 
@@ -234,7 +234,7 @@ for (i in 1:nrow(parValuesDoubleLogistic))
     rate2 = originalParams[5],
     yearLengthInDays = yearLengthInDays_sim)
 
-  curve <- escalonateCurve(
+  curve <- discretiseCurve(
     curve,
     nSamples = originalParams[6],
     maxSampleSize = originalParams[7],
@@ -271,7 +271,7 @@ for (i in 1:nrow(parValuesDoubleLogistic))
                upper = c(1, 365, 0.9, 365, 0.9, 365, 30))
   
   bestEstimationCurve <- getAnnualDoubleLogisticCurve(fit$par[1], fit$par[2], fit$par[3], fit$par[4], fit$par[5], yearLengthInDays_sim)
-  bestEstimationCurve <- escalonateCurve(bestEstimationCurve, nSamples = fit$par[6], maxSampleSize = fit$par[7], seed = 0)
+  bestEstimationCurve <- discretiseCurve(bestEstimationCurve, nSamples = fit$par[6], maxSampleSize = fit$par[7], seed = seed)
   bestEstimationCurve <- rescaleCurve(bestEstimationCurve)
   
   bestEstimationCurves[[i]] <- bestEstimationCurve
@@ -393,7 +393,7 @@ for (year in unique(weatherModel$daily$currentYear))
 
 ## Parameter estimation using Genetic Algorithms (`ga` package):
 
-adada
+TO DO
 
 ```{r}
 

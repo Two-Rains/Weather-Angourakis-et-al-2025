@@ -207,15 +207,15 @@ getAnnualDoubleLogisticCurve <- function(plateauValue,
 }
 
 ################################################################################
-#' @title Escalonate curve stochastically
+#' @title Discretise curve stochastically
 #' @description Break curve slope into several random steps, each consisting of an increase with maximum slope followed by a plateau
 #' @param curve : the y variable describing the curve to be modified (numeric vector)
 #' @param nSteps : the number of random samples or steps to be created in the curve
 #' @param maxSampleSize : the maximum length of samples or step plateaus
 #' @param seed : random number generator seed
-#' @return an escalonated version of the curve given as input (numeric, vector)
+#' @return an discretised version of the curve given as input (numeric, vector)
 #' @export
-escalonateCurve <- function(curve, 
+discretiseCurve <- function(curve, 
                             nSamples, 
                             maxSampleSize,
                             seed = 0)
@@ -252,13 +252,6 @@ escalonateCurve <- function(curve,
 #' @export
 rescaleCurve <- function(curve)
 {
-  # cover special case where the curve is a horizontal line (first = last)
-  # solution: interpolate 0-1 with a line
-  if (curve[1] == curve[length(curve)]) 
-  { 
-    curve <- 1:length(curve) * 1 / length(curve)
-  }
-  
   return( (curve - curve[1]) / (curve[length(curve)] - curve[1]) )
 }
 
@@ -322,11 +315,18 @@ getPrecipitationOfYear <- function(plateauValue,
     yearLengthInDays = yearLengthInDays
   )
   
-  precipitationOfYear <- escalonateCurve(
+  precipitationOfYear <- discretiseCurve(
     curve = precipitationOfYear,
     nSamples = nSamples, 
     maxSampleSize = maxSampleSize,
     seed = seed)
+  
+  # cover special case where the curve is a horizontal line (first = last)
+  # solution: interpolate 0-1 with a line
+  if (precipitationOfYear[1] == precipitationOfYear[length(precipitationOfYear)]) 
+  { 
+    precipitationOfYear <- 1:length(precipitationOfYear) * 1 / length(precipitationOfYear)
+  }
   
   # check if tries were enough to get the precipitation of the year
   if (getLastItemInVector(precipitationOfYear) < 1) 
@@ -389,6 +389,7 @@ getCumulativePrecipitationOfYear <- function(dailyPrecipitationYear)
 #' @title Get daily cumulative sum of precipitation of multiple years
 #' @description Get daily cumulative sum of precipitation of multiple years 
 #' @param dailyPrecipitation : daily values of precipitation for multiple full years
+#' @param years : year (integer) per each daily value in dailyPrecipitation 
 #' @return daily cumulative sum of annual precipitation (numeric vector, mm/mm)
 #' @export
 getCumulativePrecipitation <- function(dailyPrecipitation, years)
@@ -548,7 +549,7 @@ markEndYears <- function(lengthOfData,
 #' @param solar_annualMax,solar_annualMax : annual maximum and minimum daily solar radiation (MJ m2)
 #' @param solar_meanDailyFluctuation : standard deviation of the normal random noise of daily solar radiation (MJ m2)
 #' @param precip_yearlyMean : the annual sum of precipitation (mm)
-#' @param precip_nSamples,precip_maxSampleSize : the number of random samples and the maximum length of samples used to escalonate the cumulative curve of annual precipitation
+#' @param precip_nSamples,precip_maxSampleSize : the number of random samples and the maximum length of samples used to discretise the cumulative curve of annual precipitation
 #' @param precip_plateauValue_yearlyMean,precip_plateauValue_yearlySd : the proportion of annual sum of precipitation (range of 0 to 1) in which the gap between logistic curves is set in the cumulative curve of annual precipitation (mean and standard deviation used for normal random sampling every year)
 #' @param precip_inflection1_yearlyMean,precip_inflection1_yearlySd : the days of year in which the first logistic curve of the cumulative curve of annual precipitation have their maximum slope (mean and standard deviation used for normal random sampling every year)
 #' @param precip_rate1_yearlyMean,precip_rate1_yearlySd : the maximum rate of the first logistic curve (mean and standard deviation used for normal random sampling every year)
@@ -661,7 +662,7 @@ weatherModel.init <- function(
 #' @description Updates the precipitation parameters for the given weather model instance
 #' @param weatherModel : initialised instance of weather model
 #' @export
-updatePrecipitationParameters <- function(weatherModel)
+updatePrecipitationParameters <- function(weatherModel, yearLengthInDays)
 {
   # set the precipitation parameters for the year
   
@@ -687,7 +688,7 @@ updatePrecipitationParameters <- function(weatherModel)
   
   weatherModel$annualPrecipitationPars$inflection1 <- c(
     weatherModel$annualPrecipitationPars$inflection1,
-    min(weatherModel$PARS$yearLengthInDays, 
+    min(yearLengthInDays, 
         max(1, 
             rnorm(1, 
                   weatherModel$PARS$precipitation$inflection1_yearlyMean, 
@@ -707,7 +708,7 @@ updatePrecipitationParameters <- function(weatherModel)
   
   weatherModel$annualPrecipitationPars$inflection2 <- c(
     weatherModel$annualPrecipitationPars$inflection2,
-    min(weatherModel$PARS$yearLengthInDays, 
+    min(yearLengthInDays, 
         max(1, 
             rnorm(1, 
                   weatherModel$PARS$precipitation$inflection2_yearlyMean, 
@@ -751,7 +752,7 @@ updatePrecipitationParameters <- function(weatherModel)
 #' @description Generates annual precipitation values based on the updated parameters in the given weather model instance
 #' @param weatherModel : initialised instance of weather model
 #' @export
-generateAnnualPrecipitation <- function(weatherModel)
+generateAnnualPrecipitation <- function(weatherModel, yearLengthInDays)
 {
   weatherModel$daily$precipitation <- c(
     weatherModel$daily$precipitation,
@@ -761,7 +762,7 @@ generateAnnualPrecipitation <- function(weatherModel)
       rate1 = getLastItemInVector(weatherModel$annualPrecipitationPars$rate1),
       inflection2 = getLastItemInVector(weatherModel$annualPrecipitationPars$inflection2),
       rate2 = getLastItemInVector(weatherModel$annualPrecipitationPars$rate2), 
-      yearLengthInDays = weatherModel$PARS$yearLengthInDays,
+      yearLengthInDays = yearLengthInDays,
       nSamples = getLastItemInVector(weatherModel$annualPrecipitationPars$nSamples),
       maxSampleSize = getLastItemInVector(weatherModel$annualPrecipitationPars$maxSampleSize),
       annualSum = getLastItemInVector(weatherModel$annualPrecipitationPars$annualSum),
@@ -778,7 +779,7 @@ generateAnnualPrecipitation <- function(weatherModel)
 #' @param weatherModel : initialised instance of weather model
 #' @param day : day of year
 #' @export
-generateTemperatureVariablesOfDay <- function(weatherModel, day)
+generateTemperatureVariablesOfDay <- function(weatherModel, day, yearLengthInDays)
 {
   weatherModel$daily$temperature <- c(
     weatherModel$daily$temperature,
@@ -786,7 +787,7 @@ generateTemperatureVariablesOfDay <- function(weatherModel, day)
       minValue = weatherModel$PARS$temperature$annualMinAt2m, 
       maxValue = weatherModel$PARS$temperature$annualMaxAt2m, 
       fluctuation = weatherModel$PARS$temperature$meanDailyFluctuation, 
-      dayOfYear = day, yearLengthInDays = weatherModel$PARS$yearLengthInDays,
+      dayOfYear = day, yearLengthInDays = yearLengthInDays,
       southHemisphere = weatherModel$PARS$southHemisphere,
       seed = runif(1, 0, 2147483647)
     )
@@ -811,7 +812,7 @@ generateTemperatureVariablesOfDay <- function(weatherModel, day)
 #' @param weatherModel : initialised instance of weather model
 #' @param day : day of year
 #' @export
-generateSolarRadiationOfDay <- function(weatherModel, day)
+generateSolarRadiationOfDay <- function(weatherModel, day, yearLengthInDays)
 {
   weatherModel$daily$solarRadiation <- c(
     weatherModel$daily$solarRadiation,
@@ -820,7 +821,7 @@ generateSolarRadiationOfDay <- function(weatherModel, day)
           minValue = weatherModel$PARS$solar$annualMin, 
           maxValue = weatherModel$PARS$solar$annualMax, 
           fluctuation = weatherModel$PARS$solar$meanDailyFluctuation, 
-          dayOfYear = day, yearLengthInDays = weatherModel$PARS$yearLengthInDays,
+          dayOfYear = day, yearLengthInDays = yearLengthInDays,
           southHemisphere = weatherModel$PARS$southHemisphere,
           seed = runif(1, 0, 2147483647)
         )
@@ -861,22 +862,28 @@ generateETrOfDay <- function(weatherModel, day)
 weatherModel.run <- function(weatherModel, 
                              numberOfYears)
 {
-  for (year in 1:numberOfYears)
+  for (yearIndex in 1:numberOfYears)
   {
-    weatherModel <- updatePrecipitationParameters(weatherModel)
-    weatherModel <- generateAnnualPrecipitation(weatherModel)
+    yearLengthInDays <- weatherModel$PARS$yearLengthInDays[1]
+    if (length(weatherModel$PARS$yearLengthInDays) > 1)
+    {
+      yearLengthInDays <- weatherModel$PARS$yearLengthInDays[yearIndex]
+    }
+    
+    weatherModel <- updatePrecipitationParameters(weatherModel, yearLengthInDays)
+    weatherModel <- generateAnnualPrecipitation(weatherModel, yearLengthInDays)
     
     # generate other weather variables (per day)
     
-    for (day in 1:weatherModel$PARS$yearLengthInDays)
+    for (day in 1:yearLengthInDays)
     {
-      weatherModel$daily$currentYear <- c(weatherModel$daily$currentYear, year)
+      weatherModel$daily$currentYear <- c(weatherModel$daily$currentYear, yearIndex)
       
       weatherModel$daily$currentDayOfYear <- c(weatherModel$daily$currentDayOfYear, day)
       
-      weatherModel <- generateTemperatureVariablesOfDay(weatherModel, day)
+      weatherModel <- generateTemperatureVariablesOfDay(weatherModel, day, yearLengthInDays)
       
-      weatherModel <- generateSolarRadiationOfDay(weatherModel, day)
+      weatherModel <- generateSolarRadiationOfDay(weatherModel, day, yearLengthInDays)
       
       weatherModel <- generateETrOfDay(weatherModel, day)
     }
