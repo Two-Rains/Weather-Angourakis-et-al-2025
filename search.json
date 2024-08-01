@@ -1,0 +1,98 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Supplementary materials to Angourakis et al. (2024)",
+    "section": "",
+    "text": "This file and all other referenced in the code can be found at the repository: https://github.com/Two-Rains/Weather-Angourakis-et-al-2024\n\n1 Foreword\n(TO DO)\n\n\n\nPlace of the Weather model in the Indus Village",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Foreword</span>"
+    ]
+  },
+  {
+    "objectID": "weather-examples.html",
+    "href": "weather-examples.html",
+    "title": "2  Daily weather variables (summary statistics per day of year) in example locations around the planet between 01/01/1984 and 31/12/2018.",
+    "section": "",
+    "text": "Load source file containing the R implementation of the Weather model:\nWe use the data downloaded at NASA´s POWER access viewer (power.larc.nasa.gov/data-access-viewer/) selecting the user community ‘Agroclimatology’ and pin pointing the different locations between 01/01/1984 and 31/12/2007. The exact locations are:\n\nRakhigarhi, Haryana, India (Latitude: 29.1687, Longitude: 76.0687)\n\nIrkutsk, Irkutsk Óblast, Russia (Latitude: 52.2891, Longitude: 104.2493)\nHobart, Tasmania, Australia (Latitude: -42.8649, Longitude: 147.3441)\nPearl Harbor, Hawaii, United States of America (Latitude: 21.376, Longitude: -157.9708)\nSão Paulo, Brazil (Latitude: -23.5513, Longitude: -46.6344)\nCambridge, United Kingdom (Latitude: 52.2027, Longitude: 0.122)\nWindhoek, Namibia (Latitude: -22.5718, Longitude: 17.0953)\n\nWe selected the ICASA Format’s parameters:\n\nPrecipitation (PRECTOT)\n\nWind speed at 2m (WS2M)\n\nRelative Humidity at 2m (RH2M)\n\nDew/frost point at 2m (T2MDEW)\n\nMaximum temperature at 2m (T2M_MAX)\n\nMinimum temperature at 2m (T2M_MIN)\n\nAll sky insolation incident on a horizontal surface (ALLSKY_SFC_SW_DWN)\n\nTemperature at 2m (T2M)\n\nand from Solar Related Parameters:\n\nTop-of-atmosphere Insolation (ALLSKY_TOA_SW_DWN)\n\nCompute statistics for each site and day of year:\nPrepare display order according to latitude:\nSet colours for maximum and minimum temperature:\nCreate figure:\n\n\nsvg \n  2",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Daily weather variables (summary statistics per day of year) in example locations around the planet between 01/01/1984 and 31/12/2018.</span>"
+    ]
+  },
+  {
+    "objectID": "annual-sinusoid-curve-parameters.html",
+    "href": "annual-sinusoid-curve-parameters.html",
+    "title": "3  Demostration of effects of parameter variation in the annual sinusoid curve",
+    "section": "",
+    "text": "Load source file containing the R implementation of the Weather model:\nSet up six variations of parameter settings (i.e. minValue, maxValue, southHemisphere), assuming length of year of 365 days:\nCreate a colour palette for plotting:\nPlot curves:\n\n\nsvg \n  2",
+    "crumbs": [
+      "Demonstration of parameter effects",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Demostration of effects of parameter variation in the annual sinusoid curve</span>"
+    ]
+  },
+  {
+    "objectID": "precipitation-parameters.html",
+    "href": "precipitation-parameters.html",
+    "title": "4  Demonstration of effects of parameter variation in the annual double logistic curve, annual cumulative precipitation curve and year daily precipitation.",
+    "section": "",
+    "text": "Load source file containing the R implementation of the Weather model:\nSet up six variations of parameter settings of the annual double logistic curve (i.e. plateauValue, inflection1, rate1, inflection2, rate2), the discretisation producing the annual cumulative precipitation curve (i.e. nSamples, maxSampleSize) and annualPrecipitation, assuming length of year of 365 days. Random generator seed used in discretisation is fixed:\nCreate a colour palette for plotting:\nInitialise data frames for holding curves:\nPlot curves:\n\n\nsvg \n  2",
+    "crumbs": [
+      "Demonstration of parameter effects",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Demonstration of effects of parameter variation in the annual double logistic curve, annual cumulative precipitation curve and year daily precipitation.</span>"
+    ]
+  },
+  {
+    "objectID": "full-model-example.html",
+    "href": "full-model-example.html",
+    "title": "5  Example of simulation outputs of the Weather model for 5 years",
+    "section": "",
+    "text": "Load source file containing the R implementation of the Weather model:\nInitialisation using the default parametrisation, based on data from Rakhigarhi (example location, see Fig. 1):\nShow table with parameter values:\n\n\n\n\n\n\nparameter\nvalues\n\n\n\n\nseed\n0\n\n\nyearLengthInDays\n365\n\n\nalbedo\n0.4\n\n\nsouthHemisphere\n0\n\n\ntemperature - annualMaxAt2m\n40\n\n\ntemperature - annualMinAt2m\n15\n\n\ntemperature - meanDailyFluctuation\n5\n\n\ntemperature - dailyLowerDeviation\n5\n\n\ntemperature - dailyUpperDeviation\n5\n\n\nsolar - annualMax\n7\n\n\nsolar - annualMin\n3\n\n\nsolar - meanDailyFluctuation\n1\n\n\nprecipitation - yearlyMean\n400\n\n\nprecipitation - yearlySd\n130\n\n\nprecipitation - nSamples_yearlyMean\n200\n\n\nprecipitation - nSamples_yearlySd\n5\n\n\nprecipitation - maxSampleSize_yearlyMean\n10\n\n\nprecipitation - maxSampleSize_yearlySd\n3\n\n\nprecipitation - plateauValue_yearlyMean\n0.1\n\n\nprecipitation - plateauValue_yearlySd\n0.05\n\n\nprecipitation - inflection1_yearlyMean\n40\n\n\nprecipitation - inflection1_yearlySd\n20\n\n\nprecipitation - rate1_yearlyMean\n0.15\n\n\nprecipitation - rate1_yearlySd\n0.02\n\n\nprecipitation - inflection2_yearlyMean\n200\n\n\nprecipitation - inflection2_yearlySd\n20\n\n\nprecipitation - rate2_yearlyMean\n0.05\n\n\nprecipitation - rate2_yearlySd\n0.01\n\n\n\n\n\n\n\n\nRun for 5 years:\nSet colours for maximum and minimum temperature:\nPlot time-series:\n\n\nsvg \n  2",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Example of simulation outputs of the Weather model for 5 years</span>"
+    ]
+  },
+  {
+    "objectID": "walkthrough-attempts.html",
+    "href": "walkthrough-attempts.html",
+    "title": "6  Calibration walkthrough",
+    "section": "",
+    "text": "6.1 Parameter estimation using optim()\nSet up six variations of parameter settings of the annual double logistic curve (i.e. plateauValue, inflection1, rate1, inflection2, rate2), the discretisation producing the annual cumulative precipitation curve (i.e. nSamples, maxSampleSize) and annualPrecipitation, assuming length of year of 365 days. Random generator seed used in discretisation is fixed:\nSelect the first set of parameter values from the parValuesDoubleLogistic dataset and generate the corresponding curve with the getAnnualDoubleLogisticCurve() function. These points will represent the original state of the model that we aim to reverse engineer from the outcome curve. Plot it.\nDefine the initialGuess vector with your initial parameter guess values. Generate the curve using the getAnnualDoubleLogisticCurve() function with the initial guess. Plot it. Notice that our initial guess generates a somewhat “average” cumulative curve.\nDefine the objectiveFunc() function that calculates the sum of squared differences between the observed data and the predicted values, generated by the getAnnualDoubleLogisticCurve() function with a given parameter setting. Then, use the optim() function to estimate the best parameter values by minimizing the objective function.\nNOTE: optim() using method “L-BFGS-B”, see ?optim or: &gt; Byrd, R. H., Lu, P., Nocedal, J. and Zhu, C. (1995). A limited memory algorithm for bound constrained optimization. SIAM Journal on Scientific Computing, 16, 1190–1208. doi:10.1137/0916069.\nPlot the original curve (curve) and overlay it with the curve generated using the best estimated parameter values (bestEstimationCurve). The best estimated curve is shown in red.\nparameter\noriginal\nestimated\ndelta\n\n\n\n\nplateauValue\n0.01\n0.00909982142182281\n9e-04\n\n\ninflection1\n125\n113.795551408398\n11.204449\n\n\nrate1\n0.3\n0.89998427831094\n0.599984\n\n\ninflection2\n245\n244.987905641175\n0.012094\n\n\nrate2\n0.22\n0.219538135299713\n0.000462\nWe can see that reverse engineering the parameter values of the double logistic curve is relatively straightforward. However, precipitation in the Weather model presents an additional challenge: the continuous cumulative curve is broken down into “steps” through discretiseCurve(), which introduces stochasticity. We will also add rescaleCurve() to the end of the process, in order to approach the curve that would be created by getPrecipitationOfYear().\nLet us extend the workflow used above with getAnnualDoubleLogisticCurve() to also cover the two additional parameters of discretiseCurve() (for now, fix seed = 0):\nparameter\noriginal\nestimated\ndelta\n\n\n\n\nplateauValue\n0.01\n0\n0.01\n\n\ninflection1\n125\n100.289790982745\n24.710209\n\n\nrate1\n0.3\n0.01\n0.29\n\n\ninflection2\n245\n258.301146051514\n13.301146\n\n\nrate2\n0.22\n0.9\n0.68\n\n\nnSamples\n152\n270.02228671593\n118.022287\n\n\nmaxSampleSize\n22\n30\n8\nClose, but a much worse fit than obtained with getAnnualDoubleLogisticCurve() only. We should take this performance in consideration going forward.\nLet us now apply the same workflow for estimating the hyperparameters able to generate an approximation of a sequence of year daily series.\nFirst, generate the original dataset based on the different configurations present in parValuesDoubleLogistic and parValuesDiscretisation:\nApply optim, reusing initialGuess and objectiveFunc, to each curve and generate a sequence of best estimation curves:\nPlot original and estimated curves:\nVisualise the aggregate estimation quality:\nparameter\noriginal (mean)\noriginal (sd)\nestimated (mean)\nestimated (sd)\ndelta (mean)\ndelta (sd)\n\n\n\n\nplateauValue\n0.4266667\n0.3050683\n0.3599647\n0.4221796\n0.066702\n0.117111\n\n\ninflection1\n97.3333333\n67.6481091\n83.9851037\n38.6891002\n13.348230\n28.959009\n\n\nrate1\n0.2550000\n0.2034453\n0.3079023\n0.4586454\n0.052902\n0.255200\n\n\ninflection2\n241.6666667\n29.6895043\n231.6966633\n53.9317743\n9.970003\n24.242270\n\n\nrate2\n0.2566667\n0.2050041\n0.3511250\n0.4356376\n0.094458\n0.230634\n\n\nnSamples\n196.0000000\n32.6741488\n211.4276582\n42.7020308\n15.427658\n10.027882\n\n\nmaxSampleSize\n12.8333333\n5.8452260\n25.1674283\n8.0057919\n12.334095\n2.160566\nDefine the hyperparameters of a weather model instance based on the mean and standard deviation of the best estimation parameter values:\nRun the model to generate a number of cumulative curves:\nPlot original and generated curves:",
+    "crumbs": [
+      "Calibration",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Calibration walkthrough</span>"
+    ]
+  },
+  {
+    "objectID": "walkthrough-attempts.html#parameter-estimation-using-genetic-algorithms-ga-package",
+    "href": "walkthrough-attempts.html#parameter-estimation-using-genetic-algorithms-ga-package",
+    "title": "6  Calibration walkthrough",
+    "section": "6.2 Parameter estimation using Genetic Algorithms (ga package):",
+    "text": "6.2 Parameter estimation using Genetic Algorithms (ga package):\nTO DO",
+    "crumbs": [
+      "Calibration",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Calibration walkthrough</span>"
+    ]
+  },
+  {
+    "objectID": "best-shot.html",
+    "href": "best-shot.html",
+    "title": "7  Calibration targeting weather examples",
+    "section": "",
+    "text": "7.1 Calculate weather example summary statistics\nCompute statistics for each site and day of year:\nPrepare display order according to latitude:",
+    "crumbs": [
+      "Calibration",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Calibration targeting weather examples</span>"
+    ]
+  },
+  {
+    "objectID": "best-shot.html#estimation-of-year-parameters",
+    "href": "best-shot.html#estimation-of-year-parameters",
+    "title": "7  Calibration targeting weather examples",
+    "section": "7.2 Estimation of year parameters",
+    "text": "7.2 Estimation of year parameters\n\n7.2.1 Estimation of hyperparameters based on weather dataset\nDeclare auxiliary objects for estimating the precipitation cumulative curve with optim:\nTest an isolated version of the estimation of cumulative precipitation hyperparameters using optim:\nRun estimation of cumulative precipitation hyperparameters for all sites:\nCalculate yearly summary statistics matching parameter inputs for each example location:\nInitialise experiments using annual summary statistics and estimated yearly cumulative precipitation parameters of example locations as parameter inputs:\nRun experiments:\nCreate a data frame containing the daily summary statistics of simulations comparable to the one for the real data (created for Fig 1 above):\nSet colours for real and simulated data:\nCreate figure:\n\n\nsvg \n  2",
+    "crumbs": [
+      "Calibration",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Calibration targeting weather examples</span>"
+    ]
+  }
+]
