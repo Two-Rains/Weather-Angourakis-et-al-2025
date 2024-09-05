@@ -58,6 +58,11 @@ for (i in 1:nrow(weather))
   if (floor(weather$LON[i]) == 0) { weather$Site[i] <- "Cambridge" }
   if (floor(weather$LAT[i]) == -23) { weather$Site[i] <- "Windhoek" }
 }
+
+sites = levels(factor(weather$Site))
+numberOfSites = nlevels(factor(weather$Site))
+years = levels(factor(weather$YEAR))
+numberOfYears = nlevels(factor(weather$YEAR))
 ```
 
 Compute statistics for each site and day of year:
@@ -95,7 +100,7 @@ weatherSummary <- vector("list", length(weatherSummaryNames))
 names(weatherSummary) <- weatherSummaryNames
 # OBS: the lines above produce an ERROR related to names that is inconsequential
 
-for (site in levels(factor(weather$Site)))
+for (site in sites)
 {
   for (day in 1:366)
   {
@@ -249,7 +254,6 @@ minTemperatureColour = hsv(232/360, 64.6/100, 73/100)
 Create figure:
 
 ```{r}
-numberOfSites = nlevels(weatherSummary$Site)
 lengthOfYear_real = 366
 
 yearLengthInDays_real = nlevels(factor(weatherSummary$dayOfYear))
@@ -267,7 +271,7 @@ png(plotName,
 #---------
 # alternatively, to create eps file:
 #---------
-# plotName = "Fig1-annualWeatherVariablesExamples.eps"
+# plotName = "output/FigX-annualWeatherVariablesExamples.eps"
 # 
 # grScale = 1.2
 # fontRescale = 0.1
@@ -347,13 +351,13 @@ text(x = 0.5, y = 0.6, font = 4,
 
 # Second to N columns
   
-for (site in levels(factor(weatherSummary$Site)))
+for (site in sites)
 {
   tempData <- weatherSummary[weatherSummary$Site == site,]
   
-  leftPlotMargin = ifelse(site == levels(weatherSummary$Site)[1],
+  leftPlotMargin = ifelse(site == sites[1],
                           2, 0.1)
-  rightPlotMargin = ifelse(site == levels(weatherSummary$Site)[nlevels(weatherSummary$Site)],
+  rightPlotMargin = ifelse(site == sites[numberOfSites],
                            4, 0.1)
   
   # 1. Site name + latitude
@@ -417,7 +421,7 @@ for (site in levels(factor(weatherSummary$Site)))
   abline(v = 31+28+31+30+31+30+31+31+30+31+30+21, # 21 December (approx.)
          lty = 3, lwd = grScale)
   
-  if (site == levels(weatherSummary$Site)[1])
+  if (site == sites[1])
   {
     axis(2, at = seq(rangeSolar[1], rangeSolar[2], 5))
   }
@@ -531,7 +535,7 @@ for (site in levels(factor(weatherSummary$Site)))
   abline(v = 31+28+31+30+31+30+31+31+30+31+30+21, # 21 December (approx.)
          lty = 3, lwd = grScale)
   
-  if (site == levels(weatherSummary$Site)[1])
+  if (site == sites[1])
   {
     axis(2, at = seq(rangeTemp[1], rangeTemp[2], 5))
   }
@@ -553,7 +557,7 @@ for (site in levels(factor(weatherSummary$Site)))
           col = rgb(0, 0, 0, alpha = 0.2))
   }
   
-  if (site == levels(weatherSummary$Site)[nlevels(weatherSummary$Site)])
+  if (site == sites[numberOfSites])
   {
     axis(4, at = seq(0, 1, 0.25))
     mtext("cumulative annual sum", 4, line = 2.5,
@@ -604,7 +608,7 @@ for (site in levels(factor(weatherSummary$Site)))
   abline(v = 31+28+31+30+31+30+31+31+30+31+30+21, # 21 December (approx.)
          lty = 3, lwd = grScale)
   
-  if (site == levels(weatherSummary$Site)[1])
+  if (site == sites[1])
   {
     axis(2, at = seq(rangePrecip[1], rangePrecip[2], 10))
   }
@@ -646,3 +650,277 @@ dev.off()
 ```{r, out.width = "\\textwidth"}
 knitr::include_graphics(plotName)
 ```
+
+Compute annual precipitation for each site and year:
+
+```{r}
+annualPrecipitationNames <- c("Site", "year",
+                         "precipitation.annual")
+annualPrecipitation <- vector("list", length(annualPrecipitationNames))
+names(annualPrecipitation) <- annualPrecipitationNames
+# OBS: the lines above produce an ERROR related to names that is inconsequential
+
+for (site in sites)
+{
+  for (year in years)
+  {
+    annualPrecipitation$Site <- c(annualPrecipitation$Site, site)
+    annualPrecipitation$year <- c(annualPrecipitation$year, year)
+
+    tempData <- weather[weather$Site == site & weather$YEAR == year,]
+
+    # solar radiation
+    
+    annualPrecipitation$precipitation.annual <- c(
+      annualPrecipitation$precipitation.annual, 
+      sum(tempData$PRECTOT, na.rm = TRUE))
+  }
+}
+
+annualPrecipitation <- data.frame(annualPrecipitation)
+annualPrecipitation$year <- as.numeric(annualPrecipitation$year)
+```
+
+```{r}
+normalityTestPerSite <- list()
+
+for (site in sites)
+{
+  for (year in sites)
+  {
+    # Subset data for the current site
+    tempData <- annualPrecipitation[annualPrecipitation$Site == site, "precipitation.annual"]
+    
+    # Perform the Shapiro-Wilk normality test
+    tempData <- shapiro.test(tempData)
+    
+    # Store the result in the list with the site name as the key
+    normalityTestPerSite[[site]] <- tempData
+  }
+}
+
+# cleaning and closing
+
+rm(tempData)
+```
+
+Create figure:
+
+```{r}
+#---------
+plotName = "output/FigX-annualPrecipitationExamples.png"
+
+grScale = 2
+fontRescale = 0
+axisTextRescale = 0
+
+png(plotName,
+    width = numberOfYears * grScale * 50, height = grScale * numberOfSites * 200)
+#---------
+# alternatively, to create eps file:
+#---------
+# plotName = "output/FigX-annualPrecipitationExamples.eps"
+# 
+# grScale = 1.2
+# fontRescale = 2
+# axisTextRescale = 1
+# 
+# extrafont::loadfonts(device = "postscript")
+# grDevices::cairo_ps(filename = plotName,
+#                     pointsize = 12,
+#                     width = numberOfYears * grScale * 1,
+#                     height = numberOfSites * grScale * 4,
+#                     onefile = FALSE,
+#                     family = "sans"
+#                     )
+#---------
+
+nColumns = 3
+nRowsExceptBottom = numberOfSites
+
+layout(rbind(matrix(
+             c(
+               # first column
+               rep(1, nRowsExceptBottom), # y-axis
+               2, # empty
+               # second column
+               3:(3 + nRowsExceptBottom - 1), # line plots
+               (nRowsExceptBottom + 3), # x-axis 1
+               # third column
+               (nRowsExceptBottom + 4):(nRowsExceptBottom + 4 + nRowsExceptBottom - 1), # vertical histograms
+               ((2 * nRowsExceptBottom) + 4) # x-axis 2
+               ),
+             nrow = nRowsExceptBottom + 1,
+             ncol = nColumns, 
+             byrow = FALSE)),
+       widths = c(1, 12, 5),
+       heights = c(rep(10, numberOfSites), 3)
+       )
+
+yLab <- "annual precipitation (mm)"
+xLabs <- c("year", "frequency")
+
+par(cex = grScale,
+    cex.axis = grScale * (0.8 + axisTextRescale))
+
+# First column: y axis title
+
+par(mar = c(0, 0, 0, 0.4))
+
+plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
+text(x = 0.3, y = 0.5, font = 4, 
+     cex = grScale * (0.78 + fontRescale), 
+     srt = 90,
+     labels = yLab)
+
+plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
+
+# Second column: lines
+
+par(mar = c(0.2, 0.1, 0.1, 0.1))
+
+for (siteIndex in 1:numberOfSites)
+{
+  if (siteIndex == numberOfSites)
+  {
+    par(mar = c(1, 0.1, 0.1, 0.1))
+  }
+  
+  tempData <- annualPrecipitation[annualPrecipitation$Site == sites[siteIndex],]
+  
+  siteMeanPrecipitation = mean(tempData$precipitation.annual)
+  siteMeanPrecipitationPoints = rep(siteMeanPrecipitation, numberOfYears)
+  siteHighPrecipitation = sapply(tempData$precipitation.annual, function(x) max(x, siteMeanPrecipitation))
+  siteLowPrecipitation = sapply(tempData$precipitation.annual, function(x) min(x, siteMeanPrecipitation))
+  
+  roundToMultiple <- function(i, baseOfMultiple, roundFunction = round)
+  {
+    return(match.fun(roundFunction)(i/baseOfMultiple) * baseOfMultiple)
+  }
+
+  tempRange = c(
+    roundToMultiple(min(tempData$precipitation.annual), 5, floor),
+    roundToMultiple(max(tempData$precipitation.annual), 5, ceiling)
+  )
+  
+  plot(tempData$year, 
+     tempData$precipitation.annual,
+     #xlim = range(annualPrecipitation$year), 
+     ylim = tempRange + c(-0.1, 0.1) * tempRange, # adding vertical margin space in plot area
+     type = 'l',
+     lty = 1,
+     lwd = grScale,
+     col = "black",
+     xaxt = 'n', yaxt = 'n')
+  
+  if (FALSE)
+  {
+    points(tempData$year, 
+           tempData$precipitation.annual,
+           pch = 19,
+           cex = grScale,
+           col = ifelse(tempData$precipitation.annual > siteMeanPrecipitation,
+                        rgb(0,0,.8, alpha = 0.3), 
+                        rgb(.8,0,0, alpha = 0.3)),
+           xaxt = 'n', yaxt = 'n')
+  }
+  else
+  {
+    polygon(x = c(tempData$year,
+                  rev(tempData$year)),
+            y = c(siteHighPrecipitation,
+                  rev(siteMeanPrecipitationPoints)),
+            col = rgb(0,0,.8, alpha = 0.3),
+            border=NA)
+    polygon(x = c(tempData$year,
+                  rev(tempData$year)),
+            y = c(siteLowPrecipitation,
+                  rev(siteMeanPrecipitationPoints)),
+            col = rgb(.8,0,0, alpha = 0.3),
+            border = NA)
+  }
+  
+  abline(h = siteMeanPrecipitation, lty = 2, col = "darkgrey")
+  
+  text(x = tempData$year[1] - 0.03 * numberOfYears,
+       y = tempRange[1] + 0.04 * tempRange[2],
+       label = sites[siteIndex],
+       cex = grScale * (0.7 + fontRescale),
+       adj = 0)
+  
+  axis(2, at = seq(tempRange[1], 
+                   tempRange[2], 
+                   0.2 * round(tempRange[2] - tempRange[1]))
+       )
+  
+  if (siteIndex == numberOfSites)
+  {
+    axis(1, at = years)
+  }
+}
+
+plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
+text(x = 0.5, y = 0.3, font = 4, 
+     cex = grScale * (0.78 + fontRescale), 
+     labels = xLabs[1])
+
+# Third column: histograms
+
+par(mar = c(0.2, 0.1, 0.1, 0.5))
+
+for (siteIndex in 1:numberOfSites)
+{
+  if (siteIndex == numberOfSites)
+  {
+    par(mar = c(1, 0.1, 0.1, 0.5))
+  }
+  
+  tempData <- annualPrecipitation[annualPrecipitation$Site == sites[siteIndex], "precipitation.annual"]
+  
+  tempHist <- hist(tempData,
+                   breaks = 8,
+                   plot = FALSE)
+  # barplot(tempHist$density, 
+  #         space = 0,
+  #         lwd = grScale,
+  #         horiz = TRUE, 
+  #         xaxt = 'n', yaxt = 'n')
+  
+  plot(tempHist$density, tempHist$mids, type = "s", lwd = 2, col = "lightblue", 
+       xaxt = 'n', yaxt = 'n')
+ 
+  # Add a density curve to the histogram
+  normal_curve <- dnorm(tempHist$mids, mean = mean(tempData, na.rm = TRUE), sd = sd(tempData, na.rm = TRUE))
+  lines(normal_curve, tempHist$mids, 
+        col = "red", lwd = 2)
+  
+  text(x = 0.99 * max(tempHist$density),
+       y = tempHist$breaks[1] + 0.9 * (tempHist$breaks[length(tempHist$breaks)] - tempHist$breaks[1]),
+       label = paste0("Shapiro-Wilk: W = ", 
+                      round(normalityTestPerSite[[sites[siteIndex]]]$statistic, digits = 4),
+                      ", p-value = ",
+                      round(normalityTestPerSite[[sites[siteIndex]]]$p.value, digits = 4),
+                      ifelse(normalityTestPerSite[[sites[siteIndex]]]$p.value > 0.05, "*", "")),
+       cex = grScale * (0.5 + fontRescale),
+       adj = 1)
+  
+  if (siteIndex == numberOfSites)
+  {
+    axis(1, at = years)
+  }
+}
+
+plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
+text(x = 0.5, y = 0.7, font = 4, 
+     cex = grScale * (0.78 + fontRescale), 
+     labels = xLabs[2])
+
+rm(tempData, tempHist, normal_curve)
+
+dev.off()
+```
+
+```{r, out.width = "\\textwidth"}
+knitr::include_graphics(plotName)
+```
+
