@@ -722,7 +722,7 @@ png(plotName,
 # plotName = "output/FigX-annualPrecipitationExamples.eps"
 # 
 # grScale = 1.2
-# fontRescale = 2
+# fontRescale = 1
 # axisTextRescale = 1
 # 
 # extrafont::loadfonts(device = "postscript")
@@ -895,10 +895,11 @@ for (siteIndex in 1:numberOfSites)
         col = "red", lwd = 2)
   
   text(x = 0.99 * max(tempHist$density),
-       y = tempHist$breaks[1] + 0.9 * (tempHist$breaks[length(tempHist$breaks)] - tempHist$breaks[1]),
-       label = paste0("Shapiro-Wilk: W = ", 
+       y = tempHist$breaks[1] + 0.85 * (tempHist$breaks[length(tempHist$breaks)] - tempHist$breaks[1]),
+       label = paste0(#"Shapiro-Wilk:", 
+                      "W = ", 
                       round(normalityTestPerSite[[sites[siteIndex]]]$statistic, digits = 4),
-                      ", p-value = ",
+                      "\n, p = ",
                       round(normalityTestPerSite[[sites[siteIndex]]]$p.value, digits = 4),
                       ifelse(normalityTestPerSite[[sites[siteIndex]]]$p.value > 0.05, "*", "")),
        cex = grScale * (0.5 + fontRescale),
