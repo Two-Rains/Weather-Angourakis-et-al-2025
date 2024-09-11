@@ -1,8 +1,9 @@
 # Daily weather variables (summary statistics per day of year) in example locations around the planet between 01/01/1984 and 31/12/2018.
 
 Choose file format for generated figures:
+
 ```{r}
-output_dir <- "docs"
+output_dir <- "output"
 plot_file_format <- c("png", "eps")[1] # modify index number to change format
 ```
 
@@ -70,12 +71,6 @@ for (mapping in site_mapping) {
 # Calculate summary statistics
 years <- unique(weather$YEAR)
 number_of_years <- length(years)
-
-# Print summary
-cat("Number of sites:", number_of_sites, "\n")
-cat("Sites:", paste(sites, collapse = ", "), "\n")
-cat("Number of years:", number_of_years, "\n")
-cat("Years:", paste(range(years), collapse = " - "), "\n")
 ```
 
 Prepare display order according to latitude:
@@ -101,6 +96,15 @@ sites_latitude$Latitude <- sapply(sites_latitude$Latitude, format_latitude)
 # calculate easy references to sites
 sites <- sites_latitude$Site
 number_of_sites <- length(sites)
+```
+
+Print summary:
+
+```{r}
+cat("Number of sites:", number_of_sites, "\n")
+cat("Sites:", paste(sites, collapse = ", "), "\n")
+cat("Number of years:", number_of_years, "\n")
+cat("Years:", paste(range(years), collapse = " - "), "\n")
 ```
 
 Compute statistics for each site and day of year:
@@ -540,7 +544,7 @@ plot_hist_and_normal <- function(precipitation_annual, is_last) {
 # Main plotting function
 plot_annualprecip_summary <- function(annual_precipitation, sites, number_of_sites) {
   # Set up layout
-  layout_matrix <- matrix(3:((2 * num_rows_except_bottom) + 4), nrow = number_of_sites + 1, ncol = 2, byrow = TRUE)
+  layout_matrix <- matrix(3:((2 * number_of_sites) + 4), nrow = number_of_sites + 1, ncol = 2, byrow = TRUE)
 
   layout_matrix <- cbind(c(rep(1, number_of_sites), 2), layout_matrix)
 
@@ -604,4 +608,3 @@ dev.off()
 ```{r, out.width = "\\textwidth"}
 knitr::include_graphics(plot_name)
 ```
-
