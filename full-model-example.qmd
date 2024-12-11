@@ -21,24 +21,24 @@ YEAR_LENGTH <- 365 # ignoring leap year adjustment
 NUM_YEARS <- 5
 NUM_DAYS <- NUM_YEARS * YEAR_LENGTH
 
-weather_model <- initialize_weather_model(seed = SEED, year_length = YEAR_LENGTH)
+weather_model <- initialise_weather_model(seed = SEED, year_length = YEAR_LENGTH)
 ```
 
 Show table with parameter values:
 
 ```{r}
 # Function to extract parameter names and values
-extract_params <- function(pars, group_name = NULL) {
-  if (is.atomic(pars)) {
-    return(list(names = group_name, values = pars))
+extract_params <- function(params, group_name = NULL) {
+  if (is.atomic(params)) {
+    return(list(names = group_name, values = params))
   }
   
-  names <- character(length(pars))
-  values <- vector("list", length(pars))
+  names <- character(length(params))
+  values <- vector("list", length(params))
   
-  for (i in seq_along(pars)) {
-    names[i] <- if (is.null(group_name)) names(pars)[i] else paste(group_name, names(pars)[i], sep = " - ")
-    values[[i]] <- pars[[i]]
+  for (i in seq_along(params)) {
+    names[i] <- if (is.null(group_name)) names(params)[i] else paste(group_name, names(params)[i], sep = " - ")
+    values[[i]] <- params[[i]]
   }
   
   list(names = names, values = unlist(values))
@@ -47,12 +47,12 @@ extract_params <- function(pars, group_name = NULL) {
 # Extract initial parameters
 initial_params <- list(
   names = c("seed", "year_length", "albedo", "southern_hemisphere"),
-  values = unlist(weather_model$PARS[1:4])
+  values = unlist(weather_model$PARAMS[1:4])
 )
 
 # Extract remaining parameters
-remaining_params <- lapply(names(weather_model$PARS)[5:length(weather_model$PARS)], 
-                           function(name) extract_params(weather_model$PARS[[name]], name))
+remaining_params <- lapply(names(weather_model$PARAMS)[5:length(weather_model$PARAMS)], 
+                           function(name) extract_params(weather_model$PARAMS[[name]], name))
 
 # Combine all parameters
 all_params <- list(

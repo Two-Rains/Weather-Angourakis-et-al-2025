@@ -412,7 +412,8 @@ get_precipitation_of_year <- function(plateau_value,
                                       n_samples, 
                                       max_sample_size, 
                                       annual_sum,
-                                      seed = NULL) {
+                                      seed = NULL,
+                                      show_warnings = TRUE) {
   if (!is.null(seed)) set.seed(seed)
   
   precipitation <- get_annual_double_logistic_curve(
@@ -436,7 +437,7 @@ get_precipitation_of_year <- function(plateau_value,
   }
   
   # Check if discretisation was sufficient
-  if (utils::tail(precipitation, 1) < 1) { 
+  if (show_warnings & utils::tail(precipitation, 1) < 1) { 
     warning("Failed to generate precipitation that fulfills 'annual_sum' without re-scaling")
   }
   
@@ -646,11 +647,11 @@ mark_end_years <- function(length_of_data,
 # Main functions
 
 ################################################################################
-#' @title Initialize the Weather Model
+#' @title Initialise the Weather Model
 #'
 #' @description 
 #' Creates a complex R object containing parameter values and empty holders for variables 
-#' to initialize the Weather model.
+#' to initialise the Weather model.
 #'
 #' @param year_length Integer. Number of days per year. Default is 365.
 #' @param seed Integer. Seed for the random number generator. Default is 0.
@@ -668,14 +669,14 @@ mark_end_years <- function(length_of_data,
 #' @param precip_yearly_sd Numeric. Standard deviation of annual precipitation (mm). Default is 130.
 #' @param precip_params Named list. Contains parameters for precipitation model. See details in function body.
 #'
-#' @return A list containing three main components: PARS (parameter values), 
-#' annualPrecipitationPars (parameters for annual precipitation), and daily (empty vectors for time-series variables).
+#' @return A list containing three main components: PARAMS (parameter values), 
+#' annual_precipitation_params (parameters for annual precipitation), and daily (empty vectors for time-series variables).
 #' 
 #' @export
 #'
 #' @examples
-#' weather_model <- initialize_weather_model(seed = 123, temp_annual_max = 35, precip_yearly_mean = 500)
-initialize_weather_model <- function(
+#' weather_model <- initialise_weather_model(seed = 123, temp_annual_max = 35, precip_yearly_mean = 500)
+initialise_weather_model <- function(
   year_length = 365,
   seed = 0,
   albedo = 0.4,
@@ -710,7 +711,7 @@ initialize_weather_model <- function(
   set.seed(seed)
   
   list(
-    PARS = list(
+    PARAMS = list(
       seed = seed,
       year_length = year_length,
       albedo = albedo,
@@ -732,7 +733,7 @@ initialize_weather_model <- function(
         precip_params
       )
     ),
-    annual_precipitation_pars = list(
+    annual_precipitation_params = list(
       annual_sum = numeric(0),
       plateau_value = numeric(0),
       inflection1 = numeric(0),
@@ -761,32 +762,32 @@ initialize_weather_model <- function(
 #' @description 
 #' Updates the precipitation parameters for the given weather model instance
 #'
-#' @param weather_model List. Initialized instance of weather model
+#' @param weather_model List. initialised instance of weather model
 #' @param year_length Integer. Number of days in a year
 #'
 #' @return Updated weather model with new precipitation parameters
 #' @export
 #'
 #' @examples
-#' weather_model <- initialize_weather_model()
+#' weather_model <- initialise_weather_model()
 #' weather_model <- update_precipitation_parameters(weather_model, 365)
 update_precipitation_parameters <- function(weather_model, year_length) {
-  precip_pars <- weather_model$PARS$precipitation
+  precip_params <- weather_model$PARAMS$precipitation
   
   new_params <- list(
-    annual_sum = max(0, rnorm(1, precip_pars$yearly_mean, precip_pars$yearly_sd)),
-    plateau_value = pmin(1, pmax(0, rnorm(1, precip_pars$plateau_value_mean, precip_pars$plateau_value_sd))),
-    inflection1 = pmin(year_length, pmax(1, rnorm(1, precip_pars$inflection1_mean, precip_pars$inflection1_sd))),
-    rate1 = max(0, rnorm(1, precip_pars$rate1_mean, precip_pars$rate1_sd)),
-    inflection2 = pmin(year_length, pmax(1, rnorm(1, precip_pars$inflection2_mean, precip_pars$inflection2_sd))),
-    rate2 = max(0, rnorm(1, precip_pars$rate2_mean, precip_pars$rate2_sd)),
-    n_samples = max(0, rnorm(1, precip_pars$n_samples_mean, precip_pars$n_samples_sd)),
-    max_sample_size = max(0, rnorm(1, precip_pars$max_sample_size_mean, precip_pars$max_sample_size_sd))
+    annual_sum = max(0, rnorm(1, precip_params$yearly_mean, precip_params$yearly_sd)),
+    plateau_value = pmin(1, pmax(0, rnorm(1, precip_params$plateau_value_mean, precip_params$plateau_value_sd))),
+    inflection1 = pmin(year_length, pmax(1, rnorm(1, precip_params$inflection1_mean, precip_params$inflection1_sd))),
+    rate1 = max(0, rnorm(1, precip_params$rate1_mean, precip_params$rate1_sd)),
+    inflection2 = pmin(year_length, pmax(1, rnorm(1, precip_params$inflection2_mean, precip_params$inflection2_sd))),
+    rate2 = max(0, rnorm(1, precip_params$rate2_mean, precip_params$rate2_sd)),
+    n_samples = max(0, rnorm(1, precip_params$n_samples_mean, precip_params$n_samples_sd)),
+    max_sample_size = max(0, rnorm(1, precip_params$max_sample_size_mean, precip_params$max_sample_size_sd))
   )
   
   for (param_name in names(new_params)) {
-    weather_model$annual_precipitation_pars[[param_name]] <- c(
-      weather_model$annual_precipitation_pars[[param_name]],
+    weather_model$annual_precipitation_params[[param_name]] <- c(
+      weather_model$annual_precipitation_params[[param_name]],
       new_params[[param_name]]
     )
   }
@@ -800,18 +801,18 @@ update_precipitation_parameters <- function(weather_model, year_length) {
 #' @description 
 #' Generates annual precipitation values based on the updated parameters in the given weather model instance
 #'
-#' @param weather_model List. Initialized instance of weather model
+#' @param weather_model List. initialised instance of weather model
 #' @param year_length Integer. Number of days in a year
 #'
 #' @return Updated weather model with new precipitation values
 #' @export
 #'
 #' @examples
-#' weather_model <- initialize_weather_model()
+#' weather_model <- initialise_weather_model()
 #' weather_model <- update_precipitation_parameters(weather_model, 365)
 #' weather_model <- generate_annual_precipitation(weather_model, 365)
-generate_annual_precipitation <- function(weather_model, year_length) {
-  last_params <- lapply(weather_model$annual_precipitation_pars, tail, n = 1)
+generate_annual_precipitation <- function(weather_model, year_length, show_warnings = TRUE) {
+  last_params <- lapply(weather_model$annual_precipitation_params, tail, n = 1)
   
   new_precipitation <- get_precipitation_of_year(
     plateau_value = last_params$plateau_value,
@@ -822,7 +823,8 @@ generate_annual_precipitation <- function(weather_model, year_length) {
     year_length = year_length,
     n_samples = last_params$n_samples,
     max_sample_size = last_params$max_sample_size,
-    annual_sum = last_params$annual_sum
+    annual_sum = last_params$annual_sum,
+    show_warnings = show_warnings
   )
   
   weather_model$daily$precipitation <- c(weather_model$daily$precipitation, new_precipitation)
@@ -836,7 +838,7 @@ generate_annual_precipitation <- function(weather_model, year_length) {
 #' @description 
 #' Generates mean, min, and maximum temperature for a given day in the year in the given weather model instance
 #'
-#' @param weather_model List. Initialized instance of weather model
+#' @param weather_model List. initialised instance of weather model
 #' @param day Integer. Day of year
 #' @param year_length Integer. Number of days in the year
 #'
@@ -844,10 +846,10 @@ generate_annual_precipitation <- function(weather_model, year_length) {
 #' @export
 #'
 #' @examples
-#' weather_model <- initialize_weather_model()
+#' weather_model <- initialise_weather_model()
 #' weather_model <- generate_temperature_variables(weather_model, 1, 365)
 generate_temperature_variables <- function(weather_model, day, year_length) {
-  temp_params <- weather_model$PARS$temperature
+  temp_params <- weather_model$PARAMS$temperature
   
   mean_temp <- get_day_annual_sinusoid_with_fluctuation(
     min_value = temp_params$annual_min,
@@ -855,7 +857,7 @@ generate_temperature_variables <- function(weather_model, day, year_length) {
     fluctuation = temp_params$daily_fluctuation,
     day_of_year = day,
     year_length = year_length,
-    is_southern_hemisphere = weather_model$PARS$is_southern_hemisphere
+    is_southern_hemisphere = weather_model$PARAMS$is_southern_hemisphere
   )
   
   weather_model$daily$temperature <- c(weather_model$daily$temperature, mean_temp)
@@ -871,7 +873,7 @@ generate_temperature_variables <- function(weather_model, day, year_length) {
 #' @description 
 #' Generates total solar radiation for a given day in the year in the given weather model instance
 #'
-#' @param weather_model List. Initialized instance of weather model
+#' @param weather_model List. initialised instance of weather model
 #' @param day Integer. Day of year
 #' @param year_length Integer. Number of days in the year
 #'
@@ -879,10 +881,10 @@ generate_temperature_variables <- function(weather_model, day, year_length) {
 #' @export
 #'
 #' @examples
-#' weather_model <- initialize_weather_model()
+#' weather_model <- initialise_weather_model()
 #' weather_model <- generate_solar_radiation(weather_model, 1, 365)
 generate_solar_radiation <- function(weather_model, day, year_length) {
-  solar_params <- weather_model$PARS$solar
+  solar_params <- weather_model$PARAMS$solar
   
   solar_radiation <- max(0, get_day_annual_sinusoid_with_fluctuation(
     min_value = solar_params$annual_min,
@@ -890,7 +892,7 @@ generate_solar_radiation <- function(weather_model, day, year_length) {
     fluctuation = solar_params$daily_fluctuation,
     day_of_year = day,
     year_length = year_length,
-    is_southern_hemisphere = weather_model$PARS$is_southern_hemisphere
+    is_southern_hemisphere = weather_model$PARAMS$is_southern_hemisphere
   ))
   
   weather_model$daily$solar_radiation <- c(weather_model$daily$solar_radiation, solar_radiation)
@@ -904,13 +906,13 @@ generate_solar_radiation <- function(weather_model, day, year_length) {
 #' @description 
 #' Generates reference evapotranspiration for a given day in the year in the given weather model instance
 #'
-#' @param weather_model List. Initialized instance of weather model
+#' @param weather_model List. initialised instance of weather model
 #'
 #' @return Updated weather model with new evapotranspiration value
 #' @export
 #'
 #' @examples
-#' weather_model <- initialize_weather_model()
+#' weather_model <- initialise_weather_model()
 #' weather_model <- generate_etr(weather_model)
 generate_etr <- function(weather_model) {
   daily <- weather_model$daily
@@ -932,21 +934,21 @@ generate_etr <- function(weather_model) {
 #' @description 
 #' Runs the weather model for the given number of years
 #'
-#' @param weather_model List. Initialized instance of weather model
+#' @param weather_model List. initialised instance of weather model
 #' @param num_years Integer. Number of years to be simulated
 #'
 #' @return Updated weather model containing the corresponding time-series recorded inside the "daily" partition
 #' @export
 #'
 #' @examples
-#' weather_model <- initialize_weather_model()
+#' weather_model <- initialise_weather_model()
 #' weather_model <- run_weather_model(weather_model, 10)
-run_weather_model <- function(weather_model, num_years) {
+run_weather_model <- function(weather_model, num_years, show_warnings = TRUE) {
   for (year in seq_len(num_years)) {
-    year_length <- weather_model$PARS$year_length[min(year, length(weather_model$PARS$year_length))]
+    year_length <- weather_model$PARAMS$year_length[min(year, length(weather_model$PARAMS$year_length))]
     
     weather_model <- update_precipitation_parameters(weather_model, year_length)
-    weather_model <- generate_annual_precipitation(weather_model, year_length)
+    weather_model <- generate_annual_precipitation(weather_model, year_length, show_warnings = show_warnings)
     
     for (day in seq_len(year_length)) {
       weather_model$daily$current_year <- c(weather_model$daily$current_year, year)

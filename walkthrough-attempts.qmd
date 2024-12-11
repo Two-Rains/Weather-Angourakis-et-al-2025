@@ -1,4 +1,4 @@
-# Calibration walkthrough
+# Calibration walk through
 
 Load source file containing the R implementation of the Weather model:
 
@@ -14,236 +14,263 @@ However, the case of precipitation is far from trivial, given the complexity of 
 
 ## Parameter estimation using `optim()`
 
-Set up six variations of parameter settings of the annual double logistic curve (i.e. plateauValue, inflection1, rate1, inflection2, rate2), the discretisation producing the annual cumulative precipitation curve (i.e. nSamples, maxSampleSize) and annualPrecipitation, assuming length of year of 365 days. Random generator seed used in discretisation is fixed:
+Set up six variations of parameter settings of the annual double logistic curve (i.e. plateau_value, inflection1, rate1, inflection2, rate2), the discretisation producing the annual cumulative precipitation curve (i.e. n_samples, max_sample_size) and annualPrecipitation, assuming length of year of 365 days. Random generator seed used in discretisation is fixed:
 
 ```{r}
-seed = 0
+# Fixed random seed for reproducibility
+SEED <- 0
 
-yearLengthInDays_sim = 365
+# Simulation parameters
+YEAR_LENGTH <- 365
 
-parValuesDoubleLogistic <- rbind(
-  # plateauValue, inflection1, rate1, inflection2, rate2
-  c(0.01,         125,         0.3,   245,         0.22),
-  c(0.15,         63,          0.55,  195,         0.6),
-  c(0.5,          64,          0.05,  261,         0.12),
-  c(0.45,         215,         0.01,  276,         0.39),
-  c(0.6,          20,          0.38,  254,         0.04),
-  c(0.85,         97,          0.24,  219,         0.17)
+# Double logistic function parameters
+params_values_double_logistic <- matrix(
+  c(0.01, 125, 0.3,  245, 0.22,
+    0.15,  63, 0.55, 195, 0.6,
+    0.5,   64, 0.05, 261, 0.12,
+    0.45, 215, 0.01, 276, 0.39,
+    0.6,   20, 0.38, 254, 0.04,
+    0.85,  97, 0.24, 219, 0.17),
+  nrow = 6,
+  byrow = TRUE,
+  dimnames = list(NULL, c("plateau_value", "inflection1", "rate1", "inflection2", "rate2"))
 )
 
-parValuesDiscretisation <- rbind(
-  # nSamples, maxSampleSize
-  c(152, 22),
-  c(220, 10),
-  c(240, 6),
-  c(168, 13),
-  c(191, 9),
-  c(205, 17)
+# Discretisation parameters
+params_values_discretisation <- matrix(
+  c(152, 22,
+    220, 10,
+    240,  6,
+    168, 13,
+    191,  9,
+    205, 17),
+  nrow = 6,
+  byrow = TRUE,
+  dimnames = list(NULL, c("n_samples", "max_sample_size"))
 )
 
-annualSumValues <- c(410, 1050, 636, 320, 1280, 745)
-
+# Annual sum values
+annual_sum_values <- c(410, 1050, 636, 320, 1280, 745)
 ```
 
-Select the first set of parameter values from the `parValuesDoubleLogistic` dataset and generate the corresponding curve with the `getAnnualDoubleLogisticCurve()` function. These points will represent the original state of the model that we aim to reverse engineer from the outcome curve. Plot it.
+Predefine the range of values explored for each parameter:
 
 ```{r}
-originalParams <- parValuesDoubleLogistic[1, 1:5]
+params_range_lower <- c(0, 1, 0.01, 1, 0.01, 1, 3)
+params_range_upper <- c(1, 365, 0.9, 365, 0.9, 365, 30)
+```
 
-curve <- getAnnualDoubleLogisticCurve(
-    plateauValue = originalParams[1], 
-    inflection1 = originalParams[2], 
-    rate1 = originalParams[3], 
-    inflection2 = originalParams[4],
-    rate2 = originalParams[5],
-    yearLengthInDays = yearLengthInDays_sim)
+Define generic helper functions:
+
+```{r}
+print_parameter_comparison_table <- function(original_params, fit, params_range_upper, params_range_lower) {
+  # Create parameter comparison data frame
+  parameter_comparison <- cbind(
+    original = original_params,
+    estimated = fit$par,
+    delta = round(abs(original_params - fit$par), digits = 6),
+    range = params_range_upper - params_range_lower,
+    delta_percent = round(
+      100 * abs(original_params - fit$par) / (params_range_upper - params_range_lower), 
+      digits = 4
+    )
+  )
+  
+  knitr::kable(parameter_comparison, 
+             format = "html",
+             col.names = c("original", "estimated", "delta", 
+             "range", "delta (%)"),
+             align = c("c", "c", "c", "c", "c"))
+}
+```
+
+### Calibrating `get_annual_double_logistic_curve()` (deterministic function)
+
+Select the first set of parameter values from the `params_values_double_logistic` dataset and generate the corresponding curve with the `get_annual_double_logistic_curve()` function. These points will represent the original state of the model that we aim to reverse engineer from the outcome curve. Plot it.
+
+```{r}
+original_params <- params_values_double_logistic[1, 1:5]
+
+curve <- get_annual_double_logistic_curve(
+    plateau_value = original_params[1], 
+    inflection1 = original_params[2], 
+    rate1 = original_params[3], 
+    inflection2 = original_params[4],
+    rate2 = original_params[5],
+    year_length = YEAR_LENGTH)
 
 plot(curve, cex = 2)
 ```
 
-Define the `initialGuess` vector with your initial parameter guess values. Generate the curve using the `getAnnualDoubleLogisticCurve()` function with the initial guess. Plot it. Notice that our initial guess generates a somewhat "average" cumulative curve.
+Define the `initial_guess` vector with your initial parameter guess values. Generate the curve using the `get_annual_double_logistic_curve()` function with the initial guess. Plot it. Notice that our initial guess generates a somewhat "average" cumulative curve.
 
 ```{r}
-initialGuess <- c(0.5, 100, 0.1, 200, 0.1)  # Initial parameter guess
+initial_guess <- c(0.5, 100, 0.1, 200, 0.1)  # Initial parameter guess
 
-firstGuessCurve <- getAnnualDoubleLogisticCurve(
-    plateauValue = initialGuess[1], 
-    inflection1 = initialGuess[2], 
-    rate1 = initialGuess[3], 
-    inflection2 = initialGuess[4],
-    rate2 = initialGuess[5],
-    yearLengthInDays = yearLengthInDays_sim)
+first_guess_curve <- get_annual_double_logistic_curve(
+    plateau_value = initial_guess[1], 
+    inflection1 = initial_guess[2], 
+    rate1 = initial_guess[3], 
+    inflection2 = initial_guess[4],
+    rate2 = initial_guess[5],
+    year_length = YEAR_LENGTH)
 
-plot(firstGuessCurve, cex = 2)
+plot(first_guess_curve, cex = 2)
 ```
 
-Define the `objectiveFunc()` function that calculates **the sum of squared differences between the observed data and the predicted values**, generated by the `getAnnualDoubleLogisticCurve()` function with a given parameter setting. Then, use the `optim()` function to estimate the best parameter values by minimizing the objective function.
+Define the `eval_objective_func()` function that calculates **the sum of squared differences between the observed data and the predicted values**, generated by the `get_annual_double_logistic_curve()` function with a given parameter setting. Then, use the `optim()` function to estimate the best parameter values by minimizing the objective function.
 
-NOTE: `optim()` using method "L-BFGS-B", see `?optim` or: \> Byrd, R. H., Lu, P., Nocedal, J. and Zhu, C. (1995). A limited memory algorithm for bound constrained optimization. SIAM Journal on Scientific Computing, 16, 1190--1208. doi:10.1137/0916069.
+NOTE: `optim()` using method "L-BFGS-B", see `?optim` or:
+
+\> Byrd, R. H., Lu, P., Nocedal, J. and Zhu, C. (1995). A limited memory algorithm for bound constrained optimization. SIAM Journal on Scientific Computing, 16, 1190--1208. doi:10.1137/0916069.
 
 ```{r}
-observedData <- curve
+observed_data <- curve
 
 # Objective function to minimize (difference between observed and predicted values or "residual")
-objectiveFunc <- function(params) {
-  predictedData <- getAnnualDoubleLogisticCurve(params[1], params[2], params[3], params[4], params[5], yearLengthInDays_sim)
-  sum((observedData - predictedData)^2)
+eval_objective_func <- function(params) {
+  predicted_data <- get_annual_double_logistic_curve(params[1], params[2], params[3], params[4], params[5], YEAR_LENGTH)
+  sum((observed_data - predicted_data)^2)
 }
 
 # Use the least squares method to estimate the parameter values
-fit <- optim(initialGuess, objectiveFunc,
+fit <- optim(initial_guess, eval_objective_func,
              method = "L-BFGS-B", 
-             lower = c(0, 1, 0.01, 1, 0.01), 
-             upper = c(1, 365, 0.9, 365, 0.9))
+             lower = params_range_lower[1:5], 
+             upper = params_range_upper[1:5])
 
-bestEstimationCurve <- getAnnualDoubleLogisticCurve(fit$par[1], fit$par[2], fit$par[3], fit$par[4], fit$par[5], yearLengthInDays_sim)
+best_estimation_curve <- get_annual_double_logistic_curve(fit$par[1], fit$par[2], fit$par[3], fit$par[4], fit$par[5], YEAR_LENGTH)
 ```
 
-Plot the original curve (curve) and overlay it with the curve generated using the best estimated parameter values (bestEstimationCurve). The best estimated curve is shown in red.
+Plot the original curve (curve) and overlay it with the curve generated using the best estimated parameter values (best_estimation_curve). The best estimated curve is shown in red.
 
 ```{r}
 plot(curve, cex = 2)
-lines(bestEstimationCurve, col = 'red', lwd = 3)
+lines(best_estimation_curve, col = 'red', lwd = 3)
 ```
 
 ```{r}
-parameterComparisonData <- cbind(
-  parameter = c('plateauValue', 'inflection1', 'rate1', 'inflection2', 'rate2'),
-  original = originalParams,
-  estimated = fit$par,
-  delta = round(abs(originalParams - fit$par), digits = 6)
-)
-
-knitr::kable(parameterComparisonData, 
-             format = "html",
-             col.names = c("parameter", "original", "estimated", "delta"),
-             align = c("l", "c", "c", "c"))
+print_parameter_comparison_table(original_params, fit, params_range_upper[1:5], params_range_lower[1:5])
 ```
 
-We can see that reverse engineering the parameter values of the double logistic curve is relatively straightforward. However, precipitation in the Weather model presents an additional challenge: the continuous cumulative curve is broken down into "steps" through `discretiseCurve()`, which introduces **stochasticity**. We will also add `rescaleCurve()` to the end of the process, in order to approach the curve that would be created by `getPrecipitationOfYear()`.
+We can see that reverse engineering the parameter values of the double logistic curve is relatively straightforward. This specific curve offers a clear hint that `rate1` and `rate2` (i.e. the maximum growth rates of each logistic component) are harder to estimate when `plateau_value` is extreme .
 
-Let us extend the workflow used above with `getAnnualDoubleLogisticCurve()` to also cover the two additional parameters of `discretiseCurve()` (for now, fix `seed = 0`):
+### Adding `discretise_curve()` (stochastic function)
+
+However, precipitation in the Weather model presents an additional challenge: the continuous cumulative curve is broken down into "steps" through `discretise_curve()`, which introduces **stochasticity**. We will also add `rescale_curve()` to the end of the process, in order to approach the curve that would be created by `generate_annual_precipitation()`.
+
+Let us extend the workflow used above with `get_annual_double_logistic_curve()` to also cover the two additional parameters of `discretise_curve()` (for now, fix `seed = 0`):
 
 ```{r}
-originalParams <- c(parValuesDoubleLogistic[1, 1:5], parValuesDiscretisation[1, 1:2])
+original_params <- c(params_values_double_logistic[1, 1:5], params_values_discretisation[1, 1:2])
 
-curve <- getAnnualDoubleLogisticCurve(
-    plateauValue = originalParams[1], 
-    inflection1 = originalParams[2], 
-    rate1 = originalParams[3], 
-    inflection2 = originalParams[4],
-    rate2 = originalParams[5],
-    yearLengthInDays = yearLengthInDays_sim)
+curve <- get_annual_double_logistic_curve(
+  plateau_value = original_params[1], 
+  inflection1 = original_params[2], 
+  rate1 = original_params[3], 
+  inflection2 = original_params[4],
+  rate2 = original_params[5],
+  year_length = YEAR_LENGTH)
 
-curve <- discretiseCurve(
+curve <- discretise_curve(
   curve,
-  nSamples = originalParams[6],
-  maxSampleSize = originalParams[7],
-  seed = 0)
+  n_samples = original_params[6],
+  max_sample_size = original_params[7],
+  seed = SEED)
 
-curve <- rescaleCurve(curve)
+curve <- rescale_curve(curve)
 
 plot(curve, type = 'l', lwd = 3)
 ```
 
 ```{r}
-initialGuess <- c(0.5, 100, 0.1, 200, 0.1, 180, 15)  # Initial parameter guess
+initial_guess <- c(0.5, 100, 0.1, 200, 0.1, 180, 15)  # Initial parameter guess
 
-firstGuessCurve <- getAnnualDoubleLogisticCurve(
-    plateauValue = initialGuess[1], 
-    inflection1 = initialGuess[2], 
-    rate1 = initialGuess[3], 
-    inflection2 = initialGuess[4],
-    rate2 = initialGuess[5],
-    yearLengthInDays = yearLengthInDays_sim)
+first_guess_curve <- get_annual_double_logistic_curve(
+    plateau_value = initial_guess[1], 
+    inflection1 = initial_guess[2], 
+    rate1 = initial_guess[3], 
+    inflection2 = initial_guess[4],
+    rate2 = initial_guess[5],
+    year_length = YEAR_LENGTH)
 
-firstGuessCurve <- discretiseCurve(
-  firstGuessCurve,
-  nSamples = initialGuess[6],
-  maxSampleSize = initialGuess[7],
-  seed = 0)
+first_guess_curve <- discretise_curve(
+  first_guess_curve,
+  n_samples = initial_guess[6],
+  max_sample_size = initial_guess[7],
+  seed = SEED)
 
+first_guess_curve <- rescale_curve(first_guess_curve)
 
-
-firstGuessCurve <- rescaleCurve(firstGuessCurve)
-
-plot(firstGuessCurve, type = 'l', lwd = 3)
+plot(first_guess_curve, type = 'l', lwd = 3)
 ```
 
 ```{r}
-observedData <- curve
+observed_data <- curve
 
 # Objective function to minimize (difference between observed and predicted values)
-objectiveFunc <- function(params) {
-  predictedData <- getAnnualDoubleLogisticCurve(params[1], params[2], params[3], params[4], params[5], yearLengthInDays_sim)
-  predictedData <- discretiseCurve(predictedData, nSamples = params[6], maxSampleSize = params[7], seed = 0)
-  predictedData <- rescaleCurve(predictedData)
-  sum((observedData - predictedData)^2)
+eval_objective_func <- function(params) {
+  predicted_data <- get_annual_double_logistic_curve(params[1], params[2], params[3], params[4], params[5], YEAR_LENGTH)
+  predicted_data <- discretise_curve(predicted_data, n_samples = params[6], max_sample_size = params[7], seed = SEED)
+  predicted_data <- rescale_curve(predicted_data)
+  sum((observed_data - predicted_data)^2)
 }
 
 # Use the least squares method to estimate the parameter values
 
-fit <- optim(initialGuess, objectiveFunc,
+fit <- optim(initial_guess, eval_objective_func,
              method = "L-BFGS-B", 
-             lower = c(0, 1, 0.01, 1, 0.01, 1, 3), 
-             upper = c(1, 365, 0.9, 365, 0.9, 365, 30))
+             lower = params_range_lower, 
+             upper = params_range_upper)
 
-bestEstimationCurve <- getAnnualDoubleLogisticCurve(fit$par[1], fit$par[2], fit$par[3], fit$par[4], fit$par[5], yearLengthInDays_sim)
-bestEstimationCurve <- discretiseCurve(bestEstimationCurve, nSamples = fit$par[6], maxSampleSize = fit$par[7], seed = 0)
-bestEstimationCurve <- rescaleCurve(bestEstimationCurve)
+best_estimation_curve <- get_annual_double_logistic_curve(fit$par[1], fit$par[2], fit$par[3], fit$par[4], fit$par[5], YEAR_LENGTH)
+best_estimation_curve <- discretise_curve(best_estimation_curve, n_samples = fit$par[6], max_sample_size = fit$par[7], seed = SEED)
+best_estimation_curve <- rescale_curve(best_estimation_curve)
 ```
 
 ```{r}
 plot(curve, type = 'l', lwd = 3)
-lines(bestEstimationCurve, col = 'red', lwd = 3)
+lines(best_estimation_curve, col = 'red', lwd = 3)
 ```
 
 ```{r}
-parameterComparisonData <- cbind(
-  parameter = c('plateauValue', 'inflection1', 'rate1', 'inflection2', 'rate2', 'nSamples', 'maxSampleSize'),
-  original = originalParams,
-  estimated = fit$par,
-  delta = round(abs(originalParams - fit$par), digits = 6)
-)
-
-knitr::kable(parameterComparisonData, 
-             format = "html",
-             col.names = c("parameter", "original", "estimated", "delta"),
-             align = c("l", "c", "c", "c"))
+print_parameter_comparison_table(original_params, fit, params_range_upper, params_range_lower)
 ```
 
-Close, but a much worse fit than obtained with `getAnnualDoubleLogisticCurve()` only. We should take this performance in consideration going forward.
+Close, but a much worse fit than obtained with `get_annual_double_logistic_curve()` only. We should take this performance in consideration going forward.
+
+### Calibrating multiple example curves to determine hyperparameters
 
 Let us now apply the same workflow for estimating the hyperparameters able to generate an approximation of a sequence of year daily series.
 
-First, generate the original dataset based on the different configurations present in `parValuesDoubleLogistic` and `parValuesDiscretisation`:
+First, generate the original dataset based on the different configurations present in `params_values_double_logistic` and `params_values_discretisation`:
 
 ```{r}
 curves <- list()
-originalParams_list <- list()
+original_params_list <- list()
 
-for (i in 1:nrow(parValuesDoubleLogistic))
+for (i in 1:nrow(params_values_double_logistic))
 {
-  originalParams <- c(parValuesDoubleLogistic[i, 1:5], parValuesDiscretisation[i, 1:2])
+  original_params <- c(params_values_double_logistic[i, 1:5], params_values_discretisation[i, 1:2])
 
-  curve <- getAnnualDoubleLogisticCurve(
-    plateauValue = originalParams[1], 
-    inflection1 = originalParams[2], 
-    rate1 = originalParams[3], 
-    inflection2 = originalParams[4],
-    rate2 = originalParams[5],
-    yearLengthInDays = yearLengthInDays_sim)
+  curve <- get_annual_double_logistic_curve(
+    plateau_value = original_params[1], 
+    inflection1 = original_params[2], 
+    rate1 = original_params[3], 
+    inflection2 = original_params[4],
+    rate2 = original_params[5],
+    year_length = YEAR_LENGTH)
 
-  curve <- discretiseCurve(
+  curve <- discretise_curve(
     curve,
-    nSamples = originalParams[6],
-    maxSampleSize = originalParams[7],
-    seed = 0)
+    n_samples = original_params[6],
+    max_sample_size = original_params[7],
+    seed = SEED)
 
-  curve <- rescaleCurve(curve)
+  curve <- rescale_curve(curve)
   
   curves[[i]] <- curve
-  originalParams_list[[i]] <- originalParams
+  original_params_list[[i]] <- original_params
 }
 
 plot(curves[[1]], type = 'l', col = 1, lwd = 3, ylab = 'curve')
@@ -253,148 +280,168 @@ for (i in 2:length(curves))
 }
 ```
 
-Apply `optim`, reusing `initialGuess` and `objectiveFunc`, to each curve and generate a sequence of best estimation curves:
+Apply `optim`, reusing `initial_guess` and `eval_objective_func`, to each curve and generate a sequence of best estimation curves:
 
 ```{r}
-bestEstimationCurves <- list()
-bestEstimationFits <- list()
+best_estimation_curves <- list()
+best_estimation_fits <- list()
 
-for (i in 1:nrow(parValuesDoubleLogistic))
+for (i in 1:nrow(params_values_double_logistic))
 {
-  observedData <- curves[[i]]
+  observed_data <- curves[[i]]
   
   # Use the least squares method to estimate the parameter values
   
-  fit <- optim(initialGuess, objectiveFunc,
+  fit <- optim(initial_guess, eval_objective_func,
                method = "L-BFGS-B", 
-               lower = c(0, 1, 0.01, 1, 0.01, 1, 3), 
-               upper = c(1, 365, 0.9, 365, 0.9, 365, 30))
+               lower = params_range_lower, 
+               upper = params_range_upper)
   
-  bestEstimationCurve <- getAnnualDoubleLogisticCurve(fit$par[1], fit$par[2], fit$par[3], fit$par[4], fit$par[5], yearLengthInDays_sim)
-  bestEstimationCurve <- discretiseCurve(bestEstimationCurve, nSamples = fit$par[6], maxSampleSize = fit$par[7], seed = seed)
-  bestEstimationCurve <- rescaleCurve(bestEstimationCurve)
+  best_estimation_curve <- get_annual_double_logistic_curve(fit$par[1], fit$par[2], fit$par[3], fit$par[4], fit$par[5], YEAR_LENGTH)
+  best_estimation_curve <- discretise_curve(best_estimation_curve, n_samples = fit$par[6], max_sample_size = fit$par[7], seed = SEED)
+  best_estimation_curve <- rescale_curve(best_estimation_curve)
   
-  bestEstimationCurves[[i]] <- bestEstimationCurve
-  bestEstimationFits[[i]] <- fit
+  best_estimation_curves[[i]] <- best_estimation_curve
+  best_estimation_fits[[i]] <- fit
 }
 ```
 
 Plot original and estimated curves:
 
 ```{r}
-plot(curves[[1]], type = 'l', col = 1, lwd = 3, ylab = 'curve')
-for (i in 2:length(curves))
-{
-  lines(curves[[i]], col = i,  lwd = 3)
+layout(matrix(1:6, nrow = 3, ncol = 2, byrow = TRUE))
+par(mar = c(0.1, 0.1, 0.1, 0.1))
+for (i in 1:length(curves)) {
+  plot(curves[[i]], type = 'l', col = i, lwd = 3, xaxt = 'n', yaxt = 'n')
+  lines(best_estimation_curves[[i]], col = i,  lty = 2)
 }
-for (i in 1:length(bestEstimationCurves))
-{
-  lines(bestEstimationCurves[[i]], col = i-0.5,  lty = 2)
-}
-
 ```
 
 Visualise the aggregate estimation quality:
 
 ```{r}
+# Helper functions
 calculate_mean_sd <- function(list_of_vectors) {
-  # Initialize empty vectors to store mean and standard deviation
-  mean_vector <- numeric(length(list_of_vectors[[1]]))
-  sd_vector <- numeric(length(list_of_vectors[[1]]))
+  if (length(list_of_vectors) == 0) return(list(mean = numeric(0), sd = numeric(0)))
   
-  # Calculate mean and standard deviation for each position
-  for (i in 1:length(list_of_vectors[[1]])) {
-    values <- sapply(list_of_vectors, function(x) x[i])
-    mean_vector[i] <- mean(values)  # Calculate mean
-    sd_vector[i] <- sd(values)  # Calculate standard deviation
-  }
+  values_matrix <- do.call(rbind, list_of_vectors)
   
-  return(list(mean = mean_vector, sd = sd_vector))  # Return a list of mean and sd vectors
-}
-
-get_list_par_from_fit <- function(listOffitObjects) {
-  
-  par_list <- list()
-  for (i in 1:length(listOffitObjects))
-  {
-    par_list[[i]] <- listOffitObjects[[i]]$par
-  }
-  return(par_list)
-}
-
-original_summary <- calculate_mean_sd(originalParams_list)
-estimated_summary <- calculate_mean_sd(get_list_par_from_fit(bestEstimationFits))
-
-hyperparameterComparisonData <- data.frame(
-    parameter = c('plateauValue', 'inflection1', 'rate1', 'inflection2', 'rate2', 'nSamples', 'maxSampleSize'),
-    original_mean = original_summary$mean,
-    original_sd = original_summary$sd,
-    estimated_mean = estimated_summary$mean,
-    estimated_sd = estimated_summary$sd,
-    delta_mean = round(abs(original_summary$mean - estimated_summary$mean), digits = 6),
-    delta_sd = round(abs(original_summary$sd - estimated_summary$sd), digits = 6)
+  list(
+    mean = colMeans(values_matrix),
+    sd = apply(values_matrix, 2, sd)
   )
+}
 
-knitr::kable(hyperparameterComparisonData,
+get_list_params_from_fit <- function(list_of_fit_objects) {
+  lapply(list_of_fit_objects, `[[`, "par")
+}
+
+# Main functions
+
+create_parameter_comparison_summary <- function(original_params_list, fits, params_range_upper, params_range_lower) {
+  original_summary <- calculate_mean_sd(original_params_list)
+  estimated_summary <- calculate_mean_sd(get_list_params_from_fit(fits))
+
+  data.frame(
+    original_mean = round(original_summary$mean, digits = 4),
+    original_sd = round(original_summary$sd, digits = 4),
+    estimated_mean = round(estimated_summary$mean, digits = 4),
+    estimated_sd = round(estimated_summary$sd, digits = 4),
+    delta_mean = round(abs(original_summary$mean - estimated_summary$mean), digits = 6),
+    delta_sd = round(abs(original_summary$sd - estimated_summary$sd), digits = 6),
+    #range = params_range_upper - params_range_lower,
+    delta_mean_percent = round(
+      100 * abs(original_summary$mean - estimated_summary$mean) / (params_range_upper - params_range_lower), 
+      digits = 4
+    ),
+    delta_mean_percent = round(
+      100 * abs(original_summary$sd - estimated_summary$sd) / (params_range_upper - params_range_lower), 
+      digits = 4
+    )
+  )
+}
+
+print_parameter_comparison_summary_table <- function(parameter_comparison_summary) {
+  
+  knitr::kable(parameter_comparison_summary,
              format = "html",
-             col.names = c("parameter", "original (mean)", "original (sd)", "estimated (mean)", "estimated (sd)", "delta (mean)", "delta (sd)"),
-             align = c("l", "c", "c", "c", "c", "c", "c"))
+             col.names = c(
+               "original (mean)", "original (sd)", 
+               "estimated (mean)", "estimated (sd)",
+               "delta (mean)", "delta (sd)",
+               "delta (mean%)", "delta (sd%)"),
+             align = c("c", "c", "c", "c", "c", "c", "c", "c"))
+}
+
+# Execution
+
+parameter_comparison_summary <- create_parameter_comparison_summary(original_params_list, best_estimation_fits, params_range_upper, params_range_lower)
+
+print_parameter_comparison_summary_table(parameter_comparison_summary)
 ```
 
-Define the hyperparameters of a weather model instance based on the mean and standard deviation of the best estimation parameter values:
+Although the original example curves are quite different from each other, let us assume that they correspond to cumulative precipitation of six years at a single location. This will allow us to test the `optim` calibration workflow on our ultimate target, the precipitation hyperparameters of the Weather model.
+
+Initialise the weather model setting the precipitation hyperparameters as the mean and standard deviation of the best estimation parameter values in `parameter_comparison_summary`:
 
 ```{r}
-weatherModel <- weatherModel.init(
+weather_model <- initialise_weather_model(
     seed = 0,
-    precip_plateauValue_yearlyMean = hyperparameterComparisonData$estimated_mean[hyperparameterComparisonData$parameter == "plateauValue"],
-    precip_plateauValue_yearlySd = hyperparameterComparisonData$estimated_sd[hyperparameterComparisonData$parameter == "plateauValue"],
-    precip_inflection1_yearlyMean = hyperparameterComparisonData$estimated_mean[hyperparameterComparisonData$parameter == "inflection1"],
-    precip_inflection1_yearlySd = hyperparameterComparisonData$estimated_sd[hyperparameterComparisonData$parameter == "inflection1"],
-    precip_rate1_yearlyMean = hyperparameterComparisonData$estimated_mean[hyperparameterComparisonData$parameter == "rate1"],
-    precip_rate1_yearlySd = hyperparameterComparisonData$estimated_sd[hyperparameterComparisonData$parameter == "rate1"],
-    precip_inflection2_yearlyMean = hyperparameterComparisonData$estimated_mean[hyperparameterComparisonData$parameter == "inflection2"],
-    precip_inflection2_yearlySd = hyperparameterComparisonData$estimated_sd[hyperparameterComparisonData$parameter == "inflection2"],
-    precip_rate2_yearlyMean = hyperparameterComparisonData$estimated_mean[hyperparameterComparisonData$parameter == "rate2"],
-    precip_rate2_yearlySd = hyperparameterComparisonData$estimated_sd[hyperparameterComparisonData$parameter == "rate2"],
-    precip_nSamples_yearlyMean = hyperparameterComparisonData$estimated_mean[hyperparameterComparisonData$parameter == "nSamples"],
-    precip_nSamples_yearlySd = hyperparameterComparisonData$estimated_sd[hyperparameterComparisonData$parameter == "nSamples"],
-    precip_maxSampleSize_yearlyMean = hyperparameterComparisonData$estimated_mean[hyperparameterComparisonData$parameter == "maxSampleSize"],
-    precip_maxSampleSize_yearlySd = hyperparameterComparisonData$estimated_sd[hyperparameterComparisonData$parameter == "maxSampleSize"]
+    precip_params = list(
+      plateau_value_mean = parameter_comparison_summary["plateau_value", "estimated_mean"],
+      plateau_value_sd = parameter_comparison_summary["plateau_value", "estimated_sd"],
+      inflection1_mean = parameter_comparison_summary["inflection1", "estimated_mean"],
+      inflection1_sd = parameter_comparison_summary["inflection1", "estimated_sd"],
+      rate1_mean = parameter_comparison_summary["rate1", "estimated_mean"],
+      rate1_sd = parameter_comparison_summary["rate1", "estimated_sd"],
+      inflection2_mean = parameter_comparison_summary["inflection2", "estimated_mean"],
+      inflection2_sd = parameter_comparison_summary["inflection2", "estimated_sd"],
+      rate2_mean = parameter_comparison_summary["rate2", "estimated_mean"],
+      rate2_sd = parameter_comparison_summary["rate2", "estimated_sd"],
+      n_samples_mean = parameter_comparison_summary["n_samples", "estimated_mean"],
+      n_samples_sd = parameter_comparison_summary["n_samples", "estimated_sd"],
+      max_sample_size_mean = parameter_comparison_summary["max_sample_size", "estimated_mean"],
+      max_sample_size_sd = parameter_comparison_summary["max_sample_size", "estimated_sd"]
+    )
   )
 ```
 
 Run the model to generate a number of cumulative curves:
 
 ```{r}
-weatherModel <- weatherModel.run(weatherModel, numberOfYears = 20)
+weather_model <- run_weather_model(weather_model, num_years = 30, show_warnings = FALSE)
 ```
 
 Plot original and generated curves:
 
 ```{r}
-plot(c(1, weatherModel$PARS$yearLengthInDays), c(0, 1), ann = F, bty = 'n', type = 'n', ylab = 'curve')
+plot(c(1, weather_model$PARAMS$year_length), c(0, 1), ann = F, bty = 'n', type = 'n', ylab = 'curve')
 # original curves
 for (i in 1:length(curves))
 {
   lines(curves[[i]], col = i,  lwd = 3)
 }
 # generated curves
-for (year in unique(weatherModel$daily$currentYear))
+for (year in unique(weather_model$daily$current_year))
 {
-  lines(1:weatherModel$PARS$yearLengthInDays, 
-        getCumulativePrecipitationOfYear(
-          weatherModel$daily$precipitation[
-            weatherModel$daily$currentYear == year
+  lines(1:weather_model$PARAMS$year_length, 
+        get_cumulative_precipitation_of_year(
+          weather_model$daily$precipitation[
+            weather_model$daily$current_year == year
           ]), 
         col = "grey", 
         lty = 2)
 }
 ```
 
-## Parameter estimation using Genetic Algorithms (`ga` package):
+### Full circle example: estimating model hyperparameters from simulated years
 
-TO DO
+Initialise and run the Weather model using the default hyperparameter setting:
 
 ```{r}
-
+weather_model <- initialise_weather_model(seed = 0)
+weather_model <- run_weather_model(weather_model, num_years = 25, show_warnings = FALSE)
 ```
+
+
+
