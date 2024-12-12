@@ -27,22 +27,7 @@ weather_model <- initialise_weather_model(seed = SEED, year_length = YEAR_LENGTH
 Show table with parameter values:
 
 ```{r}
-# Function to extract parameter names and values
-extract_params <- function(params, group_name = NULL) {
-  if (is.atomic(params)) {
-    return(list(names = group_name, values = params))
-  }
-  
-  names <- character(length(params))
-  values <- vector("list", length(params))
-  
-  for (i in seq_along(params)) {
-    names[i] <- if (is.null(group_name)) names(params)[i] else paste(group_name, names(params)[i], sep = " - ")
-    values[[i]] <- params[[i]]
-  }
-  
-  list(names = names, values = unlist(values))
-}
+source("source/extract_params.R")
 
 # Extract initial parameters
 initial_params <- list(
@@ -61,8 +46,8 @@ all_params <- list(
 )
 
 # Create the table
-par_values <- cbind(all_params$names, all_params$values)
-knitr::kable(par_values, 
+params_values <- cbind(all_params$names, all_params$values)
+knitr::kable(params_values, 
              format = "html",
              col.names = c("parameter", "values"),
              align = c("l", "r"))

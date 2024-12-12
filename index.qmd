@@ -1,9 +1,107 @@
 This file and all other referenced in the code can be found at the repository: <https://github.com/Two-Rains/Weather-Angourakis-et-al-2024>
 
-# Foreword
+# Context
 
 (TO DO)
 
 ![Route of model integration in the Indus Village](Fig1_diagram/RoadMapSoFar_2024-07.png)
 
-![Place of the Weather model in the Indus Village](Fig1_diagram/RoadMapSoFar_2022-06.png)
+![The weather variables and the key interface variables of the related models](Fig2_diagram/Weather-LandCrop-links_v2.png)
+
+![The connections between weather variables and the key interface variables of the related models](Fig2_diagram/Weather-LandCrop-links.png)
+
+# Parameters and hyperparameters
+
+```{r}
+source("source/extract_params.R")
+
+SEED <- 0
+YEAR_LENGTH <- 365 # ignoring leap year adjustment
+NUM_YEARS <- 5
+NUM_DAYS <- NUM_YEARS * YEAR_LENGTH
+
+weather_model <- initialise_weather_model(seed = SEED, year_length = YEAR_LENGTH)
+
+# Extract initial parameters
+initial_params <- list(
+  names = c("year_length", "southern_hemisphere"),
+  values = unlist(weather_model$PARAMS[c(2,4)]) # skip seed and albedo
+)
+
+# Extract remaining parameters
+remaining_params <- lapply(names(weather_model$PARAMS)[5:length(weather_model$PARAMS)], 
+                           function(name) extract_params(weather_model$PARAMS[[name]], name))
+
+# Combine all parameters
+all_params <- list(
+  names = c(initial_params$names, unlist(lapply(remaining_params, `[[`, "names"))),
+  values = c(initial_params$values, unlist(lapply(remaining_params, `[[`, "values")))
+)
+```
+
+```{r}
+solar_temp_params <- 1:10
+# Create the table
+sinosoid_params_names <- data.frame(
+  parameter = all_params$names[solar_temp_params], 
+  description = c(
+    "The day of year",
+    "Whether the annual curve corresponds to values in the southern or northern hemisphere",
+    "Annual maximum of daily mean temperature",
+    "Annual minimum of daily mean temperature",
+    "Standard deviation in daily mean temperature",
+    "Lower deviation from daily mean temperature",
+    "Upper deviation from daily mean temperature",
+    "Annual maximum of daily mean solar radiation",
+    "Annual minimum of daily mean solar radiation",
+    "Standard deviation in daily mean solar radiation"
+  )
+  )
+knitr::kable(sinosoid_params_names, 
+             format = "html",
+             col.names = c("parameter", "description"),
+             align = c("l", "l"))
+```
+
+```{r}
+precip_params <- c(1, 11:26)
+# Create the table
+sinosoid_params_names <- data.frame(
+  parameter = c(
+    "",
+    "annual_sum", "annual_sum",
+    "n_samples", "n_samples",
+    "max_sample_size", "max_sample_size",
+    "plateau_value", "plateau_value",
+    "inflection1", "inflection1",
+    "rate1", "rate1",
+    "inflection2", "inflection2",
+    "rate2", "rate2"
+  ),
+  hyperparameter = all_params$names[precip_params],
+  description = c(
+    "The day of year",
+    "Mean annual sum of precipitation",
+    "Standard deviation in annual sum of precipitation",
+    "Mean number of random samples (steps) during descritisation of cumulative precipitation curves",
+    "Standard deviation in number of random samples (steps) during descritisation of cumulative precipitation curves",
+    "Mean maximum length of samples (steps) during descritisation of cumulative precipitation curves",
+    "Standard deviation in maximum length of samples (steps) during descritisation of cumulative precipitation curves",
+    "Mean value in which the gap between logistic curves is set (range of 0 to 1)",
+    "Standard deviation in value in which the gap between logistic curves is set (range of 0 to 1)",
+    "Mean day of year in which the first logistic curves has its maximum slope",
+    "Standard deviation in day of year in which the first logistic curves has its maximum slope",
+    "Mean maximum rate or slope increase of the first logistic curves",
+    "Standard deviation in maximum rate or slope increase of the first logistic curves",
+    "Mean day of year in which the second logistic curves has its maximum slope",
+    "Standard deviation in day of year in which the second logistic curves has its maximum slope",
+    "Mean maximum rate or slope increase of the second logistic curves",
+    "Standard deviation in maximum rate or slope increase of the second logistic curves"
+  )
+  )
+knitr::kable(sinosoid_params_names, 
+             format = "html",
+             col.names = c("hyperparameter", "parameter (year)", "description"),
+             align = c("l", "l"))
+```
+

@@ -665,7 +665,7 @@ mark_end_years <- function(length_of_data,
 #' @param solar_annual_max Numeric. Annual maximum daily solar radiation (MJ/m^2). Default is 7.
 #' @param solar_annual_min Numeric. Annual minimum daily solar radiation (MJ/m^2). Default is 3.
 #' @param solar_daily_fluctuation Numeric. Standard deviation of daily solar radiation fluctuation (MJ/m^2). Default is 1.
-#' @param precip_yearly_mean Numeric. Annual sum of precipitation (mm). Default is 400.
+#' @param precip_yearly_mean Numeric. Mean annual sum of precipitation (mm). Default is 400.
 #' @param precip_yearly_sd Numeric. Standard deviation of annual precipitation (mm). Default is 130.
 #' @param precip_params Named list. Contains parameters for precipitation model. See details in function body.
 #'
