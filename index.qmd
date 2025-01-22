@@ -13,6 +13,7 @@ This file and all other referenced in the code can be found at the repository: <
 # Parameters and hyperparameters
 
 ```{r}
+source("source/weatherModel.R")
 source("source/extract_params.R")
 
 SEED <- 0
@@ -45,7 +46,7 @@ solar_temp_params <- 1:10
 sinosoid_params_names <- data.frame(
   parameter = all_params$names[solar_temp_params], 
   description = c(
-    "The day of year",
+    "Number of days per year",
     "Whether the annual curve corresponds to values in the southern or northern hemisphere",
     "Annual maximum of daily mean temperature",
     "Annual minimum of daily mean temperature",
@@ -80,7 +81,7 @@ sinosoid_params_names <- data.frame(
   ),
   hyperparameter = all_params$names[precip_params],
   description = c(
-    "The day of year",
+    "Number of days per year",
     "Mean annual sum of precipitation",
     "Standard deviation in annual sum of precipitation",
     "Mean number of random samples (steps) during descritisation of cumulative precipitation curves",

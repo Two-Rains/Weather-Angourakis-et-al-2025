@@ -1,4 +1,4 @@
-# Demonstration of effects of parameter variation in the annual double logistic curve, annual cumulative precipitation curve and year daily precipitation.
+# Demonstration of parameter variation: precipitation
 
 Choose file format for generated figures:
 
@@ -143,7 +143,7 @@ plot_annual_double_logistic <- function(par_values_double_logistic, par_values_d
   create_plot(c(1, YEAR_LENGTH), c(0, 1))
 
   for (i in 1:nrow(par_values_double_logistic)) {
-    curve <- get_annual_double_logistic_curve(
+    curve <- gen_annual_double_logistic_curve(
       plateau_value = par_values_double_logistic[i, 1], 
       inflection1 = par_values_double_logistic[i, 2], 
       rate1 = par_values_double_logistic[i, 3], 
@@ -232,7 +232,7 @@ plot_annual_double_logistic <- function(par_values_double_logistic, par_values_d
   par(mar = c(0, 0, 0, 0))
 
   infographic_labels <- c(
-    "get_annual_double_logistic_curve(plateau_value, inflection1,\nrate1, inflection2, rate2)",
+    "gen_annual_double_logistic_curve(plateau_value, inflection1,\nrate1, inflection2, rate2)",
     "discretise_curve(curve, n_samples, max_sample_size)\nrescale_curve(curve)",
     "get_increments_from_cumulative_curve(curve) x annual_sum"
   )
@@ -288,7 +288,7 @@ plot_annual_double_logistic <- function(par_values_double_logistic, par_values_d
 }
 
 # Main execution
-plot_name <- file.path(output_dir, paste0("FigX-annualDoubleLogisticCurve.", plot_file_format))
+plot_name <- file.path(output_dir, paste0("Fig5-annualDoubleLogisticCurve.", plot_file_format))
 
 if (plot_file_format == "png") {
   graphic_scale <- 2

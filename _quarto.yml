@@ -20,15 +20,11 @@ book:
   chapters:
     - index.qmd
     - weather-examples.qmd
-    - part: "Demonstration of parameter effects"
-      chapters:
-      - annual-sinusoid-curve-parameters.qmd
-      - precipitation-parameters.qmd
     - full-model-example.qmd
-    - part: "Calibration"
-      chapters:
-      - walkthrough-attempts.qmd
-      - best-shot.qmd
+    - annual-sinusoid-curve-parameters.qmd
+    - precipitation-parameters.qmd
+    - walkthrough-attempts.qmd
+    - best-shot.qmd
     #- references.qmd
 
 #bibliography: references.bib

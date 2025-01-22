@@ -4,7 +4,7 @@ estimate_hyperparameters_optim <- function(curves, objective_function, method, l
   best_estimation_fits <- lapply(curves, function(observed_data) {
     optim(initial_guess, 
           objective_function,
-          observedData = observed_data,
+          observed_data = observed_data,
           method = method, 
           lower = lower, 
           upper = upper)

@@ -1,4 +1,4 @@
-# Demostration of effects of parameter variation in the annual sinusoid curve
+# Demonstration of parameter variation: solar radiation and temperature
 
 Choose file format for generated figures:
 
@@ -13,7 +13,7 @@ Load source file containing the R implementation of the Weather model:
 source("source/weatherModel.R")
 ```
 
-Set up six variations of parameter settings (i.e. minValue, maxValue, southHemisphere), assuming length of year of 365 days:
+Set up six variations of parameter settings (i.e. `min_value`, `max_value`, `is_south_hemisphere`), assuming length of year of 365 days:
 
 ```{r}
 SEED <- 0
@@ -104,7 +104,7 @@ plot_annual_sinusoid <- function(par_values_annual_sinusoid, is_southern_hemisph
     plot(c(1, YEAR_LENGTH), c(min_min_value, max_max_value), type = "n", xlab = "", ylab = "")
     
     for (i in 1:nrow(par_values_annual_sinusoid)) {
-      curve <- get_annual_sinusoid(
+      curve <- gen_annual_sinusoid(
         min_value = par_values_annual_sinusoid[i, 1],
         max_value = par_values_annual_sinusoid[i, 2],
         year_length = YEAR_LENGTH,
@@ -126,7 +126,7 @@ plot_annual_sinusoid <- function(par_values_annual_sinusoid, is_southern_hemisph
     plot(c(1, YEAR_LENGTH), c(min_min_value, max_max_value), type = "n", xlab = "", ylab = "")
     
     for (i in 1:nrow(par_values_annual_sinusoid)) {
-      curve <- get_annual_sinusoid_with_fluctuation(
+      curve <- gen_annual_sinusoid_with_fluctuation(
         min_value = par_values_annual_sinusoid[i, 1],
         max_value = par_values_annual_sinusoid[i, 2],
         year_length = YEAR_LENGTH,
@@ -172,7 +172,7 @@ plot_annual_sinusoid <- function(par_values_annual_sinusoid, is_southern_hemisph
 }
 
 # Main execution
-plot_name <- file.path(output_dir, paste0("FigX-annualSinusoidCurve.", plot_file_format))
+plot_name <- file.path(output_dir, paste0("Fig4-annualSinusoidCurve.", plot_file_format))
 
 if (plot_file_format == "png") {
   graphic_scale <- 2

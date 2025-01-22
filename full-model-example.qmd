@@ -153,7 +153,7 @@ plot_weather_simulation <- function(weather_model, num_days, year_length, graphi
 }
 
 # Main execution
-plot_name <- file.path(output_dir, paste0("FigX-weather_modelExample.", plot_file_format))
+plot_name <- file.path(output_dir, paste0("Fig3-weather_modelExample.", plot_file_format))
     
 if (plot_file_format == "png") {
   graphic_scale <- 2

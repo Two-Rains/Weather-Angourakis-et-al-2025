@@ -10,9 +10,9 @@
 ## on solar radiation and temperature
 
 ################################################################################
-#' @title Calculate the value for a given day in an annual sinusoidal curve
+#' @title Generate the value for a given day in an annual sinusoidal curve
 #' @description 
-#' Calculate the value for a given day in an annual sinusoidal curve 
+#' Generate the value for a given day in an annual sinusoidal curve 
 #' defined by maximum and minimum values, the length of the year in days, 
 #' and the the day with the lowest value in an year.
 #' 
@@ -26,8 +26,8 @@
 #' @export
 #'
 #' @examples
-#' get_day_value_in_annual_sinusoid(180, 0, 100, 365, 1)
-get_day_value_in_annual_sinusoid <- function(day_of_year,
+#' gen_day_value_in_annual_sinusoid(180, 0, 100, 365, 1)
+gen_day_value_in_annual_sinusoid <- function(day_of_year,
                                              min_value, 
                                              max_value,  
                                              year_length, 
@@ -65,9 +65,9 @@ get_lowest_value_day <- function(is_southern_hemisphere, year_length) {
 }
 
 ################################################################################
-#' @title Get a day's value in an annual sinusoidal curve with fluctuations
+#' @title Generate a day's value in an annual sinusoidal curve with fluctuations
 #' @description 
-#' Calculate the value for a given day in an annual sinusoidal curve 
+#' Generate the value for a given day in an annual sinusoidal curve 
 #' defined by maximum and minimum values, the length of the year in days, 
 #' and whether it refers to Earth's southern hemisphere.
 #' 
@@ -85,8 +85,8 @@ get_lowest_value_day <- function(is_southern_hemisphere, year_length) {
 #' @export
 #'
 #' @examples
-#' get_day_annual_sinusoid_with_fluctuation(180, 0, 100, 365, FALSE, 5, 123)
-get_day_annual_sinusoid_with_fluctuation <- function(day_of_year, 
+#' gen_day_annual_sinusoid_with_fluctuation(180, 0, 100, 365, FALSE, 5, 123)
+gen_day_annual_sinusoid_with_fluctuation <- function(day_of_year, 
                                                      min_value, 
                                                      max_value, 
                                                      year_length, 
@@ -97,7 +97,7 @@ get_day_annual_sinusoid_with_fluctuation <- function(day_of_year,
   
   lowest_value_day <- get_lowest_value_day(is_southern_hemisphere, year_length)
   
-  base_value <- get_day_value_in_annual_sinusoid(
+  base_value <- gen_day_value_in_annual_sinusoid(
     day_of_year,
     min_value, 
     max_value,
@@ -109,9 +109,9 @@ get_day_annual_sinusoid_with_fluctuation <- function(day_of_year,
 }
 
 ################################################################################
-#' @title Get an annual sinusoidal curve
+#' @title Generate an annual sinusoidal curve
 #' @description 
-#' Calculate an annual sinusoidal curve defined by maximum and minimum values, 
+#' Generate an annual sinusoidal curve defined by maximum and minimum values, 
 #' the length of the year in days, and the hemisphere (northern or southern).
 #' 
 #' @param min_value Numeric. Minimum value of the sinusoidal curve within the year.
@@ -125,16 +125,16 @@ get_day_annual_sinusoid_with_fluctuation <- function(day_of_year,
 #' @export
 #'
 #' @examples
-#' annual_curve <- get_annual_sinusoid(0, 100, 365, FALSE)
+#' annual_curve <- gen_annual_sinusoid(0, 100, 365, FALSE)
 #' plot(annual_curve, type = "l", xlab = "Day of Year", ylab = "Value")
-get_annual_sinusoid <- function(min_value, 
+gen_annual_sinusoid <- function(min_value, 
                                 max_value,  
                                 year_length, 
                                 is_southern_hemisphere = FALSE) {
   lowest_value_day <- get_lowest_value_day(is_southern_hemisphere, year_length)
   
   sapply(1:year_length, function(day) {
-    get_day_value_in_annual_sinusoid(
+    gen_day_value_in_annual_sinusoid(
       day_of_year = day,
       min_value = min_value, 
       max_value = max_value,
@@ -145,9 +145,9 @@ get_annual_sinusoid <- function(min_value,
 }
 
 ################################################################################
-#' @title Get an annual sinusoidal curve with fluctuation
+#' @title Generate an annual sinusoidal curve with fluctuation
 #' @description 
-#' Calculate an annual sinusoidal curve with random fluctuations, defined by 
+#' Generate an annual sinusoidal curve with random fluctuations, defined by 
 #' maximum and minimum values, the length of the year in days, and the hemisphere.
 #'
 #' @param min_value Numeric. Minimum value of the sinusoidal curve within the year.
@@ -165,9 +165,9 @@ get_annual_sinusoid <- function(min_value,
 #'
 #' @examples
 #' set.seed(123)
-#' annual_curve <- get_annual_sinusoid_with_fluctuation(0, 100, 365, FALSE, 5)
+#' annual_curve <- gen_annual_sinusoid_with_fluctuation(0, 100, 365, FALSE, 5)
 #' plot(annual_curve, type = "l", xlab = "Day of Year", ylab = "Value")
-get_annual_sinusoid_with_fluctuation <- function(min_value, 
+gen_annual_sinusoid_with_fluctuation <- function(min_value, 
                                                  max_value,  
                                                  year_length, 
                                                  is_southern_hemisphere = FALSE,
@@ -176,7 +176,7 @@ get_annual_sinusoid_with_fluctuation <- function(min_value,
   if (!is.null(seed)) set.seed(seed)
   
   sapply(1:year_length, function(day) {
-    get_day_annual_sinusoid_with_fluctuation(
+    gen_day_annual_sinusoid_with_fluctuation(
       day_of_year = day,
       min_value = min_value, 
       max_value = max_value,
@@ -192,9 +192,9 @@ get_annual_sinusoid_with_fluctuation <- function(min_value,
 ## on precipitation
 
 ################################################################################
-#' @title Get a day's value in an annual double logistic curve
+#' @title Generate a day's value in an annual double logistic curve
 #' @description 
-#' Calculate the value for a given day in an annual double logistic curve 
+#' Generate the value for a given day in an annual double logistic curve 
 #' defined by five shape parameters.
 #' 
 #' @param day_of_year Numeric. The day of the year (1-365 or 1-366).
@@ -208,8 +208,8 @@ get_annual_sinusoid_with_fluctuation <- function(min_value,
 #' @export
 #'
 #' @examples
-#' get_day_value_in_annual_double_logistic(180, 0.5, 100, 0.1, 250, 0.1)
-get_day_value_in_annual_double_logistic <- function(day_of_year, 
+#' gen_day_value_in_annual_double_logistic(180, 0.5, 100, 0.1, 250, 0.1)
+gen_day_value_in_annual_double_logistic <- function(day_of_year, 
                                                     plateau_value, 
                                                     inflection1, 
                                                     rate1, 
@@ -259,9 +259,9 @@ validate_inputs <- function(day_of_year, plateau_value, inflection1, rate1, infl
 }
 
 ################################################################################
-#' @title Calculate the daily values of an annual double logistic curve
+#' @title Generate the daily values of an annual double logistic curve
 #' @description 
-#' Calculate the daily values of an annual double logistic curve defined 
+#' Generate the daily values of an annual double logistic curve defined 
 #' by five shape parameters.
 #' 
 #' @param plateau_value Numeric. The value (range of 0 to 1) at which the gap between logistic curves is set.
@@ -275,8 +275,8 @@ validate_inputs <- function(day_of_year, plateau_value, inflection1, rate1, infl
 #' @export
 #'
 #' @examples
-#' curve <- get_annual_double_logistic_curve(0.5, 100, 0.1, 250, 0.1, 365)
-get_annual_double_logistic_curve <- function(plateau_value,
+#' curve <- gen_annual_double_logistic_curve(0.5, 100, 0.1, 250, 0.1, 365)
+gen_annual_double_logistic_curve <- function(plateau_value,
                                              inflection1,
                                              rate1,
                                              inflection2,
@@ -285,7 +285,7 @@ get_annual_double_logistic_curve <- function(plateau_value,
   validate_inputs(year_length, plateau_value, inflection1, rate1, inflection2, rate2)
   
   days <- seq_len(year_length)
-  vapply(days, get_day_value_in_annual_double_logistic, 
+  vapply(days, gen_day_value_in_annual_double_logistic, 
          FUN.VALUE = numeric(1),
          plateau_value = plateau_value, 
          inflection1 = inflection1, 
@@ -334,7 +334,7 @@ discretise_curve <- function(curve, n_samples, max_sample_size, seed = NULL) {
 
 ################################################################################
 #' @title Rescale curve to 0-1 interval
-#' @description Rescale curve to 0-1 interval. If curve is flat, returns original curve.
+#' @description Rescale curve to 0-1 interval.
 #' @param curve Numeric vector. The y variable describing the curve to be modified.
 #'
 #' @return Numeric vector. The rescaled curve in the 0-1 interval.
@@ -350,12 +350,76 @@ rescale_curve <- function(curve) {
   
   range <- curve[length(curve)] - curve[1]
   
-  if (range == 0) {
-    warning("Curve has constant value, returning original curve")
-    return(curve)
-  }
+  # if (range == 0) {
+  #   warning("Curve has constant value, returning original curve")
+  #   return(curve)
+  # }
   
   (curve - curve[1]) / range
+}
+
+################################################################################
+#' @title Generate daily cumulative precipitation of one year
+#'
+#' @description Generate the daily values of cumulative precipitation using the double logistic cumulative curve approach.
+#'
+#' @param plateau_value Numeric. The value (range of 0 to 1) in which the gap between logistic curves is set.
+#' @param inflection1,inflection2 Numeric. The days of year in which the first and second logistic curves have their maximum slope.
+#' @param rate1,rate2 Numeric. The maximum rate or slope increase of the first and second logistic curves.
+#' @param year_length Integer. The number of days in the given year.
+#' @param n_samples Integer. The number of random samples or steps to be created in the cumulative curve.
+#' @param max_sample_size Integer. The maximum length of samples or step plateaus in the cumulative curve.
+#' @param seed Integer. Random number generator seed. Default is NULL, assuming seed is already set.
+#'
+#' @return Numeric vector. Daily cumulative precipitation values (mm/mm).
+#' @export
+#'
+#' @examples
+#' precipitation <- gen_cum_precipitation_of_year(
+#'   plateau_value = 0.5, inflection1 = 100, rate1 = 0.05,
+#'   inflection2 = 250, rate2 = 0.05, year_length = 365,
+#'   n_samples = 10, max_sample_size = 5, seed = 123
+#' )
+gen_cum_precipitation_of_year <- function(plateau_value, 
+                                          inflection1, 
+                                          rate1, 
+                                          inflection2, 
+                                          rate2, 
+                                          year_length, 
+                                          n_samples, 
+                                          max_sample_size, 
+                                          seed = NULL,
+                                          show_warnings = FALSE) {
+  if (!is.null(seed)) set.seed(seed)
+  
+  cum_precipitation <- gen_annual_double_logistic_curve(
+    plateau_value = plateau_value,
+    inflection1 = inflection1,
+    rate1 = rate1,
+    inflection2 = inflection2,
+    rate2 = rate2,
+    year_length = year_length
+  )
+  
+  # Handle special case where the curve is a horizontal line (first = last)
+  if (cum_precipitation[1] == cum_precipitation[length(cum_precipitation)]) { 
+    cum_precipitation <- seq_len(year_length) / year_length
+  }
+  
+  cum_precipitation <- discretise_curve(
+    curve = cum_precipitation,
+    n_samples = n_samples, 
+    max_sample_size = max_sample_size
+  )
+  
+  # Check if discretisation was sufficient
+  if (show_warnings & utils::tail(cum_precipitation, 1) < 1) { 
+    warning("Failed to generate precipitation that fulfills 'annual_sum' without re-scaling")
+  }
+  
+  cum_precipitation <- rescale_curve(cum_precipitation)
+  
+  cum_precipitation
 }
 
 ################################################################################
@@ -381,9 +445,9 @@ get_increments_from_cumulative_curve <- function(cumulative_curve) {
 }
 
 ################################################################################
-#' @title Get daily precipitation of one year
+#' @title Generate daily precipitation of one year
 #'
-#' @description Calculate the daily values of precipitation using the double logistic cumulative curve approach.
+#' @description Generate the daily values of precipitation using the double logistic cumulative curve approach.
 #'
 #' @param plateau_value Numeric. The value (range of 0 to 1) in which the gap between logistic curves is set.
 #' @param inflection1,inflection2 Numeric. The days of year in which the first and second logistic curves have their maximum slope.
@@ -398,12 +462,12 @@ get_increments_from_cumulative_curve <- function(cumulative_curve) {
 #' @export
 #'
 #' @examples
-#' precipitation <- get_precipitation_of_year(
+#' precipitation <- gen_precipitation_of_year(
 #'   plateau_value = 0.5, inflection1 = 100, rate1 = 0.05,
 #'   inflection2 = 250, rate2 = 0.05, year_length = 365,
 #'   n_samples = 10, max_sample_size = 5, annual_sum = 1000, seed = 123
 #' )
-get_precipitation_of_year <- function(plateau_value, 
+gen_precipitation_of_year <- function(plateau_value, 
                                       inflection1, 
                                       rate1, 
                                       inflection2, 
@@ -413,35 +477,20 @@ get_precipitation_of_year <- function(plateau_value,
                                       max_sample_size, 
                                       annual_sum,
                                       seed = NULL,
-                                      show_warnings = TRUE) {
+                                      show_warnings = FALSE) {
   if (!is.null(seed)) set.seed(seed)
   
-  precipitation <- get_annual_double_logistic_curve(
+  precipitation <- gen_cum_precipitation_of_year(
     plateau_value = plateau_value,
     inflection1 = inflection1,
     rate1 = rate1,
     inflection2 = inflection2,
     rate2 = rate2,
-    year_length = year_length
-  )
-  
-  precipitation <- discretise_curve(
-    curve = precipitation,
+    year_length = year_length,
     n_samples = n_samples, 
     max_sample_size = max_sample_size
   )
   
-  # Handle special case where the curve is a horizontal line (first = last)
-  if (precipitation[1] == precipitation[length(precipitation)]) { 
-    precipitation <- seq_len(year_length) / year_length
-  }
-  
-  # Check if discretisation was sufficient
-  if (show_warnings & utils::tail(precipitation, 1) < 1) { 
-    warning("Failed to generate precipitation that fulfills 'annual_sum' without re-scaling")
-  }
-  
-  precipitation <- rescale_curve(precipitation)
   precipitation <- get_increments_from_cumulative_curve(precipitation) * annual_sum
   
   precipitation
@@ -665,9 +714,12 @@ mark_end_years <- function(length_of_data,
 #' @param solar_annual_max Numeric. Annual maximum daily solar radiation (MJ/m^2). Default is 7.
 #' @param solar_annual_min Numeric. Annual minimum daily solar radiation (MJ/m^2). Default is 3.
 #' @param solar_daily_fluctuation Numeric. Standard deviation of daily solar radiation fluctuation (MJ/m^2). Default is 1.
-#' @param precip_yearly_mean Numeric. Mean annual sum of precipitation (mm). Default is 400.
-#' @param precip_yearly_sd Numeric. Standard deviation of annual precipitation (mm). Default is 130.
-#' @param precip_params Named list. Contains parameters for precipitation model. See details in function body.
+#' @param precip_annual_sum_mean,precip_annual_sum_sd Numeric. Mean and standard deviation of annual sum of precipitation (mm). Default is 400(130).
+#' @param precip_plateau_value_mean,precip_plateau_value_sd Numeric. Mean and standard deviation of plateau value of the annual cumulative precipitation curve. The value (range of 0 to 1) in which the gap between logistic curves is set. Default is 0.1(0.05).
+#' @param precip_inflection1_mean,precip_inflection1_sd,precip_inflection2_mean,precip_inflection2_sd Numeric. Mean and standard deviation of the days of year in which the first and second logistic curves have their maximum slope. Deafult is 40(20) and 200(20).
+#' @param precip_rate1_mean,precip_rate1_sd,precip_rate2_mean,precip_rate2_sd Numeric. Mean and standard deviation of the maximum rate or slope increase of the first and second logistic curves. Default is 0.15(0.02) and 0.05(0.01).
+#' @param precip_n_samples_mean,precip_n_samples_sd Integer. Mean and standard deviation of the number of random samples or steps to be created in the cumulative curve. Default is 200(5).
+#' @param precip_max_sample_size_mean,precip_max_sample_size_sd Integer. Mean and standard deviation of the maximum length of samples or step plateaus in the cumulative curve. Default is 10(3).
 #'
 #' @return A list containing three main components: PARAMS (parameter values), 
 #' annual_precipitation_params (parameters for annual precipitation), and daily (empty vectors for time-series variables).
@@ -675,7 +727,7 @@ mark_end_years <- function(length_of_data,
 #' @export
 #'
 #' @examples
-#' weather_model <- initialise_weather_model(seed = 123, temp_annual_max = 35, precip_yearly_mean = 500)
+#' weather_model <- initialise_weather_model(seed = 123, temp_annual_max = 35, precip_annual_sum_mean = 500)
 initialise_weather_model <- function(
   year_length = 365,
   seed = 0,
@@ -689,24 +741,22 @@ initialise_weather_model <- function(
   solar_annual_max = 7,
   solar_annual_min = 3,
   solar_daily_fluctuation = 1,
-  precip_yearly_mean = 400,
-  precip_yearly_sd = 130,
-  precip_params = list(
-    n_samples_mean = 200,
-    n_samples_sd = 5,
-    max_sample_size_mean = 10,
-    max_sample_size_sd = 3,
-    plateau_value_mean = 0.1,
-    plateau_value_sd = 0.05,
-    inflection1_mean = 40,
-    inflection1_sd = 20,
-    rate1_mean = 0.15,
-    rate1_sd = 0.02,
-    inflection2_mean = 200,
-    inflection2_sd = 20,
-    rate2_mean = 0.05,
-    rate2_sd = 0.01
-  )
+  precip_annual_sum_mean = 400,
+  precip_annual_sum_sd = 130,
+  precip_plateau_value_mean = 0.1,
+  precip_plateau_value_sd = 0.05,
+  precip_inflection1_mean = 40,
+  precip_inflection1_sd = 20,
+  precip_rate1_mean = 0.15,
+  precip_rate1_sd = 0.02,
+  precip_inflection2_mean = 200,
+  precip_inflection2_sd = 20,
+  precip_rate2_mean = 0.05,
+  precip_rate2_sd = 0.01,
+  precip_n_samples_mean = 200,
+  precip_n_samples_sd = 5,
+  precip_max_sample_size_mean = 10,
+  precip_max_sample_size_sd = 3
 ) {
   set.seed(seed)
   
@@ -728,9 +778,15 @@ initialise_weather_model <- function(
         annual_min = solar_annual_min,
         daily_fluctuation = solar_daily_fluctuation
       ),
-      precipitation = c(
-        list(yearly_mean = precip_yearly_mean, yearly_sd = precip_yearly_sd),
-        precip_params
+      precipitation = list(
+        annual_sum_mean = precip_annual_sum_mean, annual_sum_sd = precip_annual_sum_sd,
+        plateau_value_mean = precip_plateau_value_mean, plateau_value_sd = precip_plateau_value_sd,
+        inflection1_mean = precip_inflection1_mean, inflection1_sd = precip_inflection1_sd,
+        rate1_mean = precip_rate1_mean, rate1_sd = precip_rate1_sd,
+        inflection2_mean = precip_inflection2_mean, inflection2_sd = precip_inflection2_sd,
+        rate2_mean = precip_rate2_mean, rate2_sd = precip_rate2_sd,
+        n_samples_mean = precip_n_samples_mean, n_samples_sd = precip_n_samples_sd,
+        max_sample_size_mean = precip_max_sample_size_mean, max_sample_size_sd = precip_max_sample_size_sd
       )
     ),
     annual_precipitation_params = list(
@@ -775,7 +831,7 @@ update_precipitation_parameters <- function(weather_model, year_length) {
   precip_params <- weather_model$PARAMS$precipitation
   
   new_params <- list(
-    annual_sum = max(0, rnorm(1, precip_params$yearly_mean, precip_params$yearly_sd)),
+    annual_sum = max(0, rnorm(1, precip_params$annual_sum_mean, precip_params$annual_sum_sd)),
     plateau_value = pmin(1, pmax(0, rnorm(1, precip_params$plateau_value_mean, precip_params$plateau_value_sd))),
     inflection1 = pmin(year_length, pmax(1, rnorm(1, precip_params$inflection1_mean, precip_params$inflection1_sd))),
     rate1 = max(0, rnorm(1, precip_params$rate1_mean, precip_params$rate1_sd)),
@@ -811,10 +867,10 @@ update_precipitation_parameters <- function(weather_model, year_length) {
 #' weather_model <- initialise_weather_model()
 #' weather_model <- update_precipitation_parameters(weather_model, 365)
 #' weather_model <- generate_annual_precipitation(weather_model, 365)
-generate_annual_precipitation <- function(weather_model, year_length, show_warnings = TRUE) {
+generate_annual_precipitation <- function(weather_model, year_length, show_warnings = FALSE) {
   last_params <- lapply(weather_model$annual_precipitation_params, tail, n = 1)
   
-  new_precipitation <- get_precipitation_of_year(
+  new_precipitation <- gen_precipitation_of_year(
     plateau_value = last_params$plateau_value,
     inflection1 = last_params$inflection1,
     rate1 = last_params$rate1,
@@ -851,7 +907,7 @@ generate_annual_precipitation <- function(weather_model, year_length, show_warni
 generate_temperature_variables <- function(weather_model, day, year_length) {
   temp_params <- weather_model$PARAMS$temperature
   
-  mean_temp <- get_day_annual_sinusoid_with_fluctuation(
+  mean_temp <- gen_day_annual_sinusoid_with_fluctuation(
     min_value = temp_params$annual_min,
     max_value = temp_params$annual_max,
     fluctuation = temp_params$daily_fluctuation,
@@ -886,7 +942,7 @@ generate_temperature_variables <- function(weather_model, day, year_length) {
 generate_solar_radiation <- function(weather_model, day, year_length) {
   solar_params <- weather_model$PARAMS$solar
   
-  solar_radiation <- max(0, get_day_annual_sinusoid_with_fluctuation(
+  solar_radiation <- max(0, gen_day_annual_sinusoid_with_fluctuation(
     min_value = solar_params$annual_min,
     max_value = solar_params$annual_max,
     fluctuation = solar_params$daily_fluctuation,
@@ -943,7 +999,7 @@ generate_etr <- function(weather_model) {
 #' @examples
 #' weather_model <- initialise_weather_model()
 #' weather_model <- run_weather_model(weather_model, 10)
-run_weather_model <- function(weather_model, num_years, show_warnings = TRUE) {
+run_weather_model <- function(weather_model, num_years, show_warnings = FALSE) {
   for (year in seq_len(num_years)) {
     year_length <- weather_model$PARAMS$year_length[min(year, length(weather_model$PARAMS$year_length))]
     
