@@ -1,4 +1,4 @@
-# Daily weather variables (summary statistics per day of year) in example locations around the planet between 01/01/1984 and 31/12/2018.
+# Daily weather in example locations
 
 Choose file format for generated figures:
 
