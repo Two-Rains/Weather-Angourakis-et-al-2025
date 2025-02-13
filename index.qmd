@@ -4,7 +4,7 @@ This file and all other referenced in the code can be found at the repository: <
 
 ## About this document
 
-To facilitate a deeper understanding and application of the Weather model, this resource contains all the source code for the figures presented in the related paper \[in submission\], including:
+To facilitate a deeper understanding and application of the Weather model, this resource contains all the source code for the figures presented in the related paper (Angourakis, Baudouin, and Petrie, **in submission**), including:
 
 -   Visualizing weather variables in example locations.
 -   Demonstrating the full model functionality.
@@ -21,9 +21,9 @@ The Weather model is a procedural generation model designed to produce random sy
 
 More details about the two implementation at:
 
-* [ODD document for the NetLogo implementation](netlogo/ODD-netlogo.md)
+-   [ODD document for the NetLogo implementation](netlogo/ODD-netlogo.md)
 
-* [ODD document for the R implementation](source/ODD-R.md)
+-   [ODD document for the R implementation](source/ODD-R.md)
 
 ### Parameters and hyperparameters
 
