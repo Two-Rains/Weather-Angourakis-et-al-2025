@@ -1,18 +1,31 @@
 This file and all other referenced in the code can be found at the repository: <https://github.com/Two-Rains/Weather-Angourakis-et-al-2024>
 
-# Context
+## About this document
 
-(TO DO)
+To facilitate a deeper understanding and application of the Weather model, this resource contains all the source code for the figures presented in the related paper \[in submission\], including:
 
-![Route of model integration in the Indus Village](diagram/RoadMapSoFar_2024-07.png)
+-   Visualizing weather variables in example locations.
+-   Demonstrating the full model functionality.
+-   Visualizing parameter sensitivity for solar radiation and temperature generation.
+-   Visualizing parameter sensitivity for precipitation generation.
+-   A walk-through on the calibration of parameters.
+-   A calibration workflow for example locations.
 
-![The weather variables and the key interface variables of the related models](diagram/Weather-LandCrop-links_v2.png)
+These materials offer hands-on guidance for users looking to implement, calibrate, and analyse the Weather model in their own research.
 
-![The connections between weather variables and the key interface variables of the related models](diagram/Weather-LandCrop-links.png)
+## About the Weather model
 
-# Parameters and hyperparameters
+The Weather model is a procedural generation model designed to produce random synthetic daily weather time series with realistic characteristics, given a set of parameters. It is implemented in NetLogo and R and is computationally efficient. The Weather model generates synthetic weather time series using algorithms based on sinusoidal and double logistic functions, incorporating stochastic variation to mimic unpredictable weather patterns. It produces daily values of surface solar radiation, average/max/min temperature, and total precipitation.
 
-```{r}
+More details about the two implementation at:
+
+* [ODD document for the NetLogo implementation](netlogo/ODD-netlogo.md)
+
+* [ODD document for the R implementation](source/ODD-R.md)
+
+### Parameters and hyperparameters
+
+```{r, echo=FALSE}
 source("source/weatherModel.R")
 source("source/extract_params.R")
 
@@ -40,7 +53,7 @@ all_params <- list(
 )
 ```
 
-```{r}
+```{r, echo=FALSE}
 solar_temp_params <- 1:10
 # Create the table
 sinosoid_params_names <- data.frame(
@@ -64,7 +77,7 @@ knitr::kable(sinosoid_params_names,
              align = c("l", "l"))
 ```
 
-```{r}
+```{r, echo=FALSE}
 precip_params <- c(1, 11:26)
 # Create the table
 sinosoid_params_names <- data.frame(
@@ -82,22 +95,22 @@ sinosoid_params_names <- data.frame(
   hyperparameter = all_params$names[precip_params],
   description = c(
     "Number of days per year",
-    "Mean annual sum of precipitation",
-    "Standard deviation in annual sum of precipitation",
-    "Mean number of random samples (steps) during descritisation of cumulative precipitation curves",
-    "Standard deviation in number of random samples (steps) during descritisation of cumulative precipitation curves",
-    "Mean maximum length of samples (steps) during descritisation of cumulative precipitation curves",
-    "Standard deviation in maximum length of samples (steps) during descritisation of cumulative precipitation curves",
-    "Mean value in which the gap between logistic curves is set (range of 0 to 1)",
-    "Standard deviation in value in which the gap between logistic curves is set (range of 0 to 1)",
-    "Mean day of year in which the first logistic curves has its maximum slope",
-    "Standard deviation in day of year in which the first logistic curves has its maximum slope",
-    "Mean maximum rate or slope increase of the first logistic curves",
-    "Standard deviation in maximum rate or slope increase of the first logistic curves",
-    "Mean day of year in which the second logistic curves has its maximum slope",
-    "Standard deviation in day of year in which the second logistic curves has its maximum slope",
-    "Mean maximum rate or slope increase of the second logistic curves",
-    "Standard deviation in maximum rate or slope increase of the second logistic curves"
+    "Mean and",
+    "standard deviation in annual sum of precipitation",
+    "Mean and",
+    "standard deviation in number of random samples (steps) during descritisation of cumulative precipitation curves (an approximation to the number of precipitation events)",
+    "Mean and",
+    "standard deviation in maximum length of samples (steps) during descritisation of cumulative precipitation curves (an approximation to the duration between precipitation events)",
+    "Mean and",
+    "standard deviation in value in which the gap between logistic curves is set (range of 0 to 1); interpretable as the proportion of precipitation falling in the first rainy season",
+    "Mean and",
+    "standard deviation in day of year in which the first logistic curves has its maximum slope; interpretable as the peak day of the first rainy season",
+    "Mean and",
+    "standard deviation in maximum rate or slope increase of the first logistic curves; interpretable as the maximum daily precipitation of the first rainy season",
+    "Mean and",
+    "standard deviation in day of year in which the second logistic curves has its maximum slope; interpretable as the peak day of the second rainy season",
+    "Mean and",
+    "standard deviation in maximum rate or slope increase of the second logistic curves; interpretable as the maximum daily precipitation of the second rainy season "
   )
   )
 knitr::kable(sinosoid_params_names, 
@@ -106,3 +119,10 @@ knitr::kable(sinosoid_params_names,
              align = c("l", "l"))
 ```
 
+### Context within the Indus Village model
+
+![Route of model integration in the Indus Village](diagram/RoadMapSoFar_2024-07.png)
+
+![The weather variables and the key interface variables of the related models](diagram/Weather-LandCrop-links_v2.png)
+
+![The connections between weather variables and the key interface variables of the related models](diagram/Weather-LandCrop-links.png)
