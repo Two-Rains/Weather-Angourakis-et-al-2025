@@ -1,4 +1,4 @@
-# Weather-Angourakis-et-al-2024
+# Weather-Angourakis-et-al-2025
 
 Quarto project and R files associated with the manuscript:
 
@@ -10,6 +10,6 @@ by Angourakis, Andreas, Jean-Philippe Baudouin, and Cameron Petrie
 
 Created with R version 4.3.3.
 
-See HTML document at: <https://andros-spica.github.io/Weather-Angourakis-et-al-2024/>
+See the HTML document at: <https://andros-spica.github.io/Weather-Angourakis-et-al-2025/>
 
 Cite as: 
