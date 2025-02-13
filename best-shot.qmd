@@ -791,9 +791,9 @@ weather_summary_sim <- as.data.frame(weather_summary_sim)
 Set colours for real and simulated data:
 
 ```{r}
-realDataColour = hsv(200/360, 62/100, 63/100)
+realDataColour = hsv(200/360, 62/100, 63/100) # teal
 
-simulatedDataColour = hsv(24/360, 79/100, 89/100)
+simulatedDataColour = hsv(24/360, 79/100, 89/100) # orange
 ```
 
 Create figure:
@@ -914,10 +914,10 @@ plot_weather_summary_comparison <- function(weather_summary, sites, sites_latitu
     par(mar = c(0.1, left_plot_margin, 0.1, right_plot_margin))
     plot_weather_variable(1:year_length_max, weather_summary_site$solarRadiation.mean, 
                           range_solar, graphic_scale, 
-                          col = adjustcolor(realDataColour, alpha.f = 0.5))
+                          col = adjustcolor(realDataColour, alpha.f = 1))
     add_confidence_interval(1:year_length_max, weather_summary_site$solarRadiation.mean, 
                             weather_summary_site$solarRadiation.error, 
-                            adjustcolor(realDataColour, alpha.f = 0.5))
+                            adjustcolor(realDataColour, alpha.f = 0.75))
     add_min_max_interval(1:year_length_max, 
                          weather_summary_site$solarRadiation.mean, 
                          weather_summary_site$solarRadiation.min, 
@@ -927,11 +927,11 @@ plot_weather_summary_comparison <- function(weather_summary, sites, sites_latitu
     # simulations
     lines(1:year_length_max, weather_summary_site_sim$solarRadiation.mean, 
           lwd = graphic_scale, 
-          col = adjustcolor(simulatedDataColour, alpha.f = 0.5))
+          col = adjustcolor(simulatedDataColour, alpha.f = 1))
     add_confidence_interval(1:year_length_max, 
                             weather_summary_site_sim$solarRadiation.mean, 
                             weather_summary_site_sim$solarRadiation.error, 
-                            adjustcolor(simulatedDataColour, alpha.f = 0.5))
+                            adjustcolor(simulatedDataColour, alpha.f = 0.75))
     add_min_max_interval(1:year_length_max, 
                          weather_summary_site_sim$solarRadiation.mean, 
                          weather_summary_site_sim$solarRadiation.min, 
@@ -952,11 +952,11 @@ plot_weather_summary_comparison <- function(weather_summary, sites, sites_latitu
     # original data
     plot_weather_variable(1:year_length_max, weather_summary_site$temperature.mean, 
                           range_temp, graphic_scale,
-                          col = adjustcolor(realDataColour, alpha.f = 0.5))
+                          col = adjustcolor(realDataColour, alpha.f = 1))
     add_confidence_interval(1:year_length_max, 
                             weather_summary_site$temperature.mean, 
                             weather_summary_site$temperature.error,
-                            adjustcolor(realDataColour, alpha.f = 0.5))
+                            adjustcolor(realDataColour, alpha.f = 0.75))
     add_min_max_interval(1:year_length_max, 
                          weather_summary_site$temperature.mean, 
                          weather_summary_site$temperature.min, 
@@ -965,11 +965,11 @@ plot_weather_summary_comparison <- function(weather_summary, sites, sites_latitu
     
     lines(1:year_length_max, weather_summary_site$maxTemperature.mean, 
           lwd = graphic_scale, 
-          col = adjustcolor(realDataColour, alpha.f = 0.5))
+          col = adjustcolor(realDataColour, alpha.f = 1))
     add_confidence_interval(1:year_length_max, 
                             weather_summary_site$maxTemperature.mean, 
                             weather_summary_site$maxTemperature.error, 
-                            col = adjustcolor(realDataColour, alpha.f = 0.5))
+                            col = adjustcolor(realDataColour, alpha.f = 0.75))
     add_min_max_interval(1:year_length_max, 
                          weather_summary_site$maxTemperature.mean, 
                          weather_summary_site$maxTemperature.min, 
@@ -978,11 +978,11 @@ plot_weather_summary_comparison <- function(weather_summary, sites, sites_latitu
     
     lines(1:year_length_max, weather_summary_site$minTemperature.mean, 
           lwd = graphic_scale, 
-          col = adjustcolor(realDataColour, alpha.f = 0.5))
+          col = adjustcolor(realDataColour, alpha.f = 1))
     add_confidence_interval(1:year_length_max, 
                             weather_summary_site$minTemperature.mean, 
                             weather_summary_site$minTemperature.error, 
-                            adjustcolor(realDataColour, alpha.f = 0.5))
+                            adjustcolor(realDataColour, alpha.f = 0.75))
     add_min_max_interval(1:year_length_max, 
                          weather_summary_site$minTemperature.mean, 
                          weather_summary_site$minTemperature.min, 
@@ -992,11 +992,11 @@ plot_weather_summary_comparison <- function(weather_summary, sites, sites_latitu
     # simulations
     lines(1:year_length_max, weather_summary_site_sim$temperature.mean, 
           lwd = graphic_scale,
-          col = adjustcolor(simulatedDataColour, alpha.f = 0.5))
+          col = adjustcolor(simulatedDataColour, alpha.f = 1))
     add_confidence_interval(1:year_length_max, 
                             weather_summary_site_sim$temperature.mean, 
                             weather_summary_site_sim$temperature.error,
-                            adjustcolor(simulatedDataColour, alpha.f = 0.5))
+                            adjustcolor(simulatedDataColour, alpha.f = 0.75))
     add_min_max_interval(1:year_length_max, 
                          weather_summary_site_sim$temperature.mean, 
                          weather_summary_site_sim$temperature.min, 
@@ -1005,11 +1005,11 @@ plot_weather_summary_comparison <- function(weather_summary, sites, sites_latitu
     
     lines(1:year_length_max, weather_summary_site_sim$maxTemperature.mean, 
           lwd = graphic_scale, 
-          col = adjustcolor(simulatedDataColour, alpha.f = 0.5))
+          col = adjustcolor(simulatedDataColour, alpha.f = 1))
     add_confidence_interval(1:year_length_max, 
                             weather_summary_site_sim$maxTemperature.mean, 
                             weather_summary_site_sim$maxTemperature.error, 
-                            col = adjustcolor(simulatedDataColour, alpha.f = 0.5))
+                            col = adjustcolor(simulatedDataColour, alpha.f = 0.75))
     add_min_max_interval(1:year_length_max, 
                          weather_summary_site_sim$maxTemperature.mean, 
                          weather_summary_site_sim$maxTemperature.min, 
@@ -1018,11 +1018,11 @@ plot_weather_summary_comparison <- function(weather_summary, sites, sites_latitu
     
     lines(1:year_length_max, weather_summary_site_sim$minTemperature.mean, 
           lwd = graphic_scale, 
-          col = adjustcolor(realDataColour, alpha.f = 0.5))
+          col = adjustcolor(simulatedDataColour, alpha.f = 1))
     add_confidence_interval(1:year_length_max, 
                             weather_summary_site_sim$minTemperature.mean, 
                             weather_summary_site_sim$minTemperature.error, 
-                            adjustcolor(simulatedDataColour, alpha.f = 0.5))
+                            adjustcolor(simulatedDataColour, alpha.f = 0.75))
     add_min_max_interval(1:year_length_max, 
                          weather_summary_site_sim$minTemperature.mean, 
                          weather_summary_site_sim$minTemperature.min, 

@@ -47,6 +47,7 @@ all_params <- list(
 
 # Create the table
 params_values <- cbind(all_params$names, all_params$values)
+row.names(params_values) <- NULL
 knitr::kable(params_values, 
              format = "html",
              col.names = c("parameter", "values"),
