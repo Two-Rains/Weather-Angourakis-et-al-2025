@@ -1,4 +1,6 @@
-This file and all other referenced in the code can be found at the repository: <https://github.com/Two-Rains/Weather-Angourakis-et-al-2024>
+# Introduction
+
+This file and all other referenced in the code can be found at the repository: <https://github.com/Two-Rains/Weather-Angourakis-et-al-2025>
 
 ## About this document
 
@@ -119,7 +121,7 @@ knitr::kable(sinosoid_params_names,
              align = c("l", "l"))
 ```
 
-### Context within the Indus Village model
+## Context of the Weather model within the Indus Village model
 
 ![Route of model integration in the Indus Village](diagram/RoadMapSoFar_2024-07.png)
 
