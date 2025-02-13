@@ -16,7 +16,7 @@ book:
   date: today
   date-format: DD MMMM, YYYY
   page-navigation: true
-  site-url: https://andros-spica.github.io/Weather-Angourakis-et-al-2024/
+  site-url: https:/two-rains.github.io/Weather-Angourakis-et-al-2024/
   chapters:
     - index.qmd
     - weather-examples.qmd
