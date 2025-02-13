@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Supplementary materials to Angourakis et al.&nbsp;(2024) - 5&nbsp; Example of simulation outputs of the Weather model for 5 years</title>
+<title>Supplementary materials to Angourakis et al.&nbsp;(2024) - 3&nbsp; Example of simulation outputs of the Weather model for 5 years</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,8 +64,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./walkthrough-attempts.html" rel="next">
-<link href="./precipitation-parameters.html" rel="prev">
+<link href="./annual-sinusoid-curve-parameters.html" rel="next">
+<link href="./weather-examples.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -81,7 +115,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./full-model-example.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Example of simulation outputs of the Weather model for 5 years</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./full-model-example.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Example of simulation outputs of the Weather model for 5 years</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -109,67 +143,45 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Foreword</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">About this document</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./weather-examples.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Daily weather variables (summary statistics per day of year) in example locations around the planet between 01/01/1984 and 31/12/2018.</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Daily weather in example locations</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
- <span class="menu-text">Demonstration of parameter effects</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./annual-sinusoid-curve-parameters.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Demostration of effects of parameter variation in the annual sinusoid curve</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./precipitation-parameters.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Demonstration of effects of parameter variation in the annual double logistic curve, annual cumulative precipitation curve and year daily precipitation.</span></span></a>
-  </div>
-</li>
-      </ul>
-  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./full-model-example.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Example of simulation outputs of the Weather model for 5 years</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Example of simulation outputs of the Weather model for 5 years</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text">Calibration</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./annual-sinusoid-curve-parameters.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Demonstration of parameter variation: solar radiation and temperature</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./precipitation-parameters.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Demonstration of parameter variation: precipitation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./walkthrough-attempts.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Calibration walkthrough</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Calibration walk through</span></span></a>
   </div>
 </li>
-          <li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./best-shot.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Calibration targeting weather examples</span></span></a>
   </div>
 </li>
-      </ul>
-  </li>
     </ul>
     </div>
 </nav>
@@ -183,7 +195,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Example of simulation outputs of the Weather model for 5 years</span></h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Example of simulation outputs of the Weather model for 5 years</span></h1>
 </div>
 
 
@@ -200,10 +212,51 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>Choose file format for generated figures:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>output_dir <span class="ot">&lt;-</span> <span class="st">"output"</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>plot_file_format <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"png"</span>, <span class="st">"eps"</span>)[<span class="dv">1</span>] <span class="co"># modify index number to change format</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>Load source file containing the R implementation of the Weather model:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"source/weatherModel.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>Initialisation using the default parametrisation, based on data from Rakhigarhi (example location, see Fig. 1):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>SEED <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>YEAR_LENGTH <span class="ot">&lt;-</span> <span class="dv">365</span> <span class="co"># ignoring leap year adjustment</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>NUM_YEARS <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>NUM_DAYS <span class="ot">&lt;-</span> NUM_YEARS <span class="sc">*</span> YEAR_LENGTH</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>weather_model <span class="ot">&lt;-</span> <span class="fu">initialise_weather_model</span>(<span class="at">seed =</span> SEED, <span class="at">year_length =</span> YEAR_LENGTH)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>Show table with parameter values:</p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"source/extract_params.R"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract initial parameters</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>initial_params <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"seed"</span>, <span class="st">"year_length"</span>, <span class="st">"albedo"</span>, <span class="st">"southern_hemisphere"</span>),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">values =</span> <span class="fu">unlist</span>(weather_model<span class="sc">$</span>PARAMS[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract remaining parameters</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>remaining_params <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">names</span>(weather_model<span class="sc">$</span>PARAMS)[<span class="dv">5</span><span class="sc">:</span><span class="fu">length</span>(weather_model<span class="sc">$</span>PARAMS)], </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>                           <span class="cf">function</span>(name) <span class="fu">extract_params</span>(weather_model<span class="sc">$</span>PARAMS[[name]], name))</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine all parameters</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>all_params <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">names =</span> <span class="fu">c</span>(initial_params<span class="sc">$</span>names, <span class="fu">unlist</span>(<span class="fu">lapply</span>(remaining_params, <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="st">"names"</span>))),</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">values =</span> <span class="fu">c</span>(initial_params<span class="sc">$</span>values, <span class="fu">unlist</span>(<span class="fu">lapply</span>(remaining_params, <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="st">"values"</span>)))</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the table</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>params_values <span class="ot">&lt;-</span> <span class="fu">cbind</span>(all_params<span class="sc">$</span>names, all_params<span class="sc">$</span>values)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>(params_values) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(params_values, </span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>             <span class="at">format =</span> <span class="st">"html"</span>,</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>             <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"parameter"</span>, <span class="st">"values"</span>),</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>             <span class="at">align =</span> <span class="fu">c</span>(<span class="st">"l"</span>, <span class="st">"r"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
@@ -219,7 +272,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">yearLengthInDays</td>
+<td style="text-align: left;">year_length</td>
 <td style="text-align: right;">365</td>
 </tr>
 <tr class="odd">
@@ -227,104 +280,104 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">0.4</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">southHemisphere</td>
+<td style="text-align: left;">southern_hemisphere</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">temperature - annualMaxAt2m</td>
+<td style="text-align: left;">temperature - annual_max</td>
 <td style="text-align: right;">40</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">temperature - annualMinAt2m</td>
+<td style="text-align: left;">temperature - annual_min</td>
 <td style="text-align: right;">15</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">temperature - meanDailyFluctuation</td>
+<td style="text-align: left;">temperature - daily_fluctuation</td>
 <td style="text-align: right;">5</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">temperature - dailyLowerDeviation</td>
+<td style="text-align: left;">temperature - daily_lower_dev</td>
 <td style="text-align: right;">5</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">temperature - dailyUpperDeviation</td>
+<td style="text-align: left;">temperature - daily_upper_dev</td>
 <td style="text-align: right;">5</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">solar - annualMax</td>
+<td style="text-align: left;">solar - annual_max</td>
 <td style="text-align: right;">7</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">solar - annualMin</td>
+<td style="text-align: left;">solar - annual_min</td>
 <td style="text-align: right;">3</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">solar - meanDailyFluctuation</td>
+<td style="text-align: left;">solar - daily_fluctuation</td>
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">precipitation - yearlyMean</td>
+<td style="text-align: left;">precipitation - annual_sum_mean</td>
 <td style="text-align: right;">400</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">precipitation - yearlySd</td>
+<td style="text-align: left;">precipitation - annual_sum_sd</td>
 <td style="text-align: right;">130</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">precipitation - nSamples_yearlyMean</td>
-<td style="text-align: right;">200</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">precipitation - nSamples_yearlySd</td>
-<td style="text-align: right;">5</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">precipitation - maxSampleSize_yearlyMean</td>
-<td style="text-align: right;">10</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">precipitation - maxSampleSize_yearlySd</td>
-<td style="text-align: right;">3</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">precipitation - plateauValue_yearlyMean</td>
+<td style="text-align: left;">precipitation - plateau_value_mean</td>
 <td style="text-align: right;">0.1</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">precipitation - plateauValue_yearlySd</td>
+<td style="text-align: left;">precipitation - plateau_value_sd</td>
 <td style="text-align: right;">0.05</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">precipitation - inflection1_yearlyMean</td>
+<td style="text-align: left;">precipitation - inflection1_mean</td>
 <td style="text-align: right;">40</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">precipitation - inflection1_yearlySd</td>
+<td style="text-align: left;">precipitation - inflection1_sd</td>
 <td style="text-align: right;">20</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">precipitation - rate1_yearlyMean</td>
+<td style="text-align: left;">precipitation - rate1_mean</td>
 <td style="text-align: right;">0.15</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">precipitation - rate1_yearlySd</td>
+<td style="text-align: left;">precipitation - rate1_sd</td>
 <td style="text-align: right;">0.02</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">precipitation - inflection2_yearlyMean</td>
+<td style="text-align: left;">precipitation - inflection2_mean</td>
 <td style="text-align: right;">200</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">precipitation - inflection2_yearlySd</td>
+<td style="text-align: left;">precipitation - inflection2_sd</td>
 <td style="text-align: right;">20</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">precipitation - rate2_yearlyMean</td>
+<td style="text-align: left;">precipitation - rate2_mean</td>
 <td style="text-align: right;">0.05</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">precipitation - rate2_yearlySd</td>
+<td style="text-align: left;">precipitation - rate2_sd</td>
 <td style="text-align: right;">0.01</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">precipitation - n_samples_mean</td>
+<td style="text-align: right;">200</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">precipitation - n_samples_sd</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">precipitation - max_sample_size_mean</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">precipitation - max_sample_size_sd</td>
+<td style="text-align: right;">3</td>
 </tr>
 </tbody>
 </table>
@@ -333,20 +386,136 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
-<p>Run for 5 years:</p>
+<p>Run model:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>weather_model <span class="ot">&lt;-</span> <span class="fu">run_weather_model</span>(weather_model, <span class="at">num_years =</span> NUM_YEARS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>Set colours for maximum and minimum temperature:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>max_temperature_colour <span class="ot">=</span> <span class="fu">hsv</span>(<span class="fl">7.3</span><span class="sc">/</span><span class="dv">360</span>, <span class="fl">74.6</span><span class="sc">/</span><span class="dv">100</span>, <span class="dv">70</span><span class="sc">/</span><span class="dv">100</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>min_temperature_colour <span class="ot">=</span> <span class="fu">hsv</span>(<span class="dv">232</span><span class="sc">/</span><span class="dv">360</span>, <span class="fl">64.6</span><span class="sc">/</span><span class="dv">100</span>, <span class="dv">73</span><span class="sc">/</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>Plot time-series:</p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Helper functions</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>plot_solar_radiation <span class="ot">&lt;-</span> <span class="cf">function</span>(solar_radiation, num_days, year_length) {</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span>num_days, solar_radiation, </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">xlab =</span> <span class="st">""</span>, <span class="at">xaxt =</span> <span class="st">'n'</span>, <span class="at">ylab =</span> <span class="st">""</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mark_end_years</span>(num_days, <span class="at">year_length =</span> year_length)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>plot_temperature <span class="ot">&lt;-</span> <span class="cf">function</span>(temperature, max_temperature_colour, min_temperature_colour, num_days, year_length) {</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span>num_days, temperature, </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">xlab =</span> <span class="st">""</span>, <span class="at">xaxt =</span> <span class="st">'n'</span>, <span class="at">ylab =</span> <span class="st">""</span>,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fu">floor</span>(<span class="fu">min</span>(weather_model<span class="sc">$</span>daily<span class="sc">$</span>temperature_min)), </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">ceiling</span>(<span class="fu">max</span>(weather_model<span class="sc">$</span>daily<span class="sc">$</span>temperature_max))))</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lines</span>(<span class="dv">1</span><span class="sc">:</span>num_days, weather_model<span class="sc">$</span>daily<span class="sc">$</span>temperature_max, </span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>          <span class="at">col =</span> <span class="fu">adjustcolor</span>(max_temperature_colour, <span class="at">alpha.f =</span> <span class="fl">0.8</span>))</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lines</span>(<span class="dv">1</span><span class="sc">:</span>num_days, weather_model<span class="sc">$</span>daily<span class="sc">$</span>temperature_min, </span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>          <span class="at">col =</span> <span class="fu">adjustcolor</span>(min_temperature_colour, <span class="at">alpha.f =</span> <span class="fl">0.8</span>))</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mark_end_years</span>(num_days, <span class="at">year_length =</span> year_length)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>plot_ETr <span class="ot">&lt;-</span> <span class="cf">function</span>(ETr, num_days, year_length) {</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span>num_days, weather_model<span class="sc">$</span>daily<span class="sc">$</span>ETr, <span class="at">type =</span> <span class="st">"l"</span>,</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>         <span class="at">ylab =</span> <span class="st">""</span>, <span class="at">xlab =</span> <span class="st">""</span>, <span class="at">xaxt =</span> <span class="st">'n'</span>)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mark_end_years</span>(num_days, <span class="at">year_length =</span> year_length)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>plot_precipitation <span class="ot">&lt;-</span> <span class="cf">function</span>(precipitation, num_days, year_length) {</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>))</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">barplot</span>(weather_model<span class="sc">$</span>daily<span class="sc">$</span>precipitation, </span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>            <span class="at">ylab =</span> <span class="st">""</span>, <span class="at">xlab =</span> <span class="st">""</span>, <span class="at">xaxt =</span> <span class="st">'n'</span>)</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mark_end_years</span>(num_days, <span class="at">year_length =</span> year_length, <span class="at">offset =</span> <span class="fl">1.2</span>)</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">abline</span>(<span class="at">v =</span> num_days <span class="sc">*</span> <span class="fl">1.2</span>, <span class="at">lty =</span> <span class="dv">3</span>)</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>plot_time_axis <span class="ot">&lt;-</span> <span class="cf">function</span>(num_days, graphic_scale, font_rescale, margin_text_rescale) {</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="fl">0.1</span>))</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot</span>(<span class="fu">c</span>(<span class="dv">1</span>, num_days), <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">ann =</span> <span class="cn">FALSE</span>, <span class="at">bty =</span> <span class="st">'n'</span>, <span class="at">type =</span> <span class="st">'n'</span>, <span class="at">xaxt =</span> <span class="st">'n'</span>, <span class="at">yaxt =</span> <span class="st">'n'</span>)</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">axis</span>(<span class="dv">3</span>, <span class="at">at =</span> <span class="dv">1</span><span class="sc">:</span>num_days, <span class="at">tck =</span> <span class="dv">0</span>, <span class="at">lwd =</span> <span class="dv">0</span>)</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mtext</span>(<span class="st">"day"</span>, <span class="at">side =</span> <span class="dv">1</span>, <span class="at">line =</span> <span class="sc">-</span><span class="dv">1</span>,</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>          <span class="at">font =</span> <span class="dv">4</span>, <span class="at">cex =</span> graphic_scale <span class="sc">*</span> (<span class="fl">1.7</span> <span class="sc">+</span> font_rescale <span class="sc">+</span> margin_text_rescale))</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a><span class="co"># Main plotting function</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>plot_weather_simulation <span class="ot">&lt;-</span> <span class="cf">function</span>(weather_model, num_days, year_length, graphic_scale, font_rescale, axis_text_rescale, margin_text_rescale, max_temperature_colour, min_temperature_colour) {</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layout</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>), </span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>                  <span class="at">nrow =</span> <span class="dv">5</span>, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">FALSE</span>), </span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>           <span class="at">widths =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">10</span>),</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>           <span class="at">heights =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">2</span>))</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>    y_labs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">expression</span>(<span class="fu">paste</span>(</span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>        <span class="st">"    Solar</span><span class="sc">\n</span><span class="st">Radiation ("</span>, MJ<span class="sc">/</span>m<span class="sc">^-</span><span class="dv">2</span>, <span class="st">")"</span>)), </span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Temperature (C)"</span>, <span class="st">"ETr (mm)"</span>, <span class="st">"Precipitation (mm)"</span>)</span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>    <span class="fu">par</span>(<span class="at">cex =</span> graphic_scale)</span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>    <span class="co"># First column</span></span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>    <span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>))</span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>) {</span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>        <span class="fu">plot</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">ann =</span> <span class="cn">FALSE</span>, <span class="at">bty =</span> <span class="st">'n'</span>, <span class="at">type =</span> <span class="st">'n'</span>, <span class="at">xaxt =</span> <span class="st">'n'</span>, <span class="at">yaxt =</span> <span class="st">'n'</span>)</span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>        <span class="fu">text</span>(<span class="at">x =</span> <span class="fl">0.5</span>, <span class="at">y =</span> <span class="fl">0.5</span> <span class="sc">+</span> (i <span class="sc">&gt;</span> <span class="dv">2</span>) <span class="sc">*</span> <span class="fl">0.1</span>, <span class="at">font =</span> <span class="dv">4</span>, </span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>             <span class="at">cex =</span> graphic_scale <span class="sc">*</span> (<span class="fl">0.6</span> <span class="sc">+</span> <span class="fl">0.1</span> <span class="sc">*</span> (i <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="sc">+</span> font_rescale), </span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>             <span class="at">srt =</span> <span class="dv">90</span>,</span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>             <span class="at">labels =</span> y_labs[i])</span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">ann =</span> <span class="cn">FALSE</span>, <span class="at">bty =</span> <span class="st">'n'</span>, <span class="at">type =</span> <span class="st">'n'</span>, <span class="at">xaxt =</span> <span class="st">'n'</span>, <span class="at">yaxt =</span> <span class="st">'n'</span>)</span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Second column</span></span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a>    <span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="dv">1</span>, <span class="fl">0.5</span>, <span class="fl">0.1</span>), <span class="at">cex.axis =</span> graphic_scale <span class="sc">*</span> (<span class="fl">0.6</span> <span class="sc">+</span> axis_text_rescale))</span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1: Solar radiation</span></span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_solar_radiation</span>(weather_model<span class="sc">$</span>daily<span class="sc">$</span>solar_radiation, <span class="at">num_days =</span> num_days, <span class="at">year_length =</span> year_length)</span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2: Temperature</span></span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_temperature</span>(weather_model<span class="sc">$</span>daily<span class="sc">$</span>temperature, <span class="at">num_days =</span> num_days, <span class="at">year_length =</span> year_length, </span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a>                     <span class="at">max_temperature_colour =</span> max_temperature_colour, <span class="at">min_temperature_colour =</span> min_temperature_colour)</span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3: Reference evapotranspiration</span></span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_ETr</span>(weather_model<span class="sc">$</span>daily<span class="sc">$</span>ETr, <span class="at">num_days =</span> num_days, <span class="at">year_length =</span> year_length)</span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 4: Precipitation</span></span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_precipitation</span>(weather_model<span class="sc">$</span>daily<span class="sc">$</span>precipitation, <span class="at">num_days =</span> NUM_DAYS, <span class="at">year_length =</span> year_length)</span>
+<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 5: x-axis title</span></span>
+<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_time_axis</span>(<span class="at">num_days =</span> num_days, <span class="at">graphic_scale =</span> graphic_scale, <span class="at">font_rescale =</span> font_rescale, <span class="at">margin_text_rescale =</span> margin_text_rescale)</span>
+<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a><span class="co"># Main execution</span></span>
+<span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a>plot_name <span class="ot">&lt;-</span> <span class="fu">file.path</span>(output_dir, <span class="fu">paste0</span>(<span class="st">"Fig3-weather_modelExample."</span>, plot_file_format))</span>
+<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (plot_file_format <span class="sc">==</span> <span class="st">"png"</span>) {</span>
+<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a>  graphic_scale <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a>  font_rescale <span class="ot">&lt;-</span> axis_text_rescale <span class="ot">&lt;-</span> margin_text_rescale <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a>  <span class="fu">png</span>(plot_name, <span class="at">width =</span> graphic_scale <span class="sc">*</span> <span class="dv">600</span>, <span class="at">height =</span> graphic_scale <span class="sc">*</span> <span class="dv">700</span>)</span>
+<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span> (plot_file_format <span class="sc">==</span> <span class="st">"eps"</span>) {</span>
+<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a>  graphic_scale <span class="ot">&lt;-</span> <span class="fl">1.2</span></span>
+<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a>  font_rescale <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
+<span id="cb7-93"><a href="#cb7-93" aria-hidden="true" tabindex="-1"></a>  axis_text_rescale <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.1</span></span>
+<span id="cb7-94"><a href="#cb7-94" aria-hidden="true" tabindex="-1"></a>  margin_text_rescale <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.5</span></span>
+<span id="cb7-95"><a href="#cb7-95" aria-hidden="true" tabindex="-1"></a>  extrafont<span class="sc">::</span><span class="fu">loadfonts</span>(<span class="at">device =</span> <span class="st">"postscript"</span>)</span>
+<span id="cb7-96"><a href="#cb7-96" aria-hidden="true" tabindex="-1"></a>  grDevices<span class="sc">::</span><span class="fu">cairo_ps</span>(<span class="at">filename =</span> plot_name, <span class="at">pointsize =</span> <span class="dv">12</span>,</span>
+<span id="cb7-97"><a href="#cb7-97" aria-hidden="true" tabindex="-1"></a>                      <span class="at">width =</span> graphic_scale <span class="sc">*</span> <span class="dv">6</span>, <span class="at">height =</span> graphic_scale <span class="sc">*</span> <span class="dv">7</span>,</span>
+<span id="cb7-98"><a href="#cb7-98" aria-hidden="true" tabindex="-1"></a>                      <span class="at">onefile =</span> <span class="cn">FALSE</span>, <span class="at">family =</span> <span class="st">"sans"</span>)</span>
+<span id="cb7-99"><a href="#cb7-99" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb7-100"><a href="#cb7-100" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"Unsupported file format"</span>)</span>
+<span id="cb7-101"><a href="#cb7-101" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-102"><a href="#cb7-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-103"><a href="#cb7-103" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_weather_simulation</span>(weather_model, <span class="at">num_days =</span> NUM_DAYS, <span class="at">year_length =</span> YEAR_LENGTH, </span>
+<span id="cb7-104"><a href="#cb7-104" aria-hidden="true" tabindex="-1"></a>                        <span class="at">graphic_scale =</span> graphic_scale, <span class="at">font_rescale =</span> font_rescale, </span>
+<span id="cb7-105"><a href="#cb7-105" aria-hidden="true" tabindex="-1"></a>                        <span class="at">axis_text_rescale =</span> axis_text_rescale, <span class="at">margin_text_rescale =</span> margin_text_rescale, </span>
+<span id="cb7-106"><a href="#cb7-106" aria-hidden="true" tabindex="-1"></a>                        <span class="at">max_temperature_colour =</span> max_temperature_colour, <span class="at">min_temperature_colour =</span> min_temperature_colour)</span>
+<span id="cb7-107"><a href="#cb7-107" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>svg 
   2 </code></pre>
 </div>
 </div>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(plot_name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="output/FigX-weatherModelExample.png" class="img-fluid figure-img"></p>
+<p><img src="output/Fig3-weather_modelExample.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -744,13 +913,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./precipitation-parameters.html" class="pagination-link" aria-label="Demonstration of effects of parameter variation in the annual double logistic curve, annual cumulative precipitation curve and year daily precipitation.">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Demonstration of effects of parameter variation in the annual double logistic curve, annual cumulative precipitation curve and year daily precipitation.</span></span>
+      <a href="./weather-examples.html" class="pagination-link" aria-label="Daily weather in example locations">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Daily weather in example locations</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./walkthrough-attempts.html" class="pagination-link" aria-label="Calibration walkthrough">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Calibration walkthrough</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./annual-sinusoid-curve-parameters.html" class="pagination-link" aria-label="Demonstration of parameter variation: solar radiation and temperature">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Demonstration of parameter variation: solar radiation and temperature</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

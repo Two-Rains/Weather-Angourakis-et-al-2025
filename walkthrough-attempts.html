@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Supplementary materials to Angourakis et al.&nbsp;(2024) - 6&nbsp; Calibration walkthrough</title>
+<title>Supplementary materials to Angourakis et al.&nbsp;(2024) - 6&nbsp; Calibration walk through</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -31,7 +65,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./best-shot.html" rel="next">
-<link href="./full-model-example.html" rel="prev">
+<link href="./precipitation-parameters.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -81,7 +115,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./walkthrough-attempts.html">Calibration</a></li><li class="breadcrumb-item"><a href="./walkthrough-attempts.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Calibration walkthrough</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./walkthrough-attempts.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Calibration walk through</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -109,67 +143,45 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Foreword</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">About this document</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./weather-examples.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Daily weather variables (summary statistics per day of year) in example locations around the planet between 01/01/1984 and 31/12/2018.</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Daily weather in example locations</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
- <span class="menu-text">Demonstration of parameter effects</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./annual-sinusoid-curve-parameters.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Demostration of effects of parameter variation in the annual sinusoid curve</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./precipitation-parameters.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Demonstration of effects of parameter variation in the annual double logistic curve, annual cumulative precipitation curve and year daily precipitation.</span></span></a>
-  </div>
-</li>
-      </ul>
-  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./full-model-example.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Example of simulation outputs of the Weather model for 5 years</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Example of simulation outputs of the Weather model for 5 years</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text">Calibration</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./annual-sinusoid-curve-parameters.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Demonstration of parameter variation: solar radiation and temperature</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./precipitation-parameters.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Demonstration of parameter variation: precipitation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./walkthrough-attempts.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Calibration walkthrough</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Calibration walk through</span></span></a>
   </div>
 </li>
-          <li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./best-shot.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Calibration targeting weather examples</span></span></a>
   </div>
 </li>
-      </ul>
-  </li>
     </ul>
     </div>
 </nav>
@@ -180,17 +192,21 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#parameter-estimation-using-optim" id="toc-parameter-estimation-using-optim" class="nav-link active" data-scroll-target="#parameter-estimation-using-optim"><span class="header-section-number">6.1</span> Parameter estimation using <code>optim()</code></a></li>
-  <li><a href="#parameter-estimation-using-genetic-algorithms-ga-package" id="toc-parameter-estimation-using-genetic-algorithms-ga-package" class="nav-link" data-scroll-target="#parameter-estimation-using-genetic-algorithms-ga-package"><span class="header-section-number">6.2</span> Parameter estimation using Genetic Algorithms (<code>ga</code> package):</a></li>
+  <li><a href="#parameter-estimation-using-optim" id="toc-parameter-estimation-using-optim" class="nav-link active" data-scroll-target="#parameter-estimation-using-optim"><span class="header-section-number">6.1</span> Parameter estimation using <code>optim()</code></a>
+  <ul class="collapse">
+  <li><a href="#calibrating-gen_annual_double_logistic_curve-deterministic-function" id="toc-calibrating-gen_annual_double_logistic_curve-deterministic-function" class="nav-link" data-scroll-target="#calibrating-gen_annual_double_logistic_curve-deterministic-function"><span class="header-section-number">6.1.1</span> Calibrating <code>gen_annual_double_logistic_curve()</code> (deterministic function)</a></li>
+  <li><a href="#adding-discretise_curve-stochastic-function" id="toc-adding-discretise_curve-stochastic-function" class="nav-link" data-scroll-target="#adding-discretise_curve-stochastic-function"><span class="header-section-number">6.1.2</span> Adding <code>discretise_curve()</code> (stochastic function)</a></li>
+  <li><a href="#calibrating-multiple-example-curves-to-determine-hyperparameters" id="toc-calibrating-multiple-example-curves-to-determine-hyperparameters" class="nav-link" data-scroll-target="#calibrating-multiple-example-curves-to-determine-hyperparameters"><span class="header-section-number">6.1.3</span> Calibrating multiple example curves to determine hyperparameters</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./walkthrough-attempts.html">Calibration</a></li><li class="breadcrumb-item"><a href="./walkthrough-attempts.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Calibration walkthrough</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Calibration walkthrough</span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Calibration walk through</span></h1>
 </div>
 
 
@@ -208,24 +224,72 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p>Load source file containing the R implementation of the Weather model:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"source/weatherModel.R"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"source/print_parameter_comparison_table.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>To generate new data based on a given dataset, we must first be able to estimate the Weather model parameters from said datasets. That is, to find the values of each parameter that can approximate the data of a given year daily series. Once this can be done for each year in the dataset, we can then estimate the hyperparameters as descriptive statistics (i.e., mean and standard deviation, minimum, maximum).</p>
 <p>A good estimation of the parameters of the solar radiation and temperature submodels (i.e.&nbsp;sinusoid) can be made directly by measuring the year minimum and maximum.</p>
 <p>However, the case of precipitation is far from trivial, given the complexity of the algorithm behind it. The workflow to estimate the parameters of the precipitation submodel deserves a demonstration.</p>
 <section id="parameter-estimation-using-optim" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="parameter-estimation-using-optim"><span class="header-section-number">6.1</span> Parameter estimation using <code>optim()</code></h2>
-<p>Set up six variations of parameter settings of the annual double logistic curve (i.e.&nbsp;plateauValue, inflection1, rate1, inflection2, rate2), the discretisation producing the annual cumulative precipitation curve (i.e.&nbsp;nSamples, maxSampleSize) and annualPrecipitation, assuming length of year of 365 days. Random generator seed used in discretisation is fixed:</p>
-<p>Select the first set of parameter values from the <code>parValuesDoubleLogistic</code> dataset and generate the corresponding curve with the <code>getAnnualDoubleLogisticCurve()</code> function. These points will represent the original state of the model that we aim to reverse engineer from the outcome curve. Plot it.</p>
+<p>Set up six variations of parameter settings of the annual double logistic curve (i.e.&nbsp;plateau_value, inflection1, rate1, inflection2, rate2), the discretisation producing the annual cumulative precipitation curve (i.e.&nbsp;n_samples, max_sample_size) and annualPrecipitation, assuming length of year of 365 days. Random generator seed used in discretisation is fixed:</p>
 <div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="walkthrough-attempts_files/figure-html/unnamed-chunk-3-1.svg" class="img-fluid figure-img"></p>
-</figure>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fixed random seed for reproducibility</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>SEED <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulation parameters</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>YEAR_LENGTH <span class="ot">&lt;-</span> <span class="dv">365</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Double logistic function parameters</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>params_values_double_logistic <span class="ot">&lt;-</span> <span class="fu">matrix</span>(</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="dv">125</span>, <span class="fl">0.3</span>,  <span class="dv">245</span>, <span class="fl">0.22</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.15</span>,  <span class="dv">63</span>, <span class="fl">0.55</span>, <span class="dv">195</span>, <span class="fl">0.6</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.5</span>,   <span class="dv">64</span>, <span class="fl">0.05</span>, <span class="dv">261</span>, <span class="fl">0.12</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.45</span>, <span class="dv">215</span>, <span class="fl">0.01</span>, <span class="dv">276</span>, <span class="fl">0.39</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.6</span>,   <span class="dv">20</span>, <span class="fl">0.38</span>, <span class="dv">254</span>, <span class="fl">0.04</span>,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.85</span>,  <span class="dv">97</span>, <span class="fl">0.24</span>, <span class="dv">219</span>, <span class="fl">0.17</span>),</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">nrow =</span> <span class="dv">6</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">"plateau_value"</span>, <span class="st">"inflection1"</span>, <span class="st">"rate1"</span>, <span class="st">"inflection2"</span>, <span class="st">"rate2"</span>))</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Discretisation parameters</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>params_values_discretisation <span class="ot">&lt;-</span> <span class="fu">matrix</span>(</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">152</span>, <span class="dv">22</span>,</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    <span class="dv">220</span>, <span class="dv">10</span>,</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="dv">240</span>,  <span class="dv">6</span>,</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="dv">168</span>, <span class="dv">13</span>,</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="dv">191</span>,  <span class="dv">9</span>,</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    <span class="dv">205</span>, <span class="dv">17</span>),</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">nrow =</span> <span class="dv">6</span>,</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">"n_samples"</span>, <span class="st">"max_sample_size"</span>))</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Annual sum values</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>annual_sum_values <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">410</span>, <span class="dv">1050</span>, <span class="dv">636</span>, <span class="dv">320</span>, <span class="dv">1280</span>, <span class="dv">745</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-</div>
-<p>Define the <code>initialGuess</code> vector with your initial parameter guess values. Generate the curve using the <code>getAnnualDoubleLogisticCurve()</code> function with the initial guess. Plot it. Notice that our initial guess generates a somewhat “average” cumulative curve.</p>
+<p>Predefine the range of values explored for each parameter:</p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>params_range_lower <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.01</span>, <span class="dv">1</span>, <span class="fl">0.01</span>, <span class="dv">1</span>, <span class="dv">3</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>params_range_upper <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">365</span>, <span class="fl">0.9</span>, <span class="dv">365</span>, <span class="fl">0.9</span>, <span class="dv">365</span>, <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="calibrating-gen_annual_double_logistic_curve-deterministic-function" class="level3" data-number="6.1.1">
+<h3 data-number="6.1.1" class="anchored" data-anchor-id="calibrating-gen_annual_double_logistic_curve-deterministic-function"><span class="header-section-number">6.1.1</span> Calibrating <code>gen_annual_double_logistic_curve()</code> (deterministic function)</h3>
+<p>Select the first set of parameter values from the <code>params_values_double_logistic</code> dataset and generate the corresponding curve with the <code>gen_annual_double_logistic_curve()</code> function. These points will represent the original state of the model that we aim to reverse engineer from the outcome curve. Plot it.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>original_params <span class="ot">&lt;-</span> params_values_double_logistic[<span class="dv">1</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>curve <span class="ot">&lt;-</span> <span class="fu">gen_annual_double_logistic_curve</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">plateau_value =</span> original_params[<span class="dv">1</span>], </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">inflection1 =</span> original_params[<span class="dv">2</span>], </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">rate1 =</span> original_params[<span class="dv">3</span>], </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">inflection2 =</span> original_params[<span class="dv">4</span>],</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">rate2 =</span> original_params[<span class="dv">5</span>],</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">year_length =</span> YEAR_LENGTH)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(curve, <span class="at">cex =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -234,60 +298,114 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
-<p>Define the <code>objectiveFunc()</code> function that calculates <strong>the sum of squared differences between the observed data and the predicted values</strong>, generated by the <code>getAnnualDoubleLogisticCurve()</code> function with a given parameter setting. Then, use the <code>optim()</code> function to estimate the best parameter values by minimizing the objective function.</p>
-<p>NOTE: <code>optim()</code> using method “L-BFGS-B”, see <code>?optim</code> or: &gt; Byrd, R. H., Lu, P., Nocedal, J. and Zhu, C. (1995). A limited memory algorithm for bound constrained optimization. SIAM Journal on Scientific Computing, 16, 1190–1208. doi:10.1137/0916069.</p>
-<p>Plot the original curve (curve) and overlay it with the curve generated using the best estimated parameter values (bestEstimationCurve). The best estimated curve is shown in red.</p>
+<p>Define the <code>initial_guess</code> vector with your initial parameter guess values. Generate the curve using the <code>gen_annual_double_logistic_curve()</code> function with the initial guess. Plot it. Notice that our initial guess generates a somewhat “average” cumulative curve.</p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>initial_guess <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="dv">100</span>, <span class="fl">0.1</span>, <span class="dv">200</span>, <span class="fl">0.1</span>)  <span class="co"># Initial parameter guess</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>first_guess_curve <span class="ot">&lt;-</span> <span class="fu">gen_annual_double_logistic_curve</span>(</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">plateau_value =</span> initial_guess[<span class="dv">1</span>], </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">inflection1 =</span> initial_guess[<span class="dv">2</span>], </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">rate1 =</span> initial_guess[<span class="dv">3</span>], </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">inflection2 =</span> initial_guess[<span class="dv">4</span>],</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">rate2 =</span> initial_guess[<span class="dv">5</span>],</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">year_length =</span> YEAR_LENGTH)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(first_guess_curve, <span class="at">cex =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="walkthrough-attempts_files/figure-html/unnamed-chunk-6-1.svg" class="img-fluid figure-img"></p>
+<p><img src="walkthrough-attempts_files/figure-html/unnamed-chunk-5-1.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Define the <code>eval_objective_func()</code> function that calculates <strong>the sum of squared differences between the observed data and the predicted values</strong>, generated by the <code>gen_annual_double_logistic_curve()</code> function with a given parameter setting. Then, use the <code>optim()</code> function to estimate the best parameter values by minimizing the objective function.</p>
+<p>NOTE: <code>optim()</code> using method “L-BFGS-B”, see <code>?optim</code> or:</p>
+<p>&gt; Byrd, R. H., Lu, P., Nocedal, J. and Zhu, C. (1995). A limited memory algorithm for bound constrained optimization. SIAM Journal on Scientific Computing, 16, 1190–1208. doi:10.1137/0916069.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>observed_data <span class="ot">&lt;-</span> curve</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Objective function to minimize (difference between observed and predicted values or "residual")</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>eval_objective_func <span class="ot">&lt;-</span> <span class="cf">function</span>(params) {</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  predicted_data <span class="ot">&lt;-</span> <span class="fu">gen_annual_double_logistic_curve</span>(params[<span class="dv">1</span>], params[<span class="dv">2</span>], params[<span class="dv">3</span>], params[<span class="dv">4</span>], params[<span class="dv">5</span>], YEAR_LENGTH)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>((observed_data <span class="sc">-</span> predicted_data)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the least squares method to estimate the parameter values</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">optim</span>(initial_guess, eval_objective_func,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>             <span class="at">method =</span> <span class="st">"L-BFGS-B"</span>, </span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>             <span class="at">lower =</span> params_range_lower[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>], </span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>             <span class="at">upper =</span> params_range_upper[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>])</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>best_estimation_curve <span class="ot">&lt;-</span> <span class="fu">gen_annual_double_logistic_curve</span>(fit<span class="sc">$</span>par[<span class="dv">1</span>], fit<span class="sc">$</span>par[<span class="dv">2</span>], fit<span class="sc">$</span>par[<span class="dv">3</span>], fit<span class="sc">$</span>par[<span class="dv">4</span>], fit<span class="sc">$</span>par[<span class="dv">5</span>], YEAR_LENGTH)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Plot the original curve (curve) and overlay it with the curve generated using the best estimated parameter values (best_estimation_curve). The best estimated curve is shown in red.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(curve, <span class="at">cex =</span> <span class="dv">2</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(best_estimation_curve, <span class="at">col =</span> <span class="st">'red'</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="walkthrough-attempts_files/figure-html/unnamed-chunk-7-1.svg" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print_parameter_comparison_table</span>(original_params, fit, params_range_upper[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>], params_range_lower[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th">parameter</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
 <th style="text-align: center;" data-quarto-table-cell-role="th">original</th>
 <th style="text-align: center;" data-quarto-table-cell-role="th">estimated</th>
 <th style="text-align: center;" data-quarto-table-cell-role="th">delta</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">range</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">delta (%)</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">plateauValue</td>
+<td style="text-align: left;">plateau_value</td>
 <td style="text-align: center;">0.01</td>
-<td style="text-align: center;">0.00909982142182281</td>
-<td style="text-align: center;">9e-04</td>
+<td style="text-align: center;">0.0090998</td>
+<td style="text-align: center;">0.000900</td>
+<td style="text-align: center;">1.00</td>
+<td style="text-align: center;">0.0900</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">inflection1</td>
-<td style="text-align: center;">125</td>
-<td style="text-align: center;">113.795551408398</td>
+<td style="text-align: center;">125.00</td>
+<td style="text-align: center;">113.7955514</td>
 <td style="text-align: center;">11.204449</td>
+<td style="text-align: center;">364.00</td>
+<td style="text-align: center;">3.0781</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">rate1</td>
-<td style="text-align: center;">0.3</td>
-<td style="text-align: center;">0.89998427831094</td>
+<td style="text-align: center;">0.30</td>
+<td style="text-align: center;">0.8999843</td>
 <td style="text-align: center;">0.599984</td>
+<td style="text-align: center;">0.89</td>
+<td style="text-align: center;">67.4140</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">inflection2</td>
-<td style="text-align: center;">245</td>
-<td style="text-align: center;">244.987905641175</td>
+<td style="text-align: center;">245.00</td>
+<td style="text-align: center;">244.9879056</td>
 <td style="text-align: center;">0.012094</td>
+<td style="text-align: center;">364.00</td>
+<td style="text-align: center;">0.0033</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">rate2</td>
 <td style="text-align: center;">0.22</td>
-<td style="text-align: center;">0.219538135299713</td>
+<td style="text-align: center;">0.2195381</td>
 <td style="text-align: center;">0.000462</td>
+<td style="text-align: center;">0.89</td>
+<td style="text-align: center;">0.0519</td>
 </tr>
 </tbody>
 </table>
@@ -296,18 +414,27 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
-<p>We can see that reverse engineering the parameter values of the double logistic curve is relatively straightforward. However, precipitation in the Weather model presents an additional challenge: the continuous cumulative curve is broken down into “steps” through <code>discretiseCurve()</code>, which introduces <strong>stochasticity</strong>. We will also add <code>rescaleCurve()</code> to the end of the process, in order to approach the curve that would be created by <code>getPrecipitationOfYear()</code>.</p>
-<p>Let us extend the workflow used above with <code>getAnnualDoubleLogisticCurve()</code> to also cover the two additional parameters of <code>discretiseCurve()</code> (for now, fix <code>seed = 0</code>):</p>
+<p>We can see that reverse engineering the parameter values of the double logistic curve is relatively straightforward. This specific curve offers a clear hint that <code>rate1</code> and <code>rate2</code> (i.e.&nbsp;the maximum growth rates of each logistic component) are harder to estimate when <code>plateau_value</code> is extreme .</p>
+</section>
+<section id="adding-discretise_curve-stochastic-function" class="level3" data-number="6.1.2">
+<h3 data-number="6.1.2" class="anchored" data-anchor-id="adding-discretise_curve-stochastic-function"><span class="header-section-number">6.1.2</span> Adding <code>discretise_curve()</code> (stochastic function)</h3>
+<p>However, precipitation in the Weather model presents an additional challenge: the continuous cumulative curve is broken down into “steps” through <code>discretise_curve()</code>, which introduces <strong>stochasticity</strong>. We will also add <code>rescale_curve()</code> to the end of the process, in order to approach the curve that would be created by <code>generate_annual_precipitation()</code>.</p>
+<p>Let us extend the workflow used above with <code>gen_annual_double_logistic_curve()</code> to also cover the two additional parameters of <code>discretise_curve()</code> (for now, fix <code>seed = 0</code>):</p>
 <div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="walkthrough-attempts_files/figure-html/unnamed-chunk-8-1.svg" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>original_params <span class="ot">&lt;-</span> <span class="fu">c</span>(params_values_double_logistic[<span class="dv">1</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>], params_values_discretisation[<span class="dv">1</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>curve <span class="ot">&lt;-</span> <span class="fu">gen_cum_precipitation_of_year</span>(</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">plateau_value =</span> original_params[<span class="dv">1</span>], </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">inflection1 =</span> original_params[<span class="dv">2</span>], </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">rate1 =</span> original_params[<span class="dv">3</span>], </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">inflection2 =</span> original_params[<span class="dv">4</span>],</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">rate2 =</span> original_params[<span class="dv">5</span>],</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">year_length =</span> YEAR_LENGTH,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_samples =</span> original_params[<span class="dv">6</span>],</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_sample_size =</span> original_params[<span class="dv">7</span>],</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(curve, <span class="at">type =</span> <span class="st">'l'</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -317,68 +444,145 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>initial_guess <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="dv">100</span>, <span class="fl">0.1</span>, <span class="dv">200</span>, <span class="fl">0.1</span>, <span class="dv">180</span>, <span class="dv">15</span>)  <span class="co"># Initial parameter guess</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>first_guess_curve <span class="ot">&lt;-</span> <span class="fu">gen_cum_precipitation_of_year</span>(</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">plateau_value =</span> initial_guess[<span class="dv">1</span>], </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">inflection1 =</span> initial_guess[<span class="dv">2</span>], </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">rate1 =</span> initial_guess[<span class="dv">3</span>], </span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">inflection2 =</span> initial_guess[<span class="dv">4</span>],</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">rate2 =</span> initial_guess[<span class="dv">5</span>],</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">year_length =</span> YEAR_LENGTH,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_samples =</span> initial_guess[<span class="dv">6</span>],</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">max_sample_size =</span> initial_guess[<span class="dv">7</span>],</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">seed =</span> SEED)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(first_guess_curve, <span class="at">type =</span> <span class="st">'l'</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="walkthrough-attempts_files/figure-html/unnamed-chunk-11-1.svg" class="img-fluid figure-img"></p>
+<p><img src="walkthrough-attempts_files/figure-html/unnamed-chunk-10-1.svg" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>observed_data <span class="ot">&lt;-</span> curve</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Objective function to minimize (difference between observed and predicted values)</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>eval_objective_func <span class="ot">&lt;-</span> <span class="cf">function</span>(params) {</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  predicted_data <span class="ot">&lt;-</span> <span class="fu">gen_cum_precipitation_of_year</span>(</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">plateau_value =</span> params[<span class="dv">1</span>], </span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">inflection1 =</span> params[<span class="dv">2</span>], <span class="at">rate1 =</span> params[<span class="dv">3</span>], </span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">inflection2 =</span> params[<span class="dv">4</span>], <span class="at">rate2 =</span> params[<span class="dv">5</span>], </span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">year_length =</span> YEAR_LENGTH,</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_samples =</span> params[<span class="dv">6</span>], </span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">max_sample_size =</span> params[<span class="dv">7</span>], </span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">seed =</span> SEED</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>((observed_data <span class="sc">-</span> predicted_data)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the least squares method to estimate the parameter values</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">optim</span>(initial_guess, eval_objective_func,</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>             <span class="at">method =</span> <span class="st">"L-BFGS-B"</span>, </span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>             <span class="at">lower =</span> params_range_lower, </span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>             <span class="at">upper =</span> params_range_upper)</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>best_estimation_curve <span class="ot">&lt;-</span> <span class="fu">gen_cum_precipitation_of_year</span>(</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">plateau_value =</span> fit<span class="sc">$</span>par[<span class="dv">1</span>], </span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">inflection1 =</span> fit<span class="sc">$</span>par[<span class="dv">2</span>], <span class="at">rate1 =</span> fit<span class="sc">$</span>par[<span class="dv">3</span>], </span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">inflection2 =</span> fit<span class="sc">$</span>par[<span class="dv">4</span>], <span class="at">rate2 =</span> fit<span class="sc">$</span>par[<span class="dv">5</span>], </span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">year_length =</span> YEAR_LENGTH,</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_samples =</span> fit<span class="sc">$</span>par[<span class="dv">6</span>], </span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_sample_size =</span> fit<span class="sc">$</span>par[<span class="dv">7</span>], </span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> SEED</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(curve, <span class="at">type =</span> <span class="st">'l'</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(best_estimation_curve, <span class="at">col =</span> <span class="st">'red'</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="walkthrough-attempts_files/figure-html/unnamed-chunk-12-1.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print_parameter_comparison_table</span>(original_params, fit, params_range_upper, params_range_lower)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th">parameter</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
 <th style="text-align: center;" data-quarto-table-cell-role="th">original</th>
 <th style="text-align: center;" data-quarto-table-cell-role="th">estimated</th>
 <th style="text-align: center;" data-quarto-table-cell-role="th">delta</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">range</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">delta (%)</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">plateauValue</td>
+<td style="text-align: left;">plateau_value</td>
 <td style="text-align: center;">0.01</td>
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">0.01</td>
+<td style="text-align: center;">0.0126065</td>
+<td style="text-align: center;">0.002606</td>
+<td style="text-align: center;">1.00</td>
+<td style="text-align: center;">0.2606</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">inflection1</td>
-<td style="text-align: center;">125</td>
-<td style="text-align: center;">100.289790982745</td>
-<td style="text-align: center;">24.710209</td>
+<td style="text-align: center;">125.00</td>
+<td style="text-align: center;">100.2542491</td>
+<td style="text-align: center;">24.745751</td>
+<td style="text-align: center;">364.00</td>
+<td style="text-align: center;">6.7983</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">rate1</td>
-<td style="text-align: center;">0.3</td>
-<td style="text-align: center;">0.01</td>
-<td style="text-align: center;">0.29</td>
+<td style="text-align: center;">0.30</td>
+<td style="text-align: center;">0.9000000</td>
+<td style="text-align: center;">0.600000</td>
+<td style="text-align: center;">0.89</td>
+<td style="text-align: center;">67.4157</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">inflection2</td>
-<td style="text-align: center;">245</td>
-<td style="text-align: center;">258.301146051514</td>
-<td style="text-align: center;">13.301146</td>
+<td style="text-align: center;">245.00</td>
+<td style="text-align: center;">250.3699407</td>
+<td style="text-align: center;">5.369941</td>
+<td style="text-align: center;">364.00</td>
+<td style="text-align: center;">1.4753</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">rate2</td>
 <td style="text-align: center;">0.22</td>
-<td style="text-align: center;">0.9</td>
-<td style="text-align: center;">0.68</td>
+<td style="text-align: center;">0.9000000</td>
+<td style="text-align: center;">0.680000</td>
+<td style="text-align: center;">0.89</td>
+<td style="text-align: center;">76.4045</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">nSamples</td>
-<td style="text-align: center;">152</td>
-<td style="text-align: center;">270.02228671593</td>
-<td style="text-align: center;">118.022287</td>
+<td style="text-align: left;">n_samples</td>
+<td style="text-align: center;">152.00</td>
+<td style="text-align: center;">143.9652346</td>
+<td style="text-align: center;">8.034765</td>
+<td style="text-align: center;">364.00</td>
+<td style="text-align: center;">2.2074</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">maxSampleSize</td>
-<td style="text-align: center;">22</td>
-<td style="text-align: center;">30</td>
-<td style="text-align: center;">8</td>
+<td style="text-align: left;">max_sample_size</td>
+<td style="text-align: center;">22.00</td>
+<td style="text-align: center;">30.0000000</td>
+<td style="text-align: center;">8.000000</td>
+<td style="text-align: center;">27.00</td>
+<td style="text-align: center;">29.6296</td>
 </tr>
 </tbody>
 </table>
@@ -387,108 +591,247 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
-<p>Close, but a much worse fit than obtained with <code>getAnnualDoubleLogisticCurve()</code> only. We should take this performance in consideration going forward.</p>
+<p>Close, but a much worse fit than obtained with <code>gen_annual_double_logistic_curve()</code> only. We should take this performance in consideration going forward.</p>
+</section>
+<section id="calibrating-multiple-example-curves-to-determine-hyperparameters" class="level3" data-number="6.1.3">
+<h3 data-number="6.1.3" class="anchored" data-anchor-id="calibrating-multiple-example-curves-to-determine-hyperparameters"><span class="header-section-number">6.1.3</span> Calibrating multiple example curves to determine hyperparameters</h3>
 <p>Let us now apply the same workflow for estimating the hyperparameters able to generate an approximation of a sequence of year daily series.</p>
-<p>First, generate the original dataset based on the different configurations present in <code>parValuesDoubleLogistic</code> and <code>parValuesDiscretisation</code>:</p>
+<p>First, generate the original dataset based on the different configurations present in <code>params_values_double_logistic</code> and <code>params_values_discretisation</code>:</p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>curves <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>original_params_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(params_values_double_logistic))</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  original_params <span class="ot">&lt;-</span> <span class="fu">c</span>(params_values_double_logistic[i, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>], params_values_discretisation[i, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  curve <span class="ot">&lt;-</span> <span class="fu">gen_cum_precipitation_of_year</span>(</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">plateau_value =</span> original_params[<span class="dv">1</span>], </span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">inflection1 =</span> original_params[<span class="dv">2</span>], </span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">rate1 =</span> original_params[<span class="dv">3</span>], </span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">inflection2 =</span> original_params[<span class="dv">4</span>],</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">rate2 =</span> original_params[<span class="dv">5</span>],</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">year_length =</span> YEAR_LENGTH,</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_samples =</span> original_params[<span class="dv">6</span>],</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">max_sample_size =</span> original_params[<span class="dv">7</span>],</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">seed =</span> SEED</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>  curves[[i]] <span class="ot">&lt;-</span> curve</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>  original_params_list[[i]] <span class="ot">&lt;-</span> original_params</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(curves[[<span class="dv">1</span>]], <span class="at">type =</span> <span class="st">'l'</span>, <span class="at">col =</span> <span class="dv">1</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">ylab =</span> <span class="st">'curve'</span>)</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(curves))</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(curves[[i]], <span class="at">col =</span> i,  <span class="at">lwd =</span> <span class="dv">3</span>)</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="walkthrough-attempts_files/figure-html/unnamed-chunk-13-1.svg" class="img-fluid figure-img"></p>
+<p><img src="walkthrough-attempts_files/figure-html/unnamed-chunk-14-1.svg" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>Apply <code>optim</code>, reusing <code>initialGuess</code> and <code>objectiveFunc</code>, to each curve and generate a sequence of best estimation curves:</p>
+<p>Apply <code>optim</code>, reusing <code>initial_guess</code> and <code>eval_objective_func</code>, to each curve and generate a sequence of best estimation curves:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>best_estimation_curves <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>best_estimation_fits <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(params_values_double_logistic))</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  observed_data <span class="ot">&lt;-</span> curves[[i]]</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Use the least squares method to estimate the parameter values</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">optim</span>(initial_guess, eval_objective_func,</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>               <span class="at">method =</span> <span class="st">"L-BFGS-B"</span>, </span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>               <span class="at">lower =</span> params_range_lower, </span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>               <span class="at">upper =</span> params_range_upper)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  best_estimation_curve <span class="ot">&lt;-</span> <span class="fu">gen_cum_precipitation_of_year</span>(</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">plateau_value =</span> fit<span class="sc">$</span>par[<span class="dv">1</span>], </span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">inflection1 =</span> fit<span class="sc">$</span>par[<span class="dv">2</span>], <span class="at">rate1 =</span> fit<span class="sc">$</span>par[<span class="dv">3</span>], </span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">inflection2 =</span> fit<span class="sc">$</span>par[<span class="dv">4</span>], <span class="at">rate2 =</span> fit<span class="sc">$</span>par[<span class="dv">5</span>], </span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">year_length =</span> YEAR_LENGTH,</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_samples =</span> fit<span class="sc">$</span>par[<span class="dv">6</span>], </span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">max_sample_size =</span> fit<span class="sc">$</span>par[<span class="dv">7</span>], </span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">seed =</span> SEED)</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>  best_estimation_curves[[i]] <span class="ot">&lt;-</span> best_estimation_curve</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>  best_estimation_fits[[i]] <span class="ot">&lt;-</span> fit</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>Plot original and estimated curves:</p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">layout</span>(<span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>))</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(curves)) {</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(curves[[i]], <span class="at">type =</span> <span class="st">'l'</span>, <span class="at">col =</span> i, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">xaxt =</span> <span class="st">'n'</span>, <span class="at">yaxt =</span> <span class="st">'n'</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(best_estimation_curves[[i]], <span class="at">col =</span> i,  <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="walkthrough-attempts_files/figure-html/unnamed-chunk-15-1.svg" class="img-fluid figure-img"></p>
+<p><img src="walkthrough-attempts_files/figure-html/unnamed-chunk-16-1.svg" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Visualise the aggregate estimation quality:</p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Helper functions</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>calculate_mean_sd <span class="ot">&lt;-</span> <span class="cf">function</span>(list_of_vectors) {</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(list_of_vectors) <span class="sc">==</span> <span class="dv">0</span>) <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">mean =</span> <span class="fu">numeric</span>(<span class="dv">0</span>), <span class="at">sd =</span> <span class="fu">numeric</span>(<span class="dv">0</span>)))</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  values_matrix <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, list_of_vectors)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean =</span> <span class="fu">colMeans</span>(values_matrix),</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> <span class="fu">apply</span>(values_matrix, <span class="dv">2</span>, sd)</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>get_list_params_from_fit <span class="ot">&lt;-</span> <span class="cf">function</span>(list_of_fit_objects) {</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lapply</span>(list_of_fit_objects, <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="st">"par"</span>)</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Main functions</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>create_parameter_comparison_summary <span class="ot">&lt;-</span> <span class="cf">function</span>(original_params_list, fits, params_range_upper, params_range_lower) {</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>  original_summary <span class="ot">&lt;-</span> <span class="fu">calculate_mean_sd</span>(original_params_list)</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>  estimated_summary <span class="ot">&lt;-</span> <span class="fu">calculate_mean_sd</span>(<span class="fu">get_list_params_from_fit</span>(fits))</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">original_mean =</span> <span class="fu">round</span>(original_summary<span class="sc">$</span>mean, <span class="at">digits =</span> <span class="dv">4</span>),</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">original_sd =</span> <span class="fu">round</span>(original_summary<span class="sc">$</span>sd, <span class="at">digits =</span> <span class="dv">4</span>),</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimated_mean =</span> <span class="fu">round</span>(estimated_summary<span class="sc">$</span>mean, <span class="at">digits =</span> <span class="dv">4</span>),</span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimated_sd =</span> <span class="fu">round</span>(estimated_summary<span class="sc">$</span>sd, <span class="at">digits =</span> <span class="dv">4</span>),</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">delta_mean =</span> <span class="fu">round</span>(<span class="fu">abs</span>(original_summary<span class="sc">$</span>mean <span class="sc">-</span> estimated_summary<span class="sc">$</span>mean), <span class="at">digits =</span> <span class="dv">6</span>),</span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">delta_sd =</span> <span class="fu">round</span>(<span class="fu">abs</span>(original_summary<span class="sc">$</span>sd <span class="sc">-</span> estimated_summary<span class="sc">$</span>sd), <span class="at">digits =</span> <span class="dv">6</span>),</span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>    <span class="co">#range = params_range_upper - params_range_lower,</span></span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">delta_mean_percent =</span> <span class="fu">round</span>(</span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>      <span class="dv">100</span> <span class="sc">*</span> <span class="fu">abs</span>(original_summary<span class="sc">$</span>mean <span class="sc">-</span> estimated_summary<span class="sc">$</span>mean) <span class="sc">/</span> (params_range_upper <span class="sc">-</span> params_range_lower), </span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>      <span class="at">digits =</span> <span class="dv">4</span></span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">delta_mean_percent =</span> <span class="fu">round</span>(</span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>      <span class="dv">100</span> <span class="sc">*</span> <span class="fu">abs</span>(original_summary<span class="sc">$</span>sd <span class="sc">-</span> estimated_summary<span class="sc">$</span>sd) <span class="sc">/</span> (params_range_upper <span class="sc">-</span> params_range_lower), </span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>      <span class="at">digits =</span> <span class="dv">4</span></span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a>print_parameter_comparison_summary_table <span class="ot">&lt;-</span> <span class="cf">function</span>(parameter_comparison_summary) {</span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(parameter_comparison_summary,</span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a>             <span class="at">format =</span> <span class="st">"html"</span>,</span>
+<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a>             <span class="at">col.names =</span> <span class="fu">c</span>(</span>
+<span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a>               <span class="st">"original (mean)"</span>, <span class="st">"original (sd)"</span>, </span>
+<span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a>               <span class="st">"estimated (mean)"</span>, <span class="st">"estimated (sd)"</span>,</span>
+<span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a>               <span class="st">"delta (mean)"</span>, <span class="st">"delta (sd)"</span>,</span>
+<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a>               <span class="st">"delta (mean%)"</span>, <span class="st">"delta (sd%)"</span>),</span>
+<span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a>             <span class="at">align =</span> <span class="fu">c</span>(<span class="st">"c"</span>, <span class="st">"c"</span>, <span class="st">"c"</span>, <span class="st">"c"</span>, <span class="st">"c"</span>, <span class="st">"c"</span>, <span class="st">"c"</span>, <span class="st">"c"</span>))</span>
+<span id="cb17-52"><a href="#cb17-52" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-53"><a href="#cb17-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-54"><a href="#cb17-54" aria-hidden="true" tabindex="-1"></a><span class="co"># Execution</span></span>
+<span id="cb17-55"><a href="#cb17-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-56"><a href="#cb17-56" aria-hidden="true" tabindex="-1"></a>parameter_comparison_summary <span class="ot">&lt;-</span> <span class="fu">create_parameter_comparison_summary</span>(original_params_list, best_estimation_fits, params_range_upper, params_range_lower)</span>
+<span id="cb17-57"><a href="#cb17-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-58"><a href="#cb17-58" aria-hidden="true" tabindex="-1"></a><span class="fu">print_parameter_comparison_summary_table</span>(parameter_comparison_summary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th">parameter</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
 <th style="text-align: center;" data-quarto-table-cell-role="th">original (mean)</th>
 <th style="text-align: center;" data-quarto-table-cell-role="th">original (sd)</th>
 <th style="text-align: center;" data-quarto-table-cell-role="th">estimated (mean)</th>
 <th style="text-align: center;" data-quarto-table-cell-role="th">estimated (sd)</th>
 <th style="text-align: center;" data-quarto-table-cell-role="th">delta (mean)</th>
 <th style="text-align: center;" data-quarto-table-cell-role="th">delta (sd)</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">delta (mean%)</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">delta (sd%)</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">plateauValue</td>
-<td style="text-align: center;">0.4266667</td>
-<td style="text-align: center;">0.3050683</td>
-<td style="text-align: center;">0.3599647</td>
-<td style="text-align: center;">0.4221796</td>
-<td style="text-align: center;">0.066702</td>
-<td style="text-align: center;">0.117111</td>
+<td style="text-align: left;">plateau_value</td>
+<td style="text-align: center;">0.4267</td>
+<td style="text-align: center;">0.3051</td>
+<td style="text-align: center;">0.5238</td>
+<td style="text-align: center;">0.4174</td>
+<td style="text-align: center;">0.097147</td>
+<td style="text-align: center;">0.112358</td>
+<td style="text-align: center;">9.7147</td>
+<td style="text-align: center;">11.2358</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">inflection1</td>
-<td style="text-align: center;">97.3333333</td>
-<td style="text-align: center;">67.6481091</td>
-<td style="text-align: center;">83.9851037</td>
-<td style="text-align: center;">38.6891002</td>
-<td style="text-align: center;">13.348230</td>
-<td style="text-align: center;">28.959009</td>
+<td style="text-align: center;">97.3333</td>
+<td style="text-align: center;">67.6481</td>
+<td style="text-align: center;">64.9747</td>
+<td style="text-align: center;">49.8331</td>
+<td style="text-align: center;">32.358633</td>
+<td style="text-align: center;">17.815035</td>
+<td style="text-align: center;">8.8897</td>
+<td style="text-align: center;">4.8942</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">rate1</td>
-<td style="text-align: center;">0.2550000</td>
-<td style="text-align: center;">0.2034453</td>
-<td style="text-align: center;">0.3079023</td>
-<td style="text-align: center;">0.4586454</td>
-<td style="text-align: center;">0.052902</td>
-<td style="text-align: center;">0.255200</td>
+<td style="text-align: center;">0.2550</td>
+<td style="text-align: center;">0.2034</td>
+<td style="text-align: center;">0.4256</td>
+<td style="text-align: center;">0.4247</td>
+<td style="text-align: center;">0.170560</td>
+<td style="text-align: center;">0.221209</td>
+<td style="text-align: center;">19.1640</td>
+<td style="text-align: center;">24.8549</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">inflection2</td>
-<td style="text-align: center;">241.6666667</td>
-<td style="text-align: center;">29.6895043</td>
-<td style="text-align: center;">231.6966633</td>
-<td style="text-align: center;">53.9317743</td>
-<td style="text-align: center;">9.970003</td>
-<td style="text-align: center;">24.242270</td>
+<td style="text-align: center;">241.6667</td>
+<td style="text-align: center;">29.6895</td>
+<td style="text-align: center;">256.9584</td>
+<td style="text-align: center;">60.9816</td>
+<td style="text-align: center;">15.291717</td>
+<td style="text-align: center;">31.292059</td>
+<td style="text-align: center;">4.2010</td>
+<td style="text-align: center;">8.5967</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">rate2</td>
-<td style="text-align: center;">0.2566667</td>
-<td style="text-align: center;">0.2050041</td>
-<td style="text-align: center;">0.3511250</td>
-<td style="text-align: center;">0.4356376</td>
-<td style="text-align: center;">0.094458</td>
-<td style="text-align: center;">0.230634</td>
+<td style="text-align: center;">0.2567</td>
+<td style="text-align: center;">0.2050</td>
+<td style="text-align: center;">0.4631</td>
+<td style="text-align: center;">0.4623</td>
+<td style="text-align: center;">0.206456</td>
+<td style="text-align: center;">0.257308</td>
+<td style="text-align: center;">23.1973</td>
+<td style="text-align: center;">28.9110</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">nSamples</td>
-<td style="text-align: center;">196.0000000</td>
-<td style="text-align: center;">32.6741488</td>
-<td style="text-align: center;">211.4276582</td>
-<td style="text-align: center;">42.7020308</td>
-<td style="text-align: center;">15.427658</td>
-<td style="text-align: center;">10.027882</td>
+<td style="text-align: left;">n_samples</td>
+<td style="text-align: center;">196.0000</td>
+<td style="text-align: center;">32.6741</td>
+<td style="text-align: center;">159.1494</td>
+<td style="text-align: center;">24.7352</td>
+<td style="text-align: center;">36.850629</td>
+<td style="text-align: center;">7.938989</td>
+<td style="text-align: center;">10.1238</td>
+<td style="text-align: center;">2.1810</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">maxSampleSize</td>
-<td style="text-align: center;">12.8333333</td>
-<td style="text-align: center;">5.8452260</td>
-<td style="text-align: center;">25.1674283</td>
-<td style="text-align: center;">8.0057919</td>
-<td style="text-align: center;">12.334095</td>
-<td style="text-align: center;">2.160566</td>
+<td style="text-align: left;">max_sample_size</td>
+<td style="text-align: center;">12.8333</td>
+<td style="text-align: center;">5.8452</td>
+<td style="text-align: center;">21.6078</td>
+<td style="text-align: center;">10.1365</td>
+<td style="text-align: center;">8.774432</td>
+<td style="text-align: center;">4.291308</td>
+<td style="text-align: center;">32.4979</td>
+<td style="text-align: center;">15.8937</td>
 </tr>
 </tbody>
 </table>
@@ -497,24 +840,61 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
-<p>Define the hyperparameters of a weather model instance based on the mean and standard deviation of the best estimation parameter values:</p>
+<p>Although the original example curves are quite different from each other, let us assume that they correspond to cumulative precipitation of six years at a single location. This will allow us to test the <code>optim</code> calibration workflow on our ultimate target, the precipitation hyperparameters of the Weather model.</p>
+<p>Initialise the weather model setting the precipitation hyperparameters as the mean and standard deviation of the best estimation parameter values in <code>parameter_comparison_summary</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>weather_model <span class="ot">&lt;-</span> <span class="fu">initialise_weather_model</span>(</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">seed =</span> <span class="dv">0</span>,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">precip_plateau_value_mean =</span> parameter_comparison_summary[<span class="st">"plateau_value"</span>, <span class="st">"estimated_mean"</span>],</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">precip_plateau_value_sd =</span> parameter_comparison_summary[<span class="st">"plateau_value"</span>, <span class="st">"estimated_sd"</span>],</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">precip_inflection1_mean =</span> parameter_comparison_summary[<span class="st">"inflection1"</span>, <span class="st">"estimated_mean"</span>],</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">precip_inflection1_sd =</span> parameter_comparison_summary[<span class="st">"inflection1"</span>, <span class="st">"estimated_sd"</span>],</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">precip_rate1_mean =</span> parameter_comparison_summary[<span class="st">"rate1"</span>, <span class="st">"estimated_mean"</span>],</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">precip_rate1_sd =</span> parameter_comparison_summary[<span class="st">"rate1"</span>, <span class="st">"estimated_sd"</span>],</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">precip_inflection2_mean =</span> parameter_comparison_summary[<span class="st">"inflection2"</span>, <span class="st">"estimated_mean"</span>],</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">precip_inflection2_sd =</span> parameter_comparison_summary[<span class="st">"inflection2"</span>, <span class="st">"estimated_sd"</span>],</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">precip_rate2_mean =</span> parameter_comparison_summary[<span class="st">"rate2"</span>, <span class="st">"estimated_mean"</span>],</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">precip_rate2_sd =</span> parameter_comparison_summary[<span class="st">"rate2"</span>, <span class="st">"estimated_sd"</span>],</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">precip_n_samples_mean =</span> parameter_comparison_summary[<span class="st">"n_samples"</span>, <span class="st">"estimated_mean"</span>],</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">precip_n_samples_sd =</span> parameter_comparison_summary[<span class="st">"n_samples"</span>, <span class="st">"estimated_sd"</span>],</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">precip_max_sample_size_mean =</span> parameter_comparison_summary[<span class="st">"max_sample_size"</span>, <span class="st">"estimated_mean"</span>],</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">precip_max_sample_size_sd =</span> parameter_comparison_summary[<span class="st">"max_sample_size"</span>, <span class="st">"estimated_sd"</span>]</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>Run the model to generate a number of cumulative curves:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>weather_model <span class="ot">&lt;-</span> <span class="fu">run_weather_model</span>(weather_model, <span class="at">num_years =</span> <span class="dv">30</span>, <span class="at">show_warnings =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>Plot original and generated curves:</p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(<span class="dv">1</span>, weather_model<span class="sc">$</span>PARAMS<span class="sc">$</span>year_length), <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">ann =</span> F, <span class="at">bty =</span> <span class="st">'n'</span>, <span class="at">type =</span> <span class="st">'n'</span>, <span class="at">ylab =</span> <span class="st">'curve'</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># original curves</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(curves))</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(curves[[i]], <span class="at">col =</span> i,  <span class="at">lwd =</span> <span class="dv">3</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co"># generated curves</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (year <span class="cf">in</span> <span class="fu">unique</span>(weather_model<span class="sc">$</span>daily<span class="sc">$</span>current_year))</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(<span class="dv">1</span><span class="sc">:</span>weather_model<span class="sc">$</span>PARAMS<span class="sc">$</span>year_length, </span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>        <span class="fu">get_cumulative_precipitation_of_year</span>(</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>          weather_model<span class="sc">$</span>daily<span class="sc">$</span>precipitation[</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>            weather_model<span class="sc">$</span>daily<span class="sc">$</span>current_year <span class="sc">==</span> year</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>          ]), </span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="st">"grey"</span>, </span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="walkthrough-attempts_files/figure-html/unnamed-chunk-19-1.svg" class="img-fluid figure-img"></p>
+<p><img src="walkthrough-attempts_files/figure-html/unnamed-chunk-20-1.svg" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
+
+
 </section>
-<section id="parameter-estimation-using-genetic-algorithms-ga-package" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="parameter-estimation-using-genetic-algorithms-ga-package"><span class="header-section-number">6.2</span> Parameter estimation using Genetic Algorithms (<code>ga</code> package):</h2>
-<p>TO DO</p>
-
-
 </section>
 
 </main> <!-- /main -->
@@ -907,8 +1287,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./full-model-example.html" class="pagination-link" aria-label="Example of simulation outputs of the Weather model for 5 years">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Example of simulation outputs of the Weather model for 5 years</span></span>
+      <a href="./precipitation-parameters.html" class="pagination-link" aria-label="Demonstration of parameter variation: precipitation">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Demonstration of parameter variation: precipitation</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
