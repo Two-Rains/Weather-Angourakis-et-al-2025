@@ -1,5 +1,5 @@
 project:
-  title: "Weather-Angourakis-et-al-2024"
+  title: "Weather-Angourakis-et-al-2025"
   type: book
   output-dir: docs
 
@@ -11,12 +11,12 @@ execute:
   fig.path: "output/"
 
 book:
-  title: "Supplementary materials to Angourakis et al. (2024)"
+  title: "Supplementary materials to Angourakis et al. (2025)"
   author: "Andreas Angourakis"
   date: today
   date-format: DD MMMM, YYYY
   page-navigation: true
-  site-url: https:/two-rains.github.io/Weather-Angourakis-et-al-2024/
+  site-url: https:/two-rains.github.io/Weather-Angourakis-et-al-2025/
   chapters:
     - index.qmd
     - weather-examples.qmd
