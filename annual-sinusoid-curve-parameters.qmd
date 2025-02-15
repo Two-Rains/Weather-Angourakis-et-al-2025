@@ -72,7 +72,7 @@ plot_empty <- function() {
 
 add_text <- function(x, y, label, cex_factor = 0.6, srt = 0) {
   text(x = x, y = y, labels = label, font = 4, 
-       cex = graphic_scale * (cex_factor + font_rescale), srt = srt)
+       cex = graphic_scale * (cex_factor + font_rescale + margin_text_rescale), srt = srt)
 }
 
 # Main plotting function
@@ -148,8 +148,8 @@ plot_annual_sinusoid <- function(par_values_annual_sinusoid, is_southern_hemisph
 
   # Legend
   plot(c(0, 1), c(0, nrow(par_values_annual_sinusoid) + 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
-  x_pos <- 0.25
-  y_pos <- c(0.5, 0.1, -0.1)
+  x_pos <- 0.315
+  y_pos <- c(0.5, -0.1, -0.4)
   jump <- 1
 
   for (i in 1:nrow(par_values_annual_sinusoid)) {
@@ -175,14 +175,16 @@ plot_annual_sinusoid <- function(par_values_annual_sinusoid, is_southern_hemisph
 plot_name <- file.path(output_dir, paste0("Fig4-annualSinusoidCurve.", plot_file_format))
 
 if (plot_file_format == "png") {
-  graphic_scale <- 2
-  font_rescale <- axis_text_rescale <- margin_text_rescale <- 0
-  png(plot_name, width = graphic_scale * 1000, height = graphic_scale * 600)
+  graphic_scale <- 1
+  font_rescale <- 0.5
+  axis_text_rescale <- 2
+  margin_text_rescale <- -0.1
+  png(plot_name, width = graphic_scale * 800, height = graphic_scale * 400)
 } else if (plot_file_format == "eps") {
   graphic_scale <- 1.2
-  font_rescale <- 0.1
-  axis_text_rescale <- -0.1
-  margin_text_rescale <- -0.5
+  font_rescale <- 1
+  axis_text_rescale <- 1
+  margin_text_rescale <- -0.7
   extrafont::loadfonts(device = "postscript")
   grDevices::cairo_ps(filename = plot_name, pointsize = 12,
                       width = graphic_scale * 10, height = graphic_scale * 6,

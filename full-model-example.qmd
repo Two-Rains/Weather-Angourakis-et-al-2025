@@ -107,9 +107,9 @@ plot_precipitation <- function(precipitation, num_days, year_length) {
 plot_time_axis <- function(num_days, graphic_scale, font_rescale, margin_text_rescale) {
     par(mar = c(1, 1, 0, 0.1))
     plot(c(1, num_days), c(0, 1), ann = FALSE, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
-    axis(3, at = 1:num_days, tck = 0, lwd = 0)
-    mtext("day", side = 1, line = -1,
-          font = 4, cex = graphic_scale * (1.7 + font_rescale + margin_text_rescale))
+    axis(3, at = 1:num_days, tck = 1, lwd = 0, line = axis_line)
+    mtext("day", side = 1, line = x_margin_line,
+          font = 4, cex = graphic_scale * (1 + font_rescale + margin_text_rescale))
 }
 
 # Main plotting function
@@ -130,7 +130,7 @@ plot_weather_simulation <- function(weather_model, num_days, year_length, graphi
     for (i in 1:4) {
         plot(c(0, 1), c(0, 1), ann = FALSE, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
         text(x = 0.5, y = 0.5 + (i > 2) * 0.1, font = 4, 
-             cex = graphic_scale * (0.6 + 0.1 * (i > 1) + font_rescale), 
+             cex = graphic_scale * (0.6 + 0.1 * (i > 1) + font_rescale + margin_text_rescale), 
              srt = 90,
              labels = y_labs[i])
     }
@@ -157,14 +157,20 @@ plot_weather_simulation <- function(weather_model, num_days, year_length, graphi
 plot_name <- file.path(output_dir, paste0("Fig3-weather_modelExample.", plot_file_format))
     
 if (plot_file_format == "png") {
-  graphic_scale <- 2
-  font_rescale <- axis_text_rescale <- margin_text_rescale <- 0
-  png(plot_name, width = graphic_scale * 600, height = graphic_scale * 700)
+  graphic_scale <- 1
+  font_rescale <- 1
+  axis_text_rescale <- 1
+  margin_text_rescale <- 0.3
+  axis_line <- -1
+  x_margin_line <- -0.3
+  png(plot_name, width = graphic_scale * 800, height = graphic_scale * 930)
 } else if (plot_file_format == "eps") {
   graphic_scale <- 1.2
-  font_rescale <- 0.1
+  font_rescale <- 0.5
   axis_text_rescale <- -0.1
-  margin_text_rescale <- -0.5
+  margin_text_rescale <- -0.3
+  axis_line <- 0
+  x_margin_line <- -1
   extrafont::loadfonts(device = "postscript")
   grDevices::cairo_ps(filename = plot_name, pointsize = 12,
                       width = graphic_scale * 6, height = graphic_scale * 7,

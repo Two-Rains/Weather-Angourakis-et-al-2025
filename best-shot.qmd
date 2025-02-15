@@ -877,7 +877,7 @@ plot_weather_summary_comparison <- function(weather_summary, sites, sites_latitu
   )
   
   # Plot settings
-  par(cex = graphic_scale, cex.axis = graphic_scale * (0.8 + axis_text_rescale))
+  par(cex = graphic_scale, cex.axis = graphic_scale * (font_rescale + axis_text_rescale))
   
   # First column: y axis titles
   for (i in 1:4) {
@@ -885,7 +885,7 @@ plot_weather_summary_comparison <- function(weather_summary, sites, sites_latitu
     plot(c(0, 1), c(0, 1), ann = FALSE, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
     if (i > 1) {
       text(x = 0.5, y = 0.5, font = 4, 
-           cex = graphic_scale * (0.78 + font_rescale), 
+           cex = graphic_scale * (0.78 + font_rescale + margin_text_rescale_left), 
            srt = 90,
            labels = y_labs[i-1])
     }
@@ -905,7 +905,7 @@ plot_weather_summary_comparison <- function(weather_summary, sites, sites_latitu
     par(mar = c(0.2, left_plot_margin, 0.1, right_plot_margin))
     plot(c(0, 1), c(0, 1), ann = FALSE, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
     text(x = 0.5, y = 0.5, font = 4, 
-         cex = graphic_scale * (0.7 + font_rescale),
+         cex = graphic_scale * (0.7 + font_rescale + margin_text_rescale_top),
          labels = paste(site, sites_latitude$Latitude[sites_latitude$Site == site], sep = "\n"))
     
     # Solar radiation
@@ -1060,7 +1060,7 @@ plot_weather_summary_comparison <- function(weather_summary, sites, sites_latitu
     
     if (site == sites[length(sites)]) {
       axis(4, at = seq(0, 1, 0.25))
-      mtext("cumulative annual sum", 4, line = 2.5, cex = graphic_scale * (1.5 + margin_text_rescale))
+      mtext("cumulative annual sum", 4, line = 2.5, cex = graphic_scale * (font_rescale + margin_text_rescale_right))
     }
     
     # daily precipitation
@@ -1112,7 +1112,7 @@ plot_weather_summary_comparison <- function(weather_summary, sites, sites_latitu
   plot(c(0, 1), c(0, 1), ann = FALSE, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
   plot(c(0, 1), c(0, 1), ann = FALSE, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
   text(x = 0.5, y = 0.7, font = 4, 
-       cex = graphic_scale * (0.8 + font_rescale),
+       cex = graphic_scale * (0.8 + font_rescale + margin_text_rescale_bottom),
        labels = "day of year")
 }
 
@@ -1120,15 +1120,23 @@ plot_weather_summary_comparison <- function(weather_summary, sites, sites_latitu
 plot_name <- file.path(output_dir, paste0("Fig6-ValidationUsingExamples.", plot_file_format))
 
 if (plot_file_format == "png") {
-  graphic_scale <- 2
-  font_rescale <- axis_text_rescale <- margin_text_rescale <- 0
+  graphic_scale <- 1
+  font_rescale <- 0.3
+  axis_text_rescale <- 0.5
+  margin_text_rescale_top <- 0.4
+  margin_text_rescale_left <- 0
+  margin_text_rescale_right <- 1
+  margin_text_rescale_bottom <- 0.7
 
-  png(plot_name, width = number_of_sites * graphic_scale * 150, height = graphic_scale * 800)
+  png(plot_name, width = number_of_sites * graphic_scale * 114, height = graphic_scale * 534)
 } else if (plot_file_format == "eps") {
   graphic_scale = 1.2
   font_rescale = 0.1
-  axis_text_rescale = -0.1
-  margin_text_rescale = -0.5
+  axis_text_rescale = 0.8
+  margin_text_rescale_top <- 0.3
+  margin_text_rescale_left <- 0.1
+  margin_text_rescale_right <- 1.1
+  margin_text_rescale_bottom <- 0.7
 
   extrafont::loadfonts(device = "postscript")
   grDevices::cairo_ps(filename = plot_name ,

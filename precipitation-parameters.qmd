@@ -121,10 +121,10 @@ plot_annual_double_logistic <- function(par_values_double_logistic, par_values_d
                             4,  13, 13, 13, 13, 13, 13), 
                           nrow = 7, ncol = 7, byrow = TRUE)
   layout(layout_matrix, 
-         widths = c(2, rep(10, 6)),
+         widths = c(2.5, rep(10, 5), 12),
          heights = c(4, 12, 4, 12, 4, 12, 1))
 
-  par(mgp = c(3, 0.4, 0), tcl = -0.4, cex = graphic_scale * 1.2)
+  par(mgp = c(3, 0.4, 0), tcl = -0.4, cex = graphic_scale * 1.2, cex.axis = graphic_scale * (font_rescale + axis_text_rescale))
 
   # Y-axis titles
   y_axis_titles <- c("daily cumulative value", "daily cumulative value", "daily increment")
@@ -132,14 +132,14 @@ plot_annual_double_logistic <- function(par_values_double_logistic, par_values_d
     par(mar = c(0, 0, 0, 0))
     create_plot(c(0, 1), c(0, 1), ann = FALSE, bty = 'n', xaxt = 'n', yaxt = 'n')
     add_text(0.5, 0.5, y_axis_titles[i], font = 4, 
-             cex = graphic_scale * (0.7 + font_rescale), srt = 90)
+             cex = graphic_scale * (0.7 + font_rescale + margin_text_rescale), srt = 90)
   }
 
   # Empty plot
   create_plot(c(0, 1), c(0, 1), ann = FALSE, bty = 'n', xaxt = 'n', yaxt = 'n')
 
   # Double logistic curves plot
-  par(mar = c(1, 1, 0.1, 1), cex.axis = graphic_scale * (0.5 + font_rescale))
+  par(mar = c(1, 1, 0.1, 1), cex.axis = graphic_scale * (font_rescale + axis_text_rescale))
   create_plot(c(1, YEAR_LENGTH), c(0, 1))
 
   for (i in 1:nrow(par_values_double_logistic)) {
@@ -185,7 +185,7 @@ plot_annual_double_logistic <- function(par_values_double_logistic, par_values_d
   }
 
   # Daily precipitation plots
-  par(mar = c(2, 1, 0.1, 1), cex.axis = graphic_scale * (0.35 + axis_text_rescale))
+  par(mar = c(2, 1, 0.1, 1), cex.axis = graphic_scale * (font_rescale + axis_text_rescale))
 
   daily_precipitation <- sapply(1:nrow(par_values_double_logistic), function(i) {
     get_increments_from_cumulative_curve(discretised_double_logistic_curves[,i]) * annual_sum_values[i]
@@ -211,7 +211,8 @@ plot_annual_double_logistic <- function(par_values_double_logistic, par_values_d
   # X-axis title
   par(mar = c(0, 0, 0, 0))
   create_plot(c(0, 1), c(0, 1), ann = FALSE, bty = 'n', xaxt = 'n', yaxt = 'n')
-  add_text(0.5, 0.4, "day of year", font = 4, cex = graphic_scale * (0.7 + font_rescale))
+  add_text(0.5, 0.6, "day of year", font = 4,,
+           cex = graphic_scale * (0.7 + font_rescale + margin_text_rescale))
 
   # Infographic bits
   draw_infographic <- function(label) {
@@ -221,7 +222,7 @@ plot_annual_double_logistic <- function(par_values_double_logistic, par_values_d
             col = rgb(0,0,0, alpha = 0.3),
             border = NA)
     add_text(text_pos[1], text_pos[2], 
-             label, font = 4, cex = graphic_scale * (0.65 + font_rescale), adj = c(1, 0.5))
+             label, font = 4, cex = graphic_scale * (0.65 + font_rescale + infographic_text_rescale), adj = c(1, 0.5))
   }
 
   arrow_points_x <- c(1/3, 2/3, 2/3, 1, 0.5, 0, 1/3, 1/3)
@@ -257,7 +258,7 @@ plot_annual_double_logistic <- function(par_values_double_logistic, par_values_d
              list(plateau_value = par_values_double_logistic[i, 1], 
                   inflection1 = par_values_double_logistic[i, 2])), 
            col = color_palette[i],
-           lwd = graphic_scale * 6, cex = graphic_scale * (0.5 + font_rescale),
+           lwd = graphic_scale * 6, cex = graphic_scale * (font_rescale + legend_text_rescale),
            title = NULL, 
            bty = "n")
     add_text(x_pos, 
@@ -269,7 +270,7 @@ plot_annual_double_logistic <- function(par_values_double_logistic, par_values_d
                list(rate1 = par_values_double_logistic[i, 3],
                     inflection2 = par_values_double_logistic[i, 4],
                     rate2 = par_values_double_logistic[i, 5])),
-             cex = graphic_scale * (0.5 + font_rescale))
+             cex = graphic_scale * (font_rescale + legend_text_rescale))
     add_text(x_pos, 
              (y_pos[3] + jump * i),
              substitute(
@@ -277,13 +278,13 @@ plot_annual_double_logistic <- function(par_values_double_logistic, par_values_d
                      "max_sample_size = ", max_sample_size), 
                list(n_samples = par_values_discretisation[i, 1],
                     max_sample_size = par_values_discretisation[i, 2])),
-             cex = graphic_scale * (0.5 + font_rescale))
+             cex = graphic_scale * (font_rescale + legend_text_rescale))
     add_text(x_pos, 
              (y_pos[4] + jump * i),
              substitute(
                paste("annual_sum = ", annual_sum), 
                list(annual_sum = annual_sum_values[i])),
-             cex = graphic_scale * (0.5 + font_rescale))
+             cex = graphic_scale * (font_rescale + legend_text_rescale))
   }
 }
 
@@ -291,13 +292,20 @@ plot_annual_double_logistic <- function(par_values_double_logistic, par_values_d
 plot_name <- file.path(output_dir, paste0("Fig5-annualDoubleLogisticCurve.", plot_file_format))
 
 if (plot_file_format == "png") {
-  graphic_scale <- 2
-  font_rescale <- axis_text_rescale <-  0
-  png(plot_name, width = graphic_scale * 1000, height = graphic_scale * 1000)
+  graphic_scale <- 1
+  font_rescale <- 1.2
+  axis_text_rescale <- -0.25
+  margin_text_rescale <- -0.7
+  infographic_text_rescale <- -0.9
+  legend_text_rescale <- -0.35
+  png(plot_name, width = graphic_scale * 800, height = graphic_scale * 800)
 } else if (plot_file_format == "eps") {
   graphic_scale <- 1.2
   font_rescale <- 0.1
-  axis_text_rescale <- 0.1
+  axis_text_rescale <- 1
+  margin_text_rescale <- 0
+  infographic_text_rescale <- 0
+  legend_text_rescale <- 0.5
   extrafont::loadfonts(device = "postscript")
   grDevices::cairo_ps(filename = plot_name, pointsize = 12,
                       width = graphic_scale * 10, height = graphic_scale * 10,
