@@ -1289,7 +1289,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb32-76"><a href="#cb32-76" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb32-77"><a href="#cb32-77" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb32-78"><a href="#cb32-78" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Plot settings</span></span>
-<span id="cb32-79"><a href="#cb32-79" aria-hidden="true" tabindex="-1"></a>  <span class="fu">par</span>(<span class="at">cex =</span> graphic_scale, <span class="at">cex.axis =</span> graphic_scale <span class="sc">*</span> (<span class="fl">0.8</span> <span class="sc">+</span> axis_text_rescale))</span>
+<span id="cb32-79"><a href="#cb32-79" aria-hidden="true" tabindex="-1"></a>  <span class="fu">par</span>(<span class="at">cex =</span> graphic_scale, <span class="at">cex.axis =</span> graphic_scale <span class="sc">*</span> (font_rescale <span class="sc">+</span> axis_text_rescale))</span>
 <span id="cb32-80"><a href="#cb32-80" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb32-81"><a href="#cb32-81" aria-hidden="true" tabindex="-1"></a>  <span class="co"># First column: y axis titles</span></span>
 <span id="cb32-82"><a href="#cb32-82" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>) {</span>
@@ -1297,7 +1297,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb32-84"><a href="#cb32-84" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">ann =</span> <span class="cn">FALSE</span>, <span class="at">bty =</span> <span class="st">'n'</span>, <span class="at">type =</span> <span class="st">'n'</span>, <span class="at">xaxt =</span> <span class="st">'n'</span>, <span class="at">yaxt =</span> <span class="st">'n'</span>)</span>
 <span id="cb32-85"><a href="#cb32-85" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (i <span class="sc">&gt;</span> <span class="dv">1</span>) {</span>
 <span id="cb32-86"><a href="#cb32-86" aria-hidden="true" tabindex="-1"></a>      <span class="fu">text</span>(<span class="at">x =</span> <span class="fl">0.5</span>, <span class="at">y =</span> <span class="fl">0.5</span>, <span class="at">font =</span> <span class="dv">4</span>, </span>
-<span id="cb32-87"><a href="#cb32-87" aria-hidden="true" tabindex="-1"></a>           <span class="at">cex =</span> graphic_scale <span class="sc">*</span> (<span class="fl">0.78</span> <span class="sc">+</span> font_rescale), </span>
+<span id="cb32-87"><a href="#cb32-87" aria-hidden="true" tabindex="-1"></a>           <span class="at">cex =</span> graphic_scale <span class="sc">*</span> (<span class="fl">0.78</span> <span class="sc">+</span> font_rescale <span class="sc">+</span> margin_text_rescale_left), </span>
 <span id="cb32-88"><a href="#cb32-88" aria-hidden="true" tabindex="-1"></a>           <span class="at">srt =</span> <span class="dv">90</span>,</span>
 <span id="cb32-89"><a href="#cb32-89" aria-hidden="true" tabindex="-1"></a>           <span class="at">labels =</span> y_labs[i<span class="dv">-1</span>])</span>
 <span id="cb32-90"><a href="#cb32-90" aria-hidden="true" tabindex="-1"></a>    }</span>
@@ -1317,7 +1317,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb32-104"><a href="#cb32-104" aria-hidden="true" tabindex="-1"></a>    <span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, left_plot_margin, <span class="fl">0.1</span>, right_plot_margin))</span>
 <span id="cb32-105"><a href="#cb32-105" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">ann =</span> <span class="cn">FALSE</span>, <span class="at">bty =</span> <span class="st">'n'</span>, <span class="at">type =</span> <span class="st">'n'</span>, <span class="at">xaxt =</span> <span class="st">'n'</span>, <span class="at">yaxt =</span> <span class="st">'n'</span>)</span>
 <span id="cb32-106"><a href="#cb32-106" aria-hidden="true" tabindex="-1"></a>    <span class="fu">text</span>(<span class="at">x =</span> <span class="fl">0.5</span>, <span class="at">y =</span> <span class="fl">0.5</span>, <span class="at">font =</span> <span class="dv">4</span>, </span>
-<span id="cb32-107"><a href="#cb32-107" aria-hidden="true" tabindex="-1"></a>         <span class="at">cex =</span> graphic_scale <span class="sc">*</span> (<span class="fl">0.7</span> <span class="sc">+</span> font_rescale),</span>
+<span id="cb32-107"><a href="#cb32-107" aria-hidden="true" tabindex="-1"></a>         <span class="at">cex =</span> graphic_scale <span class="sc">*</span> (<span class="fl">0.7</span> <span class="sc">+</span> font_rescale <span class="sc">+</span> margin_text_rescale_top),</span>
 <span id="cb32-108"><a href="#cb32-108" aria-hidden="true" tabindex="-1"></a>         <span class="at">labels =</span> <span class="fu">paste</span>(site, sites_latitude<span class="sc">$</span>Latitude[sites_latitude<span class="sc">$</span>Site <span class="sc">==</span> site], <span class="at">sep =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>))</span>
 <span id="cb32-109"><a href="#cb32-109" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb32-110"><a href="#cb32-110" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Solar radiation</span></span>
@@ -1472,7 +1472,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb32-259"><a href="#cb32-259" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb32-260"><a href="#cb32-260" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (site <span class="sc">==</span> sites[<span class="fu">length</span>(sites)]) {</span>
 <span id="cb32-261"><a href="#cb32-261" aria-hidden="true" tabindex="-1"></a>      <span class="fu">axis</span>(<span class="dv">4</span>, <span class="at">at =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.25</span>))</span>
-<span id="cb32-262"><a href="#cb32-262" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mtext</span>(<span class="st">"cumulative annual sum"</span>, <span class="dv">4</span>, <span class="at">line =</span> <span class="fl">2.5</span>, <span class="at">cex =</span> graphic_scale <span class="sc">*</span> (<span class="fl">1.5</span> <span class="sc">+</span> margin_text_rescale))</span>
+<span id="cb32-262"><a href="#cb32-262" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mtext</span>(<span class="st">"cumulative annual sum"</span>, <span class="dv">4</span>, <span class="at">line =</span> <span class="fl">2.5</span>, <span class="at">cex =</span> graphic_scale <span class="sc">*</span> (font_rescale <span class="sc">+</span> margin_text_rescale_right))</span>
 <span id="cb32-263"><a href="#cb32-263" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb32-264"><a href="#cb32-264" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb32-265"><a href="#cb32-265" aria-hidden="true" tabindex="-1"></a>    <span class="co"># daily precipitation</span></span>
@@ -1524,7 +1524,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb32-311"><a href="#cb32-311" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">ann =</span> <span class="cn">FALSE</span>, <span class="at">bty =</span> <span class="st">'n'</span>, <span class="at">type =</span> <span class="st">'n'</span>, <span class="at">xaxt =</span> <span class="st">'n'</span>, <span class="at">yaxt =</span> <span class="st">'n'</span>)</span>
 <span id="cb32-312"><a href="#cb32-312" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">ann =</span> <span class="cn">FALSE</span>, <span class="at">bty =</span> <span class="st">'n'</span>, <span class="at">type =</span> <span class="st">'n'</span>, <span class="at">xaxt =</span> <span class="st">'n'</span>, <span class="at">yaxt =</span> <span class="st">'n'</span>)</span>
 <span id="cb32-313"><a href="#cb32-313" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(<span class="at">x =</span> <span class="fl">0.5</span>, <span class="at">y =</span> <span class="fl">0.7</span>, <span class="at">font =</span> <span class="dv">4</span>, </span>
-<span id="cb32-314"><a href="#cb32-314" aria-hidden="true" tabindex="-1"></a>       <span class="at">cex =</span> graphic_scale <span class="sc">*</span> (<span class="fl">0.8</span> <span class="sc">+</span> font_rescale),</span>
+<span id="cb32-314"><a href="#cb32-314" aria-hidden="true" tabindex="-1"></a>       <span class="at">cex =</span> graphic_scale <span class="sc">*</span> (<span class="fl">0.8</span> <span class="sc">+</span> font_rescale <span class="sc">+</span> margin_text_rescale_bottom),</span>
 <span id="cb32-315"><a href="#cb32-315" aria-hidden="true" tabindex="-1"></a>       <span class="at">labels =</span> <span class="st">"day of year"</span>)</span>
 <span id="cb32-316"><a href="#cb32-316" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb32-317"><a href="#cb32-317" aria-hidden="true" tabindex="-1"></a></span>
@@ -1532,27 +1532,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb32-319"><a href="#cb32-319" aria-hidden="true" tabindex="-1"></a>plot_name <span class="ot">&lt;-</span> <span class="fu">file.path</span>(output_dir, <span class="fu">paste0</span>(<span class="st">"Fig6-ValidationUsingExamples."</span>, plot_file_format))</span>
 <span id="cb32-320"><a href="#cb32-320" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-321"><a href="#cb32-321" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (plot_file_format <span class="sc">==</span> <span class="st">"png"</span>) {</span>
-<span id="cb32-322"><a href="#cb32-322" aria-hidden="true" tabindex="-1"></a>  graphic_scale <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb32-323"><a href="#cb32-323" aria-hidden="true" tabindex="-1"></a>  font_rescale <span class="ot">&lt;-</span> axis_text_rescale <span class="ot">&lt;-</span> margin_text_rescale <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb32-324"><a href="#cb32-324" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-325"><a href="#cb32-325" aria-hidden="true" tabindex="-1"></a>  <span class="fu">png</span>(plot_name, <span class="at">width =</span> number_of_sites <span class="sc">*</span> graphic_scale <span class="sc">*</span> <span class="dv">150</span>, <span class="at">height =</span> graphic_scale <span class="sc">*</span> <span class="dv">800</span>)</span>
-<span id="cb32-326"><a href="#cb32-326" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span> (plot_file_format <span class="sc">==</span> <span class="st">"eps"</span>) {</span>
-<span id="cb32-327"><a href="#cb32-327" aria-hidden="true" tabindex="-1"></a>  graphic_scale <span class="ot">=</span> <span class="fl">1.2</span></span>
-<span id="cb32-328"><a href="#cb32-328" aria-hidden="true" tabindex="-1"></a>  font_rescale <span class="ot">=</span> <span class="fl">0.1</span></span>
-<span id="cb32-329"><a href="#cb32-329" aria-hidden="true" tabindex="-1"></a>  axis_text_rescale <span class="ot">=</span> <span class="sc">-</span><span class="fl">0.1</span></span>
-<span id="cb32-330"><a href="#cb32-330" aria-hidden="true" tabindex="-1"></a>  margin_text_rescale <span class="ot">=</span> <span class="sc">-</span><span class="fl">0.5</span></span>
-<span id="cb32-331"><a href="#cb32-331" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-332"><a href="#cb32-332" aria-hidden="true" tabindex="-1"></a>  extrafont<span class="sc">::</span><span class="fu">loadfonts</span>(<span class="at">device =</span> <span class="st">"postscript"</span>)</span>
-<span id="cb32-333"><a href="#cb32-333" aria-hidden="true" tabindex="-1"></a>  grDevices<span class="sc">::</span><span class="fu">cairo_ps</span>(<span class="at">filename =</span> plot_name ,</span>
-<span id="cb32-334"><a href="#cb32-334" aria-hidden="true" tabindex="-1"></a>                      <span class="at">pointsize =</span> <span class="dv">12</span>,</span>
-<span id="cb32-335"><a href="#cb32-335" aria-hidden="true" tabindex="-1"></a>                      <span class="at">width =</span> number_of_sites <span class="sc">*</span> graphic_scale <span class="sc">*</span> <span class="fl">1.5</span>,</span>
-<span id="cb32-336"><a href="#cb32-336" aria-hidden="true" tabindex="-1"></a>                      <span class="at">height =</span> graphic_scale <span class="sc">*</span> <span class="dv">8</span>,</span>
-<span id="cb32-337"><a href="#cb32-337" aria-hidden="true" tabindex="-1"></a>                      <span class="at">onefile =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb32-338"><a href="#cb32-338" aria-hidden="true" tabindex="-1"></a>                      <span class="at">family =</span> <span class="st">"sans"</span></span>
-<span id="cb32-339"><a href="#cb32-339" aria-hidden="true" tabindex="-1"></a>                      )</span>
-<span id="cb32-340"><a href="#cb32-340" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb32-341"><a href="#cb32-341" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_weather_summary_comparison</span>(weather_summary, sites, sites_latitude, weather)</span>
-<span id="cb32-342"><a href="#cb32-342" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb32-322"><a href="#cb32-322" aria-hidden="true" tabindex="-1"></a>  graphic_scale <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb32-323"><a href="#cb32-323" aria-hidden="true" tabindex="-1"></a>  font_rescale <span class="ot">&lt;-</span> <span class="fl">0.3</span></span>
+<span id="cb32-324"><a href="#cb32-324" aria-hidden="true" tabindex="-1"></a>  axis_text_rescale <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
+<span id="cb32-325"><a href="#cb32-325" aria-hidden="true" tabindex="-1"></a>  margin_text_rescale_top <span class="ot">&lt;-</span> <span class="fl">0.4</span></span>
+<span id="cb32-326"><a href="#cb32-326" aria-hidden="true" tabindex="-1"></a>  margin_text_rescale_left <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb32-327"><a href="#cb32-327" aria-hidden="true" tabindex="-1"></a>  margin_text_rescale_right <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb32-328"><a href="#cb32-328" aria-hidden="true" tabindex="-1"></a>  margin_text_rescale_bottom <span class="ot">&lt;-</span> <span class="fl">0.7</span></span>
+<span id="cb32-329"><a href="#cb32-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-330"><a href="#cb32-330" aria-hidden="true" tabindex="-1"></a>  <span class="fu">png</span>(plot_name, <span class="at">width =</span> number_of_sites <span class="sc">*</span> graphic_scale <span class="sc">*</span> <span class="dv">114</span>, <span class="at">height =</span> graphic_scale <span class="sc">*</span> <span class="dv">534</span>)</span>
+<span id="cb32-331"><a href="#cb32-331" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span> (plot_file_format <span class="sc">==</span> <span class="st">"eps"</span>) {</span>
+<span id="cb32-332"><a href="#cb32-332" aria-hidden="true" tabindex="-1"></a>  graphic_scale <span class="ot">=</span> <span class="fl">1.2</span></span>
+<span id="cb32-333"><a href="#cb32-333" aria-hidden="true" tabindex="-1"></a>  font_rescale <span class="ot">=</span> <span class="fl">0.1</span></span>
+<span id="cb32-334"><a href="#cb32-334" aria-hidden="true" tabindex="-1"></a>  axis_text_rescale <span class="ot">=</span> <span class="fl">0.8</span></span>
+<span id="cb32-335"><a href="#cb32-335" aria-hidden="true" tabindex="-1"></a>  margin_text_rescale_top <span class="ot">&lt;-</span> <span class="fl">0.3</span></span>
+<span id="cb32-336"><a href="#cb32-336" aria-hidden="true" tabindex="-1"></a>  margin_text_rescale_left <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
+<span id="cb32-337"><a href="#cb32-337" aria-hidden="true" tabindex="-1"></a>  margin_text_rescale_right <span class="ot">&lt;-</span> <span class="fl">1.1</span></span>
+<span id="cb32-338"><a href="#cb32-338" aria-hidden="true" tabindex="-1"></a>  margin_text_rescale_bottom <span class="ot">&lt;-</span> <span class="fl">0.7</span></span>
+<span id="cb32-339"><a href="#cb32-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-340"><a href="#cb32-340" aria-hidden="true" tabindex="-1"></a>  extrafont<span class="sc">::</span><span class="fu">loadfonts</span>(<span class="at">device =</span> <span class="st">"postscript"</span>)</span>
+<span id="cb32-341"><a href="#cb32-341" aria-hidden="true" tabindex="-1"></a>  grDevices<span class="sc">::</span><span class="fu">cairo_ps</span>(<span class="at">filename =</span> plot_name ,</span>
+<span id="cb32-342"><a href="#cb32-342" aria-hidden="true" tabindex="-1"></a>                      <span class="at">pointsize =</span> <span class="dv">12</span>,</span>
+<span id="cb32-343"><a href="#cb32-343" aria-hidden="true" tabindex="-1"></a>                      <span class="at">width =</span> number_of_sites <span class="sc">*</span> graphic_scale <span class="sc">*</span> <span class="fl">1.5</span>,</span>
+<span id="cb32-344"><a href="#cb32-344" aria-hidden="true" tabindex="-1"></a>                      <span class="at">height =</span> graphic_scale <span class="sc">*</span> <span class="dv">8</span>,</span>
+<span id="cb32-345"><a href="#cb32-345" aria-hidden="true" tabindex="-1"></a>                      <span class="at">onefile =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb32-346"><a href="#cb32-346" aria-hidden="true" tabindex="-1"></a>                      <span class="at">family =</span> <span class="st">"sans"</span></span>
+<span id="cb32-347"><a href="#cb32-347" aria-hidden="true" tabindex="-1"></a>                      )</span>
+<span id="cb32-348"><a href="#cb32-348" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb32-349"><a href="#cb32-349" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_weather_summary_comparison</span>(weather_summary, sites, sites_latitude, weather)</span>
+<span id="cb32-350"><a href="#cb32-350" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>svg 
   2 </code></pre>

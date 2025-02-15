@@ -275,7 +275,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>add_text <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y, label, <span class="at">cex_factor =</span> <span class="fl">0.6</span>, <span class="at">srt =</span> <span class="dv">0</span>) {</span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">labels =</span> label, <span class="at">font =</span> <span class="dv">4</span>, </span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">cex =</span> graphic_scale <span class="sc">*</span> (cex_factor <span class="sc">+</span> font_rescale), <span class="at">srt =</span> srt)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">cex =</span> graphic_scale <span class="sc">*</span> (cex_factor <span class="sc">+</span> font_rescale <span class="sc">+</span> margin_text_rescale), <span class="at">srt =</span> srt)</span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Main plotting function</span></span>
@@ -351,8 +351,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Legend</span></span>
 <span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">nrow</span>(par_values_annual_sinusoid) <span class="sc">+</span> <span class="dv">1</span>), <span class="at">ann =</span> F, <span class="at">bty =</span> <span class="st">'n'</span>, <span class="at">type =</span> <span class="st">'n'</span>, <span class="at">xaxt =</span> <span class="st">'n'</span>, <span class="at">yaxt =</span> <span class="st">'n'</span>)</span>
-<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a>  x_pos <span class="ot">&lt;-</span> <span class="fl">0.25</span></span>
-<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a>  y_pos <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.1</span>, <span class="sc">-</span><span class="fl">0.1</span>)</span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a>  x_pos <span class="ot">&lt;-</span> <span class="fl">0.315</span></span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a>  y_pos <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="sc">-</span><span class="fl">0.1</span>, <span class="sc">-</span><span class="fl">0.4</span>)</span>
 <span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a>  jump <span class="ot">&lt;-</span> <span class="dv">1</span></span>
 <span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(par_values_annual_sinusoid)) {</span>
@@ -378,21 +378,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-108"><a href="#cb5-108" aria-hidden="true" tabindex="-1"></a>plot_name <span class="ot">&lt;-</span> <span class="fu">file.path</span>(output_dir, <span class="fu">paste0</span>(<span class="st">"Fig4-annualSinusoidCurve."</span>, plot_file_format))</span>
 <span id="cb5-109"><a href="#cb5-109" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-110"><a href="#cb5-110" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (plot_file_format <span class="sc">==</span> <span class="st">"png"</span>) {</span>
-<span id="cb5-111"><a href="#cb5-111" aria-hidden="true" tabindex="-1"></a>  graphic_scale <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb5-112"><a href="#cb5-112" aria-hidden="true" tabindex="-1"></a>  font_rescale <span class="ot">&lt;-</span> axis_text_rescale <span class="ot">&lt;-</span> margin_text_rescale <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb5-113"><a href="#cb5-113" aria-hidden="true" tabindex="-1"></a>  <span class="fu">png</span>(plot_name, <span class="at">width =</span> graphic_scale <span class="sc">*</span> <span class="dv">1000</span>, <span class="at">height =</span> graphic_scale <span class="sc">*</span> <span class="dv">600</span>)</span>
-<span id="cb5-114"><a href="#cb5-114" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span> (plot_file_format <span class="sc">==</span> <span class="st">"eps"</span>) {</span>
-<span id="cb5-115"><a href="#cb5-115" aria-hidden="true" tabindex="-1"></a>  graphic_scale <span class="ot">&lt;-</span> <span class="fl">1.2</span></span>
-<span id="cb5-116"><a href="#cb5-116" aria-hidden="true" tabindex="-1"></a>  font_rescale <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
-<span id="cb5-117"><a href="#cb5-117" aria-hidden="true" tabindex="-1"></a>  axis_text_rescale <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.1</span></span>
-<span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a>  margin_text_rescale <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.5</span></span>
-<span id="cb5-119"><a href="#cb5-119" aria-hidden="true" tabindex="-1"></a>  extrafont<span class="sc">::</span><span class="fu">loadfonts</span>(<span class="at">device =</span> <span class="st">"postscript"</span>)</span>
-<span id="cb5-120"><a href="#cb5-120" aria-hidden="true" tabindex="-1"></a>  grDevices<span class="sc">::</span><span class="fu">cairo_ps</span>(<span class="at">filename =</span> plot_name, <span class="at">pointsize =</span> <span class="dv">12</span>,</span>
-<span id="cb5-121"><a href="#cb5-121" aria-hidden="true" tabindex="-1"></a>                      <span class="at">width =</span> graphic_scale <span class="sc">*</span> <span class="dv">10</span>, <span class="at">height =</span> graphic_scale <span class="sc">*</span> <span class="dv">6</span>,</span>
-<span id="cb5-122"><a href="#cb5-122" aria-hidden="true" tabindex="-1"></a>                      <span class="at">onefile =</span> <span class="cn">FALSE</span>, <span class="at">family =</span> <span class="st">"sans"</span>)</span>
-<span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_annual_sinusoid</span>(par_values_annual_sinusoid, is_southern_hemisphere_values, min_min_value, max_max_value)</span>
-<span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-111"><a href="#cb5-111" aria-hidden="true" tabindex="-1"></a>  graphic_scale <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb5-112"><a href="#cb5-112" aria-hidden="true" tabindex="-1"></a>  font_rescale <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
+<span id="cb5-113"><a href="#cb5-113" aria-hidden="true" tabindex="-1"></a>  axis_text_rescale <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb5-114"><a href="#cb5-114" aria-hidden="true" tabindex="-1"></a>  margin_text_rescale <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.1</span></span>
+<span id="cb5-115"><a href="#cb5-115" aria-hidden="true" tabindex="-1"></a>  <span class="fu">png</span>(plot_name, <span class="at">width =</span> graphic_scale <span class="sc">*</span> <span class="dv">800</span>, <span class="at">height =</span> graphic_scale <span class="sc">*</span> <span class="dv">400</span>)</span>
+<span id="cb5-116"><a href="#cb5-116" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span> (plot_file_format <span class="sc">==</span> <span class="st">"eps"</span>) {</span>
+<span id="cb5-117"><a href="#cb5-117" aria-hidden="true" tabindex="-1"></a>  graphic_scale <span class="ot">&lt;-</span> <span class="fl">1.2</span></span>
+<span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a>  font_rescale <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb5-119"><a href="#cb5-119" aria-hidden="true" tabindex="-1"></a>  axis_text_rescale <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb5-120"><a href="#cb5-120" aria-hidden="true" tabindex="-1"></a>  margin_text_rescale <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.7</span></span>
+<span id="cb5-121"><a href="#cb5-121" aria-hidden="true" tabindex="-1"></a>  extrafont<span class="sc">::</span><span class="fu">loadfonts</span>(<span class="at">device =</span> <span class="st">"postscript"</span>)</span>
+<span id="cb5-122"><a href="#cb5-122" aria-hidden="true" tabindex="-1"></a>  grDevices<span class="sc">::</span><span class="fu">cairo_ps</span>(<span class="at">filename =</span> plot_name, <span class="at">pointsize =</span> <span class="dv">12</span>,</span>
+<span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a>                      <span class="at">width =</span> graphic_scale <span class="sc">*</span> <span class="dv">10</span>, <span class="at">height =</span> graphic_scale <span class="sc">*</span> <span class="dv">6</span>,</span>
+<span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a>                      <span class="at">onefile =</span> <span class="cn">FALSE</span>, <span class="at">family =</span> <span class="st">"sans"</span>)</span>
+<span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-126"><a href="#cb5-126" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_annual_sinusoid</span>(par_values_annual_sinusoid, is_southern_hemisphere_values, min_min_value, max_max_value)</span>
+<span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>svg 
   2 </code></pre>
