@@ -182,9 +182,9 @@ if (plot_file_format == "png") {
   png(plot_name, width = graphic_scale * 800, height = graphic_scale * 400)
 } else if (plot_file_format == "eps") {
   graphic_scale <- 1.2
-  font_rescale <- 1
-  axis_text_rescale <- 1
-  margin_text_rescale <- -0.7
+  font_rescale <- 0.3
+  axis_text_rescale <- 2
+  margin_text_rescale <- -0.1
   extrafont::loadfonts(device = "postscript")
   grDevices::cairo_ps(filename = plot_name, pointsize = 12,
                       width = graphic_scale * 10, height = graphic_scale * 6,

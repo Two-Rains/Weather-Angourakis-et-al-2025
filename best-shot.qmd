@@ -1126,7 +1126,7 @@ if (plot_file_format == "png") {
   margin_text_rescale_top <- 0.4
   margin_text_rescale_left <- 0
   margin_text_rescale_right <- 1
-  margin_text_rescale_bottom <- 0.7
+  margin_text_rescale_bottom <- 0.4
 
   png(plot_name, width = number_of_sites * graphic_scale * 114, height = graphic_scale * 534)
 } else if (plot_file_format == "eps") {
@@ -1136,7 +1136,7 @@ if (plot_file_format == "png") {
   margin_text_rescale_top <- 0.3
   margin_text_rescale_left <- 0.1
   margin_text_rescale_right <- 1.1
-  margin_text_rescale_bottom <- 0.7
+  margin_text_rescale_bottom <- 0.3
 
   extrafont::loadfonts(device = "postscript")
   grDevices::cairo_ps(filename = plot_name ,
