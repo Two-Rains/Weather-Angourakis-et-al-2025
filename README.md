@@ -6,10 +6,10 @@ Quarto project and R files associated with the manuscript:
 
 by Angourakis, Andreas, Jean-Philippe Baudouin, and Cameron Petrie
 
-[*JASSS*](https://jasss.soc.surrey.ac.uk/), submitted in 2025
+Environmental Modelling & Software, submitted in 2025
 
 Created with R version 4.3.3.
 
 See the HTML document at: <https://andros-spica.github.io/Weather-Angourakis-et-al-2025/>
 
-Cite as: 
+Cite as:
