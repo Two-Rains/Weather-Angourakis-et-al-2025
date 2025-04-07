@@ -1,6 +1,6 @@
 # Weather-Angourakis-et-al-2025
 
-Quarto project and R files associated with the manuscript:
+Quarto project, R and NetLogo files associated with the manuscript:
 
 **"The Weather model (Indus Village): procedural generation of daily weather for the simulation of small-scale socioecological systems"**
 
