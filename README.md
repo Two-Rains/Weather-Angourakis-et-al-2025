@@ -1,4 +1,4 @@
-[![DOI](https://zenodo.org/badge/778941115.svg)](https://doi.org/10.5281/zenodo.15167114)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15167115.svg)](https://doi.org/10.5281/zenodo.15167115)
 # Weather-Angourakis-et-al-2025
 
 Quarto project, R and NetLogo files associated with the article:
